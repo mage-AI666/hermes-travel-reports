@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深圳南山 4+2 一日游 · 山海人文线</title>
+<style>
+/* ===== Reset & Base ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f4f8; color: #2c3e50; line-height: 1.7; }
+
+/* ===== Navigation ===== */
+.top-nav { position: fixed; top:0; left:0; right:0; z-index:1000; background: rgba(255,255,255,0.95); backdrop-filter:blur(10px); border-bottom:1px solid #e0e6ed; }
+.nav-inner { max-width:1100px; margin:0 auto; padding:12px 24px; display:flex; justify-content:space-between; align-items:center; }
+.nav-title { font-size:18px; font-weight:700; color:#1a3a5c; }
+.nav-links { display:flex; gap:20px; }
+.nav-links a { text-decoration:none; color:#5a6a7a; font-size:14px; transition:color .2s; }
+.nav-links a:hover { color:#3498db; }
+.nav-links .download-btn { background:#27ae60; color:#fff!important; padding:6px 14px; border-radius:6px; font-size:13px; cursor:pointer; border:none; transition:background .2s; }
+.nav-links .download-btn:hover { background:#219a52; }
+
+/* ===== Hero ===== */
+.hero { padding:120px 24px 60px; background: linear-gradient(135deg, #1a3a5c 0%, #16a085 100%); color:white; text-align:center; }
+.hero h1 { font-size:42px; margin-bottom:12px; }
+.hero-sub { font-size:18px; opacity:.85; margin-bottom:24px; }
+.hero-meta { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+.meta-badge { background:rgba(255,255,255,.15); padding:8px 16px; border-radius:20px; font-size:14px; }
+
+/* ===== Section ===== */
+.section { padding:60px 24px; }
+.section:nth-child(even) { background:#fff; }
+.container { max-width:1100px; margin:0 auto; }
+.section h2 { font-size:28px; margin-bottom:24px; color:#1a3a5c; border-left:4px solid #16a085; padding-left:16px; }
+.plan-desc { color:#5a6a7a; margin-bottom:32px; font-size:15px; }
+
+/* ===== Cluster Map ===== */
+.cluster-map { background:#f8fafc; border-radius:12px; padding:24px; margin-bottom:32px; border:1px solid #e2e8f0; }
+.cluster-map h3 { font-size:18px; color:#1a3a5c; margin-bottom:16px; }
+.cluster-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:16px; }
+.cluster-card { background:white; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,.06); }
+.cluster-name { font-weight:600; color:#1a3a5c; margin-bottom:8px; }
+.cluster-name span { font-size:13px; color:#7f8c8d; font-weight:400; }
+.cluster-dist { font-size:13px; color:#5a6a7a; padding-left:16px; position:relative; margin-bottom:3px; }
+.cluster-dist::before { content:"●"; position:absolute; left:2px; color:#16a085; font-size:10px; top:3px; }
+.cluster-note { font-size:12px; color:#16a085; font-weight:500; margin-top:6px; padding:4px 10px; background:#eafaf1; border-radius:6px; display:inline-block; }
+
+/* ===== Overview Card ===== */
+.overview-card { display:flex; gap:20px; background:#f0f8f4; border-radius:12px; padding:24px; align-items:center; }
+.card-icon { font-size:48px; }
+.card-body h3 { font-size:18px; margin-bottom:12px; color:#1a3a5c; }
+.route-stats { display:flex; gap:16px; flex-wrap:wrap; font-size:14px; color:#5a6a7a; }
+.route-stats span { background:rgba(22,160,133,.08); padding:4px 12px; border-radius:6px; }
+
+/* ===== Route Overview ===== */
+.route-overview { margin-top:32px; background:#f8f9fa; border:1px solid #e9ecef; border-radius:12px; padding:24px; }
+.overview-header { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+.overview-header h3 { font-size:16px; color:#1a3a5c; margin:0; }
+.overview-icon { font-size:24px; }
+.overview-stops { display:flex; align-items:center; flex-wrap:wrap; gap:3px; justify-content:center; margin-bottom:20px; }
+.overview-stop { background:#16a085; color:#fff; padding:6px 14px; border-radius:8px; font-size:13px; font-weight:600; white-space:nowrap; }
+.overview-arrow { color:#7f8c8d; font-size:13px; font-weight:600; white-space:nowrap; }
+.route-btn { display:inline-flex; align-items:center; gap:6px; background:#1a73e8; color:#fff!important; padding:10px 24px; border-radius:8px; font-size:14px; font-weight:600; text-decoration:none; transition:background .2s; margin-bottom:12px; }
+.route-btn:hover { background:#1557b0; }
+.route-tip { font-size:13px; color:#5a6a7a; }
+
+/* ===== Timeline ===== */
+.timeline { position:relative; padding-left:40px; }
+.timeline::before { content:''; position:absolute; left:19px; top:0; bottom:0; width:2px; background:#c8d6e5; }
+.tl-node { position:relative; margin-bottom:32px; }
+.tl-time { position:absolute; left:-40px; top:0; width:40px; height:40px; line-height:40px; background:#16a085; color:white; border-radius:50%; font-size:11px; font-weight:700; text-align:center; z-index:2; }
+.tl-content { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #eef2f7; }
+.tl-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+.tl-icon { font-size:24px; }
+.tl-title { font-size:16px; font-weight:600; color:#1a3a5c; }
+.tl-tag { background:#e8f5e9; color:#16a085; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:600; white-space:nowrap; }
+.tl-tag.drive { background:#fff3e0; color:#e65100; }
+.tl-tag.ride { background:#e3f2fd; color:#1565c0; }
+.tl-tag.hike { background:#fce4ec; color:#c62828; }
+.tl-tag.eat { background:#fff8e1; color:#f57f17; }
+.tl-body p { color:#5a6a7a; margin-bottom:8px; font-size:14px; }
+.tl-body ul { padding-left:18px; font-size:14px; color:#5a6a7a; }
+.tl-body li { margin-bottom:4px; }
+.tl-body a { color:#16a085; text-decoration:none; font-weight:500; }
+.tl-body a:hover { text-decoration:underline; }
+
+/* ===== Equipment ===== */
+.equip-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:24px; }
+.equip-cat { background:white; border-radius:12px; padding:24px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #eef2f7; }
+.equip-cat h3 { font-size:18px; margin-bottom:12px; color:#1a3a5c; }
+.equip-cat ul { list-style:none; padding:0; }
+.equip-cat li { padding:6px 0 6px 24px; position:relative; font-size:14px; color:#5a6a7a; }
+.equip-cat li::before { content:'✓'; position:absolute; left:0; color:#16a085; font-weight:700; }
+
+/* ===== Tips ===== */
+.tips-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:20px; }
+.tip-card { background:white; border-radius:12px; padding:24px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #eef2f7; transition:transform .2s; }
+.tip-card:hover { transform:translateY(-2px); }
+.tip-icon { font-size:32px; margin-bottom:8px; }
+.tip-card h3 { font-size:16px; margin-bottom:8px; color:#1a3a5c; }
+.tip-card p { font-size:14px; color:#5a6a7a; }
+
+/* ===== Footer ===== */
+.footer { text-align:center; padding:32px 24px; background:#1a3a5c; color:rgba(255,255,255,.7); font-size:13px; }
+.footer p { margin-bottom:4px; }
+
+/* ===== Responsive ===== */
+@media (max-width:768px) {
+  .hero h1 { font-size:28px; }
+  .hero-meta { flex-direction:column; align-items:center; }
+  .nav-links { display:none; }
+  .timeline { padding-left:30px; }
+  .tl-time { left:-30px; width:30px; height:30px; line-height:30px; font-size:10px; }
+  .section { padding:40px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <span class="nav-title">🚲 深圳南山 4+2 一日游</span>
+    <div class="nav-links">
+      <a href="#overview">概览</a>
+      <a href="#cluster">景点集群</a>
+      <a href="#itinerary">行程</a>
+      <a href="#equipment">装备</a>
+      <a href="#tips">贴士</a>
+      <button class="download-btn" onclick="downloadReport()">📥 下载</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero" id="overview">
+  <div class="hero-content">
+    <h1>🏙️ 深圳南山 4+2 一日游 · 山海人文</h1>
+    <p class="hero-sub">自驾为主 + 折叠车灵活穿行 · 塘朗山登高 → 华侨城文艺 → 人才公园海景 → 海上世界日落</p>
+    <div class="hero-meta">
+      <span class="meta-badge">📍 深圳高新园 → 南山核心区</span>
+      <span class="meta-badge">⏰ 9:30 - 18:00</span>
+      <span class="meta-badge">🎫 所有景点免费</span>
+      <span class="meta-badge">🚗 总车程 ~25km</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== AREA CLUSTER ===== -->
+<section class="section" id="cluster">
+  <div class="container">
+    <h2>📍 南山核心区景点集群</h2>
+    <p class="plan-desc">南山精华景点呈南北纵贯分布，从高新园出发顺时针游览，全程不绕路</p>
+    <div class="cluster-map">
+      <h3>🏔️ 南山 · 山水人文集群</h3>
+      <div class="cluster-grid">
+        <div class="cluster-card">
+          <div class="cluster-name">塘朗山郊野公园 <span>（登山）</span></div>
+          <div class="cluster-dist">🚗 距高新园 5.5km · 15min</div>
+          <div class="cluster-dist">🌲 主峰海拔432m，登山步道约45min登顶</div>
+          <div class="cluster-dist">🅿️ 龙珠门入口有免费停车位</div>
+          <div class="cluster-note">🌟 上午第一站，山风凉爽体力充沛</div>
+        </div>
+        <div class="cluster-card">
+          <div class="cluster-name">华侨城创意文化园 <span>（文艺）</span></div>
+          <div class="cluster-dist">🚗 距塘朗山 3.7km · 12min</div>
+          <div class="cluster-dist">🎨 LOFT工业风街区 + 艺术展厅 + 咖啡馆</div>
+          <div class="cluster-dist">🍜 周边美食密集，午餐首选</div>
+          <div class="cluster-note">🌟 文艺午餐点，折叠车可骑行园区</div>
+        </div>
+        <div class="cluster-card">
+          <div class="cluster-name">深圳人才公园 <span>（海景）</span></div>
+          <div class="cluster-dist">🚗 距创意园 9.8km · 24min</div>
+          <div class="cluster-dist">🌊 滨海长廊 + 后海CBD天际线</div>
+          <div class="cluster-dist">🚲 公园有专门骑行道，可折叠车环湖</div>
+          <div class="cluster-note">🌟 下午海滨骑行最佳选择</div>
+        </div>
+        <div class="cluster-card">
+          <div class="cluster-name">海上世界·女娲滨海公园 <span>（日落）</span></div>
+          <div class="cluster-dist">🚗 距人才公园 6.1km · 25min</div>
+          <div class="cluster-dist">⛵ 明华轮 + 滨海步道 + 日落绝佳</div>
+          <div class="cluster-dist">🍽️ 附近蛇口美食街，晚餐丰富</div>
+          <div class="cluster-note">🌟 收尾站：日落+晚餐后轻松返程</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ITINERARY ===== -->
+<section class="section" id="itinerary">
+  <div class="container">
+    <h2>🗺️ 一日行程 · 山海人文线</h2>
+
+    <div class="overview-card">
+      <div class="card-icon">🚀</div>
+      <div class="card-body">
+        <h3>高新园出发 · 南山山海人文一日游</h3>
+        <div class="route-stats">
+          <span>🚗 总车程 ~25km</span>
+          <span>🚲 可选骑行 3-5km</span>
+          <span>🥾 登山徒步 2-3km</span>
+          <span>⏱ 9:30 - 18:00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <!-- Node 1 -->
+      <div class="tl-node">
+        <span class="tl-time">9:30</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">深圳高新园出发 → 塘朗山郊野公园</span>
+            <span class="tl-tag drive">驾车 15min</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 导航到<strong>塘朗山郊野公园（龙珠门）</strong>（5.5km · 15min）</p>
+            <ul>
+              <li>🛣️ 科技南路→沙河西路→龙珠大道，早高峰已过不堵车</li>
+              <li>📍 <a href="https://uri.amap.com/navigation?from=113.953842,22.540236,深圳高新园&to=113.981154,22.561775,深圳塘朗山郊野公园龙珠门&mode=car&src=web" target="_blank">高德导航：高新园 → 塘朗山龙珠门</a></li>
+              <li>🅿️ 龙珠门入口有免费停车位，建议9:45前到达</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 2 -->
+      <div class="tl-node">
+        <span class="tl-time">9:45</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🥾</span>
+            <span class="tl-title">塘朗山郊野公园 · 登高望远</span>
+            <span class="tl-tag hike">登山 1.5h</span>
+          </div>
+          <div class="tl-body">
+            <p>塘朗山主峰<strong>极目阁</strong>海拔432m，是南山制高点，可俯瞰深圳湾、后海CBD</p>
+            <ul>
+              <li>🥾 龙珠门入口→极目阁，石阶步道约45-60分钟登顶</li>
+              <li>🏞️ 山顶<strong>极目阁</strong>视野绝佳，360°俯瞰深圳全景</li>
+              <li>📸 天气好时可看到深圳湾大桥和香港元朗</li>
+              <li>💧 建议带500ml水，山顶无补给</li>
+              <li>🅿️ 车停龙珠门入口停车场，原路下山取车</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 3 -->
+      <div class="tl-node">
+        <span class="tl-time">11:30</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">塘朗山 → 华侨城创意文化园</span>
+            <span class="tl-tag drive">驾车 12min</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 导航到<strong>华侨城创意文化园</strong>（3.7km · 12min）</p>
+            <ul>
+              <li>📍 <a href="https://uri.amap.com/navigation?from=113.981154,22.561775,深圳塘朗山郊野公园龙珠门&to=113.993037,22.537940,深圳华侨城创意文化园&mode=car&src=web" target="_blank">高德导航：塘朗山 → 华侨城创意文化园</a></li>
+              <li>🅿️ 创意园有收费停车场（约10元/小时）</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 4 -->
+      <div class="tl-node">
+        <span class="tl-time">11:45</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🎨</span>
+            <span class="tl-title">华侨城创意文化园 · 文艺午餐</span>
+            <span class="tl-tag eat">午餐+游玩 2h</span>
+          </div>
+          <div class="tl-body">
+            <p>深圳最具文艺气息的创意园区，LOFT工业风街区+咖啡馆+艺术展厅，适合午间休闲</p>
+            <ul>
+              <li>🏭 北区+南区步行游览，复古工业风建筑群</li>
+              <li>🖼️ 不定期有艺术展览（部分免费）</li>
+              <li>☕ <strong>午餐推荐</strong>：园区内「浅葱小唱」「驴甜品」等热门餐厅</li>
+              <li>🚲 园区宽敞，可骑行折叠车探索各个角落</li>
+              <li>📸 涂鸦墙、旧厂房改造、文创小店值得慢慢逛</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 5 -->
+      <div class="tl-node">
+        <span class="tl-time">13:45</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">华侨城 → 深圳人才公园</span>
+            <span class="tl-tag drive">驾车 24min</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 导航到<strong>深圳人才公园</strong>（9.8km · 24min）</p>
+            <ul>
+              <li>🛣️ 侨城东路→滨海大道→沙河西路→海德三道</li>
+              <li>📍 <a href="https://uri.amap.com/navigation?from=113.993037,22.537940,深圳华侨城创意文化园&to=113.946958,22.511353,深圳人才公园&mode=car&src=web" target="_blank">高德导航：创意园 → 人才公园</a></li>
+              <li>🅿️ 人才公园有地下停车场（收费）</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 6 -->
+      <div class="tl-node">
+        <span class="tl-time">14:15</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚲</span>
+            <span class="tl-title">深圳人才公园 · 海滨骑行</span>
+            <span class="tl-tag ride">游玩 1.5h</span>
+            <span class="tl-tag hike">可选徒步</span>
+          </div>
+          <div class="tl-body">
+            <p>深圳最美滨海公园之一，直面深圳湾，后海CBD天际线尽收眼底</p>
+            <ul>
+              <li>🚲 <strong>折叠车环湖骑行</strong>：公园有宽敞骑行道，环湖约3km</li>
+              <li>🌊 <strong>潮汐广场</strong>+<strong>孔雀亭</strong>，海滨观景平台</li>
+              <li>🏙️ 正对后海CBD摩天大楼群，极具都市感</li>
+              <li>📸 下午光线极佳，适合人像和风光摄影</li>
+              <li>💡 不骑车也可沿滨海步道散步，约40分钟走完湖区</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 7 -->
+      <div class="tl-node">
+        <span class="tl-time">15:45</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">人才公园 → 海上世界·女娲滨海公园</span>
+            <span class="tl-tag drive">驾车 25min</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 导航到<strong>海上世界明华轮</strong>（6.1km · 25min）</p>
+            <ul>
+              <li>🛣️ 科苑南路→望海路，沿深圳湾一路南下</li>
+              <li>📍 <a href="https://uri.amap.com/navigation?from=113.946958,22.511353,深圳人才公园&to=113.916898,22.483471,深圳海上世界明华轮&mode=car&src=web" target="_blank">高德导航：人才公园 → 海上世界</a></li>
+              <li>🅿️ 汇港购物中心地下停车场（收费）</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 8 -->
+      <div class="tl-node">
+        <span class="tl-time">16:15</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🌅</span>
+            <span class="tl-title">海上世界 · 日落晚餐</span>
+            <span class="tl-tag eat">游玩+晚餐 1.5h</span>
+          </div>
+          <div class="tl-body">
+            <p>蛇口地标——明华轮+滨海步道，深圳最浪漫的日落观赏地之一</p>
+            <ul>
+              <li>⛵ <strong>明华轮</strong> — 停靠岸边的万吨级邮轮，海上世界核心地标</li>
+              <li>🌅 <strong>女娲滨海公园</strong> — 沿海步道散步，日落时分光线绝美</li>
+              <li>📸 明华轮+日落+深圳湾大桥同框构图</li>
+              <li>🍽️ <strong>晚餐推荐</strong>：海上世界周边蛇口美食街，中西餐选择丰富</li>
+              <li>🚲 折叠车可沿海滨道骑行，蛇口片区路况良好</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 9 · 返程 -->
+      <div class="tl-node">
+        <span class="tl-time">17:45</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">海上世界 → 高新园返程</span>
+            <span class="tl-tag drive">驾车 28min</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 导航回<strong>深圳高新园</strong>（10.2km · 28min）</p>
+            <ul>
+              <li>📍 <a href="https://uri.amap.com/navigation?from=113.916898,22.483471,深圳海上世界明华轮&to=113.953842,22.540236,深圳高新园&mode=car&src=web" target="_blank">高德导航：海上世界 → 高新园</a></li>
+              <li>🛣️ 望海路→后海滨路→滨海大道→科技南路</li>
+              <li>⏰ 约<strong>18:15</strong>到达，全程不累且体验丰富</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 路线概览 -->
+    <div class="route-overview">
+      <div class="overview-header">
+        <span class="overview-icon">📋</span>
+        <h3>南山山海人文线 · 路线概览</h3>
+      </div>
+      <div class="overview-stops">
+        <div class="overview-stop">🏢 高新园</div>
+        <div class="overview-arrow">→ 5.5km</div>
+        <div class="overview-stop">⛰️ 塘朗山</div>
+        <div class="overview-arrow">→ 3.7km</div>
+        <div class="overview-stop">🎨 创意园</div>
+        <div class="overview-arrow">→ 9.8km</div>
+        <div class="overview-stop">🌊 人才公园</div>
+        <div class="overview-arrow">→ 6.1km</div>
+        <div class="overview-stop">⛵ 海上世界</div>
+        <div class="overview-arrow">→ 10.2km</div>
+        <div class="overview-stop">🏢 高新园</div>
+      </div>
+      <a href="https://uri.amap.com/navigation?from=113.953842,22.540236,深圳高新园&to=113.981154,22.561775,深圳塘朗山郊野公园龙珠门&mode=car&src=web" target="_blank" class="route-btn">
+        🚗 一键导航 高新园 → 塘朗山（第1站）
+      </a>
+      <p class="route-tip">💡 全程南山区内行驶，各站车程均不超30分钟，半天时间充足。折叠车可灵活使用于创意园和人才公园园区内骑行</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EQUIPMENT ===== -->
+<section class="section" id="equipment">
+  <div class="container">
+    <h2>🎒 推荐装备清单</h2>
+    <div class="equip-grid">
+      <div class="equip-cat">
+        <h3>🚲 骑行装备</h3>
+        <ul>
+          <li>折叠自行车 + 头盔</li>
+          <li>便携打气筒 + 补胎工具</li>
+          <li>车灯（人才公园环湖可用）</li>
+          <li>车锁（吃饭时锁车）</li>
+        </ul>
+      </div>
+      <div class="equip-cat">
+        <h3>🥾 徒步装备</h3>
+        <ul>
+          <li>轻便徒步鞋/运动鞋</li>
+          <li>500ml饮用水</li>
+          <li>防晒帽 + 墨镜</li>
+          <li>手机充电宝</li>
+        </ul>
+      </div>
+      <div class="equip-cat">
+        <h3>📸 其他建议</h3>
+        <ul>
+          <li>相机/手机云台</li>
+          <li>小包零食/能量棒</li>
+          <li>折叠野餐垫（人才公园草坪可用）</li>
+          <li>外套（海上世界海边傍晚风大）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TIPS ===== -->
+<section class="section" id="tips" style="background:#fff;">
+  <div class="container">
+    <h2>💡 实用贴士</h2>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">🅿️</div>
+        <h3>停车攻略</h3>
+        <p>塘朗山龙珠门入口免费停车；创意园和人才公园有收费停车场。海上世界可停汇港购物中心地下停车场（消费可抵停车费）。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🍽️</div>
+        <h3>美食推荐</h3>
+        <p>华侨城创意园内：浅葱小唱（创意菜）、驴甜品（甜品咖啡）；海上世界周边：蛇口老街海鲜、海上世界广场各国美食。午餐在创意园，晚餐在海世界。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">⏰</div>
+        <h3>时间规划</h3>
+        <p>上午塘朗山（凉爽+体力好）→ 中午创意园（避暑+午餐）→ 下午人才公园（光线好）→ 傍晚海上世界（日落18:00左右）。全程松紧适度。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🚲</div>
+        <h3>折叠车使用</h3>
+        <p>人才公园（骑行道完善·环湖3km）和创意园（园区宽敞）最适合骑行。塘朗山和海上世界以徒步为主，折叠车可折叠后随身携带。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🌤️</div>
+        <h3>天气建议</h3>
+        <p>建议选择多云或阴天出行，避免暴晒。5-6月深圳气温28-33°C，做好防晒。如果雷雨天气，塘朗山步道湿滑建议改期。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🎟️</div>
+        <h3>费用参考</h3>
+        <p>全部景点免费开放。停车费约30-50元全天。餐饮人均40-80元。燃油费约15元。总花费约<strong>100-150元/人</strong>，超高性价比！</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p>🚲 深圳南山 4+2 一日游 · 山海人文线</p>
+  <p>数据来源：高德地图 API · 出发地：深圳高新园</p>
+</footer>
+
+<script>
+// ===== Smooth scroll for nav links =====
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.nav-links a').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var href = this.getAttribute('href');
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        var target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  });
+});
+
+/* ===== 下载报告 ===== */
+function downloadReport() {
+  var html = document.documentElement.outerHTML;
+  var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '深圳南山4+2一日游.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+</script>
+</body>
+</html>
