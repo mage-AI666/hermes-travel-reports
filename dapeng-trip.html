@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深圳大鹏半岛 · 山海一日游 · 南山高新园出发</title>
+<style>
+/* ===== Reset & Base ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f4f8; color: #2c3e50; line-height: 1.7; }
+
+/* ===== Navigation ===== */
+.top-nav { position: fixed; top:0; left:0; right:0; z-index:1000; background: rgba(255,255,255,0.95); backdrop-filter:blur(10px); border-bottom:1px solid #e0e6ed; }
+.nav-inner { max-width:1100px; margin:0 auto; padding:12px 24px; display:flex; justify-content:space-between; align-items:center; }
+.nav-title { font-size:18px; font-weight:700; color:#1a3a5c; }
+.nav-links { display:flex; gap:20px; }
+.nav-links a { text-decoration:none; color:#5a6a7a; font-size:14px; transition:color .2s; cursor:pointer; }
+.nav-links a:hover { color:#3498db; }
+.nav-links .download-btn { background:#1a73e8; color:#fff!important; padding:6px 14px; border-radius:6px; font-size:13px; cursor:pointer; border:none; transition:background .2s; }
+.nav-links .download-btn:hover { background:#1557b0; }
+
+/* ===== Hero ===== */
+.hero { padding:120px 24px 60px; background: linear-gradient(135deg, #0b2b4a 0%, #1a6ea0 50%, #f0b429 100%); color:white; text-align:center; position:relative; overflow:hidden; }
+.hero::before { content:'🌊'; position:absolute; left:30px; top:50%; transform:translateY(-50%); font-size:120px; opacity:.08; }
+.hero h1 { font-size:42px; margin-bottom:12px; }
+.hero-sub { font-size:18px; opacity:.85; margin-bottom:24px; }
+.hero-meta { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+.meta-badge { background:rgba(255,255,255,.15); padding:8px 16px; border-radius:20px; font-size:14px; }
+
+/* ===== Section ===== */
+.section { padding:60px 24px; }
+.section:nth-child(even) { background:#fff; }
+.container { max-width:1100px; margin:0 auto; }
+.section h2 { font-size:28px; margin-bottom:24px; color:#0b2b4a; border-left:4px solid #1a6ea0; padding-left:16px; }
+
+/* ===== Overview Card ===== */
+.overview-card { display:flex; gap:20px; background:#eaf4fc; border-radius:12px; padding:24px; align-items:center; margin-bottom:32px; }
+.card-icon { font-size:48px; }
+.card-body h3 { font-size:18px; margin-bottom:12px; color:#0b2b4a; }
+.route-stats { display:flex; gap:16px; flex-wrap:wrap; font-size:14px; color:#5a6a7a; }
+.route-stats span { background:rgba(26,110,160,.08); padding:4px 12px; border-radius:6px; }
+.weather-note { margin-top:12px; padding:8px 12px; background:#d4edda; border-radius:6px; font-size:14px; color:#155724; display:inline-flex; gap:8px; }
+
+/* ===== Route Overview ===== */
+.route-overview { margin-top:32px; background:#f8f9fa; border:1px solid #e9ecef; border-radius:12px; padding:24px; }
+.overview-header { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+.overview-header h3 { font-size:16px; color:#0b2b4a; margin:0; }
+.overview-icon { font-size:24px; }
+.overview-stops { display:flex; align-items:center; flex-wrap:wrap; gap:3px; justify-content:center; margin-bottom:20px; }
+.overview-stop { background:#1a6ea0; color:#fff; padding:6px 14px; border-radius:8px; font-size:13px; font-weight:600; white-space:nowrap; }
+.overview-arrow { color:#7f8c8d; font-size:13px; font-weight:600; white-space:nowrap; }
+.route-btn { display:inline-flex; align-items:center; gap:6px; background:#1a73e8; color:#fff!important; padding:10px 24px; border-radius:8px; font-size:14px; font-weight:600; text-decoration:none; transition:background .2s; margin-bottom:12px; }
+.route-btn:hover { background:#1557b0; }
+.route-tip { font-size:13px; color:#5a6a7a; }
+
+/* ===== Timeline ===== */
+.timeline { position:relative; padding-left:40px; }
+.timeline::before { content:''; position:absolute; left:19px; top:0; bottom:0; width:2px; background:#b0c9db; }
+.tl-node { position:relative; margin-bottom:32px; }
+.tl-time { position:absolute; left:-40px; top:0; width:40px; height:40px; line-height:40px; background:#1a6ea0; color:white; border-radius:50%; font-size:11px; font-weight:700; text-align:center; z-index:2; }
+.tl-time.gold { background:#f0b429; color:#0b2b4a; }
+.tl-time.sea { background:#0b2b4a; }
+.tl-content { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #eef2f7; }
+.tl-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+.tl-icon { font-size:24px; }
+.tl-title { font-size:16px; font-weight:600; color:#0b2b4a; }
+.tl-tag { background:#e8f5e9; color:#27ae60; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:600; white-space:nowrap; }
+.tl-tag.drive { background:#fff3e0; color:#e65100; }
+.tl-tag.ride { background:#e3f2fd; color:#1565c0; }
+.tl-tag.hike { background:#fce4ec; color:#c62828; }
+.tl-tag.eat { background:#fff8e1; color:#f57f17; }
+.tl-tag.beach { background:#e0f7fa; color:#00695c; }
+.tl-body p { color:#5a6a7a; margin-bottom:8px; font-size:14px; }
+.tl-body ul { padding-left:18px; font-size:14px; color:#5a6a7a; }
+.tl-body li { margin-bottom:4px; }
+.tl-body a { color:#1a6ea0; text-decoration:none; font-weight:500; }
+.tl-body a:hover { text-decoration:underline; }
+
+/* ===== Timeline Images ===== */
+.tl-imgs { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+.tl-imgs img { width:200px; height:140px; object-fit:cover; border-radius:8px; cursor:pointer; transition:transform .2s, box-shadow .2s; }
+.tl-imgs img:hover { transform:scale(1.03); box-shadow:0 4px 12px rgba(0,0,0,.15); }
+
+/* ===== Lightbox ===== */
+.lightbox { display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,.9); justify-content:center; align-items:center; cursor:pointer; }
+.lightbox img { max-width:90%; max-height:90%; border-radius:8px; box-shadow:0 8px 32px rgba(0,0,0,.5); }
+.lightbox.show { display:flex; }
+
+/* ===== Tips ===== */
+.tips-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:20px; }
+.tip-card { background:white; border-radius:12px; padding:24px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #eef2f7; transition:transform .2s; }
+.tip-card:hover { transform:translateY(-2px); }
+.tip-icon { font-size:32px; margin-bottom:8px; }
+.tip-card h3 { font-size:16px; margin-bottom:8px; color:#0b2b4a; }
+.tip-card p { font-size:14px; color:#5a6a7a; }
+
+/* ===== Scenic Highlights ===== */
+.highlights-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:16px; margin-bottom:32px; }
+.highlight-card { background:white; border-radius:12px; padding:20px; box-shadow:0 1px 4px rgba(0,0,0,.06); border:1px solid #eef2f7; text-align:center; }
+.highlight-card .emoji { font-size:36px; margin-bottom:8px; }
+.highlight-card h4 { font-size:15px; color:#0b2b4a; margin-bottom:6px; }
+.highlight-card p { font-size:13px; color:#5a6a7a; }
+
+/* ===== Footer ===== */
+.footer { text-align:center; padding:32px 24px; background:#0b2b4a; color:rgba(255,255,255,.7); font-size:13px; }
+.footer p { margin-bottom:4px; }
+
+/* ===== Responsive ===== */
+@media (max-width:768px) {
+  .hero h1 { font-size:28px; }
+  .hero-meta { flex-direction:column; align-items:center; }
+  .nav-links { display:none; }
+  .timeline { padding-left:30px; }
+  .tl-time { left:-30px; width:30px; height:30px; line-height:30px; font-size:10px; }
+  .section { padding:40px 16px; }
+  .tl-imgs img { width:100%; height:180px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <span class="nav-title">🏖️ 大鹏半岛 · 山海一日游</span>
+    <div class="nav-links">
+      <a onclick="document.getElementById('overview').scrollIntoView({behavior:'smooth'})">概览</a>
+      <a onclick="document.getElementById('highlights').scrollIntoView({behavior:'smooth'})">景点</a>
+      <a onclick="document.getElementById('timeline').scrollIntoView({behavior:'smooth'})">行程</a>
+      <a onclick="document.getElementById('tips').scrollIntoView({behavior:'smooth'})">贴士</a>
+      <button class="download-btn" onclick="downloadReport()">📥 下载</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero" id="overview">
+  <div>
+    <h1>🏖️ 深圳大鹏半岛 · 山海一日游</h1>
+    <p class="hero-sub">古城漫步 → 玻璃海滩 → 礁石海岸线 · 深圳最美山海公路自驾线</p>
+    <div class="hero-meta">
+      <span class="meta-badge">📍 南山高新园 → 大鹏半岛</span>
+      <span class="meta-badge">🚗 总里程 ~176km | 驾驶 ~3.5h</span>
+      <span class="meta-badge">☀️ 多云 29°/23°C</span>
+      <span class="meta-badge">🎫 低消费 | 免费停车场</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== OVERVIEW ===== -->
+<section class="section" id="highlights">
+  <div class="container">
+    <h2>🏝️ 四大景点精华</h2>
+    <div class="highlights-grid">
+      <div class="highlight-card">
+        <div class="emoji">🏯</div>
+        <h4>大鹏所城</h4>
+        <p>深圳八景之首，600年历史的海防古城，免费开放，步行走遍东西南北门</p>
+      </div>
+      <div class="highlight-card">
+        <div class="emoji">🏖️</div>
+        <h4>桔钓沙</h4>
+        <p>玻璃海沙滩，沙质细腻洁白，深圳最美沙滩之一，免费公共区域</p>
+      </div>
+      <div class="highlight-card">
+        <div class="emoji">🌊</div>
+        <h4>杨梅坑</h4>
+        <p>礁石海岸+悬崖海景，《美人鱼》取景地，沿海公路骑行绝佳</p>
+      </div>
+      <div class="highlight-card">
+        <div class="emoji">⛰️</div>
+        <h4>鹿嘴山庄</h4>
+        <p>深圳大陆最东端，悬崖栈道+美人鱼洞，看海天一线</p>
+      </div>
+    </div>
+
+    <div class="overview-card">
+      <div class="card-icon">🚗</div>
+      <div class="card-body">
+        <h3>路线总览</h3>
+        <div class="route-stats">
+          <span>🚗 驾驶 ~176km · 3h25min</span>
+          <span>🥾 步行 ~3km</span>
+          <span>⏱ 9:00 - 17:45</span>
+          <span>🛣️ 含S30惠深沿海高速·多隧道</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TIMELINE ===== -->
+<section class="section" id="timeline" style="background:#fff;">
+  <div class="container">
+    <h2>🗺️ 详细时间线</h2>
+
+    <div class="timeline">
+
+      <!-- Node 1 · 出发 -->
+      <div class="tl-node">
+        <span class="tl-time">9:00</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">南山高新园出发</span>
+            <span class="tl-tag drive">驾车 83min</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 导航到<strong>大鹏所城</strong>（70km · 约1h20min）</p>
+            <ul>
+              <li>🛣️ 深南大道→滨海大道→S30惠深沿海高速→坪西路→鹏飞路</li>
+              <li>🎯 S30高速沿途经过沙头角、大小梅沙、溪涌等10+条隧道，山海景观</li>
+              <li>🅿️ 大鹏所城P4地面停车场免费（鹏飞路208号附近）</li>
+            </ul>
+            <div class="tl-imgs">
+              <img src="https://img1.baidu.com/it/u=1625393750,2284452973&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=500" alt="大鹏所城城门" onclick="openLightbox(this)">
+              <img src="https://img0.baidu.com/it/u=2690337812,2374686825&fm=253&app=138&f=JPEG?w=800&h=600" alt="大鹏所城街道" onclick="openLightbox(this)">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 2 · 大鹏所城 -->
+      <div class="tl-node">
+        <span class="tl-time">10:25</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🏯</span>
+            <span class="tl-title">大鹏所城深度游</span>
+            <span class="tl-tag hike">游览 1.5h</span>
+          </div>
+          <div class="tl-body">
+            <p>深圳唯一的国家级文物保护单位，始建于明洪武二十七年（1394年）</p>
+            <ul>
+              <li>🏛️ <strong>古城墙遗址</strong> — 保存完整的明清海防城防体系</li>
+              <li>🏛️ <strong>大鹏粮仓/海防展览馆</strong> — 免费参观，了解大鹏历史</li>
+              <li>📸 <strong>北门广场→凤凰广场</strong> — 古城内最佳拍照路线</li>
+              <li>🥟 古城内小吃推荐：濑粉仔、茶果、客家酿豆腐</li>
+              <li>💡 建议10点前人少，古城石板路适合慢逛</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 3 · 桔钓沙 -->
+      <div class="tl-node">
+        <span class="tl-time">12:00</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">大鹏所城 → 桔钓沙</span>
+            <span class="tl-tag drive">驾车 27min</span>
+            <span class="tl-tag beach">海滩 1.5h</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 导航到<strong>桔钓沙</strong>（15.7km · 27min）</p>
+            <ul>
+              <li>🏖️ <strong>桔钓沙玻璃海滩</strong> — 沙质细腻泛白，海水清澈见底</li>
+              <li>📸 沙滩+礁石组合，下午光线最佳</li>
+              <li>🍱 桔钓沙周边有海鲜餐厅（杨梅坑海鲜餐厅等）</li>
+              <li>🅿️ 桔钓沙P2停车场</li>
+              <li>💡 免费公共沙滩区域面积不大但足够游玩</li>
+            </ul>
+            <div class="tl-imgs">
+              <img src="https://img1.baidu.com/it/u=874610368,2930799275&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=533" alt="桔钓沙沙滩" onclick="openLightbox(this)">
+              <img src="https://img2.baidu.com/it/u=2313532919,1962279145&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=533" alt="桔钓沙海岸" onclick="openLightbox(this)">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 4 · 杨梅坑 -->
+      <div class="tl-node">
+        <div class="tl-time gold">14:00</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">桔钓沙 → 杨梅坑</span>
+            <span class="tl-tag drive">驾车 5min</span>
+            <span class="tl-tag beach">游玩 1.5h</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 导航到<strong>杨梅坑</strong>（2.4km · 5min）—— 两景点紧邻，几乎就是同一片海岸</p>
+            <ul>
+              <li>🌊 <strong>杨梅坑沙滩</strong> — 礁石海岸线，比桔钓沙更野趣</li>
+              <li>🚶 杨梅坑沿海栈道散步，近距离感受海浪拍礁</li>
+              <li>📸 <strong>美人鱼取景地</strong> — 从杨梅坑沿鹿嘴大道步行可达经典悬崖机位</li>
+              <li>🅿️ 杨梅坑停车点</li>
+              <li>💡 杨梅坑和桔钓沙实际是同一片海岸的不同段，可以连起来玩</li>
+            </ul>
+            <div class="tl-imgs">
+              <img src="https://img2.baidu.com/it/u=2741790308,885162880&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=533" alt="杨梅坑海岸" onclick="openLightbox(this)">
+              <img src="https://img1.baidu.com/it/u=258258249,2837636988&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=600" alt="杨梅坑礁石" onclick="openLightbox(this)">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 5 · 鹿嘴山庄 -->
+      <div class="tl-node">
+        <div class="tl-time sea">15:45</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">杨梅坑 → 鹿嘴山庄（深圳最东端）</span>
+            <span class="tl-tag drive">驾车 20min</span>
+            <span class="tl-tag hike">游玩 1h</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 导航到<strong>鹿嘴山庄</strong>（5.2km · 20min）— 深圳大陆最东端的海角</p>
+            <ul>
+              <li>⛰️ <strong>悬崖栈道</strong> — 沿悬崖修建的观海步道，视野无敌</li>
+              <li>🧜 <strong>美人鱼洞</strong> — 电影《美人鱼》取景地，悬崖下海蚀洞</li>
+              <li>🌅 <strong>鹿咀断层</strong> — 地质奇观，站在深圳最东端看海</li>
+              <li>🅿️ 鹿嘴山庄地面停车点</li>
+              <li>💡 建议15:30-16:30到达，光线最适合拍照</li>
+            </ul>
+            <div class="tl-imgs">
+              <img src="https://img0.baidu.com/it/u=1792222417,3542525914&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500" alt="鹿嘴山庄悬崖" onclick="openLightbox(this)">
+              <img src="https://img1.baidu.com/it/u=1104113187,3316086195&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=533" alt="美人鱼洞" onclick="openLightbox(this)">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 6 · 返程 -->
+      <div class="tl-node">
+        <div class="tl-time gold">17:00</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">鹿嘴山庄 → 返程</span>
+            <span class="tl-tag drive">驾车 94min</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 导航回<strong>南山高新园</strong>（83km · 约1h34min）</p>
+            <ul>
+              <li>🛣️ 鹿嘴大道→坪西路→S30惠深沿海高速→滨海大道→深南大道</li>
+              <li>⛽ 出发前加满油/充满电，大鹏半岛加油站少</li>
+              <li>🚦 建议17:00前返程，避开晚高峰</li>
+              <li>⏰ 约<strong>18:35</strong>到达高新园</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 路线概览 -->
+    <div class="route-overview">
+      <div class="overview-header">
+        <span class="overview-icon">📋</span>
+        <h3>全程路线概览</h3>
+      </div>
+      <div class="overview-stops">
+        <span class="overview-stop">🏁 高新园</span>
+        <span class="overview-arrow">→ 70km 🚗</span>
+        <span class="overview-stop">🏯 大鹏所城</span>
+        <span class="overview-arrow">→ 15.7km 🚗</span>
+        <span class="overview-stop">🏖️ 桔钓沙</span>
+        <span class="overview-arrow">→ 2.4km 🚗</span>
+        <span class="overview-stop">🌊 杨梅坑</span>
+        <span class="overview-arrow">→ 5.2km 🚗</span>
+        <span class="overview-stop">⛰️ 鹿嘴山庄</span>
+        <span class="overview-arrow">→ 83km 🚗</span>
+        <span class="overview-stop">🏠 高新园</span>
+      </div>
+      <a href="https://uri.amap.com/navigation?from=113.953842,22.540236,深圳南山高新园&to=114.512449,22.595213,深圳大鹏所城&mode=car&src=web" target="_blank" class="route-btn">
+        📍 一键导航 高新园 → 大鹏所城
+      </a>
+      <p class="route-tip">💡 到达大鹏半岛后各景点间车程5-27分钟，可灵活调整顺序。强推桔钓沙→杨梅坑连游。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TIPS ===== -->
+<section class="section" id="tips">
+  <div class="container">
+    <h2>💡 出行贴士</h2>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">🚗</div>
+        <h3>自驾注意</h3>
+        <p>大鹏半岛周末限行（需预约），工作日不限。建议工作日出行或提前在"深圳交警"公众号预约。S30高速多隧道，注意限速。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🅿️</div>
+        <h3>停车信息</h3>
+        <p>大鹏所城P4（免费）、桔钓沙P2、杨梅坑停车点、鹿嘴山庄地面停车点。周末车位紧张，建议尽早到达。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🎒</div>
+        <h3>装备推荐</h3>
+        <p>防晒霜、帽子、墨镜、拖鞋/凉鞋（玩水必备）、1.5L水/人、干粮零食。沙滩无遮挡，注意防暑。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🍜</div>
+        <h3>餐饮建议</h3>
+        <p>午餐可选桔钓沙/杨梅坑周边海鲜餐厅（人均60-100元），或自带野餐在沙滩解决。大鹏所城内有小吃。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🗓️</div>
+        <h3>最佳时间</h3>
+        <p>5-6月气候舒适，多云天气最佳（29°C左右），避开暴雨天。雨季切记避开悬崖区域。建议非周末出行体验更佳。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📸</div>
+        <h3>拍照攻略</h3>
+        <p>大鹏所城北门→上午光；桔钓沙→正午-午后；杨梅坑礁石→下午柔光；鹿嘴山庄悬崖→15:30-16:30黄金光。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LIGHTBOX ===== -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p>🏖️ 深圳大鹏半岛 · 山海一日游 · 南山高新园出发</p>
+  <p>数据来源：高德地图 API · 自驾实测</p>
+</footer>
+
+<script>
+// ===== Lightbox =====
+function openLightbox(img) {
+  document.getElementById('lightbox-img').src = img.src;
+  document.getElementById('lightbox').classList.add('show');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('show');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+// ===== Download Report =====
+function downloadReport() {
+  var html = document.documentElement.outerHTML;
+  var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '深圳大鹏半岛一日游.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+</script>
+</body>
+</html>
