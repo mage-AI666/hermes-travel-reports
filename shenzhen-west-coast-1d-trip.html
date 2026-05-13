@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高新园 → 深圳西部滨海自驾 · 一日游</title>
+<style>
+/* ===== Reset & Base ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f4f8; color: #2c3e50; line-height: 1.7; }
+/* ===== Navigation ===== */
+.top-nav { position: fixed; top:0; left:0; right:0; z-index:1000; background: rgba(255,255,255,0.95); backdrop-filter:blur(10px); border-bottom:1px solid #e0e6ed; }
+.nav-inner { max-width:1100px; margin:0 auto; padding:12px 24px; display:flex; justify-content:space-between; align-items:center; }
+.nav-title { font-size:18px; font-weight:700; color:#1a3a5c; }
+.nav-links { display:flex; gap:20px; }
+.nav-links a { text-decoration:none; color:#5a6a7a; font-size:14px; transition:color .2s; cursor:pointer; }
+.nav-links a:hover { color:#3498db; }
+.nav-links .download-btn { background:#27ae60; color:#fff!important; padding:6px 14px; border-radius:6px; font-size:13px; cursor:pointer; border:none; transition:background .2s; }
+.nav-links .download-btn:hover { background:#219a52; }
+/* ===== Hero ===== */
+.hero { padding:120px 24px 60px; background: linear-gradient(135deg, #0d4f8c 0%, #1a8fe0 100%); color:white; text-align:center; }
+.hero h1 { font-size:42px; margin-bottom:12px; }
+.hero-sub { font-size:18px; opacity:.85; margin-bottom:24px; }
+.hero-meta { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+.meta-badge { background:rgba(255,255,255,.15); padding:8px 16px; border-radius:20px; font-size:14px; }
+/* ===== Section ===== */
+.section { padding:60px 24px; }
+.section:nth-child(even) { background:#fff; }
+.container { max-width:1100px; margin:0 auto; }
+.section h2 { font-size:28px; margin-bottom:24px; color:#1a3a5c; border-left:4px solid #1a8fe0; padding-left:16px; }
+/* ===== Overview ===== */
+.overview-card { display:flex; gap:20px; background:#f0f6fc; border-radius:12px; padding:24px; align-items:center; }
+.card-icon { font-size:48px; }
+.card-body h3 { font-size:18px; margin-bottom:12px; color:#1a3a5c; }
+.route-stats { display:flex; gap:16px; flex-wrap:wrap; font-size:14px; color:#5a6a7a; }
+.route-stats span { background:rgba(26,143,224,.08); padding:4px 12px; border-radius:6px; }
+.weather-note { margin-top:12px; padding:8px 12px; background:#d4edda; border-radius:6px; font-size:14px; color:#155724; display:inline-flex; gap:8px; }
+/* ===== Route Overview ===== */
+.route-overview { margin-top:32px; background:#f8f9fa; border:1px solid #e9ecef; border-radius:12px; padding:24px; }
+.overview-header { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+.overview-header h3 { font-size:16px; color:#1a3a5c; margin:0; }
+.overview-stops { display:flex; align-items:center; flex-wrap:wrap; gap:3px; justify-content:center; margin-bottom:20px; }
+.overview-stop { background:#1a8fe0; color:#fff; padding:6px 14px; border-radius:8px; font-size:13px; font-weight:600; white-space:nowrap; }
+.overview-arrow { color:#7f8c8d; font-size:13px; font-weight:600; white-space:nowrap; }
+.route-btn { display:inline-flex; align-items:center; gap:6px; background:#1a73e8; color:#fff!important; padding:10px 24px; border-radius:8px; font-size:14px; font-weight:600; text-decoration:none; transition:background .2s; margin-bottom:12px; }
+.route-btn:hover { background:#1557b0; }
+.route-tip { font-size:13px; color:#5a6a7a; }
+/* ===== Timeline ===== */
+.timeline { position:relative; padding-left:40px; }
+.timeline::before { content:''; position:absolute; left:19px; top:0; bottom:0; width:2px; background:#c8d6e5; }
+.tl-node { position:relative; margin-bottom:32px; }
+.tl-time { position:absolute; left:-40px; top:0; width:40px; height:40px; line-height:40px; background:#1a8fe0; color:white; border-radius:50%; font-size:11px; font-weight:700; text-align:center; z-index:2; }
+.tl-time.drive { background:#3498db; }
+.tl-time.scenic { background:#27ae60; }
+.tl-time.food { background:#e74c3c; }
+.tl-time.culture { background:#9b59b6; }
+.tl-time.sunset { background:#e67e22; }
+.tl-content { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #eef2f7; }
+.tl-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+.tl-icon { font-size:22px; }
+.tl-title { font-size:17px; font-weight:700; color:#1a3a5c; }
+.tl-label { font-size:11px; padding:3px 10px; border-radius:12px; font-weight:600; }
+.label-drive { background:#dbeafe; color:#1e40af; }
+.label-scenic { background:#d4edda; color:#155724; }
+.label-food { background:#fce4ec; color:#c62828; }
+.label-culture { background:#f3e5f5; color:#6a1b9a; }
+.label-sunset { background:#fff3e0; color:#e65100; }
+.tl-desc { color:#4a5a6a; font-size:14px; margin-bottom:10px; }
+.tl-desc strong { color:#2c3e50; }
+.tl-nav { display:flex; gap:8px; flex-wrap:wrap; }
+.tl-nav a { display:inline-flex; align-items:center; gap:4px; text-decoration:none; font-size:12px; padding:5px 12px; border-radius:6px; background:#f0f4f8; color:#2c3e50; transition:all .2s; }
+.tl-nav a:hover { background:#1a73e8; color:white; }
+.tl-park { margin-top:8px; font-size:12px; color:#27ae60; display:flex; align-items:center; gap:4px; }
+/* ===== Address List ===== */
+.address-list { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:12px; }
+.address-item { background:#f8f9fa; border:1px solid #e9ecef; border-radius:8px; padding:12px; }
+.address-name { font-weight:600; font-size:14px; color:#1a3a5c; margin-bottom:2px; }
+.address-detail { font-size:12px; color:#5a6a7a; }
+/* ===== Tips ===== */
+.tips-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:20px; }
+.tip-card { background:#f8f9fa; border:1px solid #e9ecef; border-radius:12px; padding:20px; }
+.tip-card h3 { font-size:16px; margin-bottom:12px; color:#1a3a5c; display:flex; align-items:center; gap:8px; }
+.tip-card ul { list-style:none; padding:0; }
+.tip-card li { padding:6px 0; font-size:14px; color:#4a5a6a; display:flex; align-items:center; gap:8px; }
+.tip-card li::before { content:"✓"; color:#27ae60; font-weight:700; }
+/* ===== Footer ===== */
+.footer { background:#1a3a5c; color:rgba(255,255,255,.7); text-align:center; padding:32px 24px; font-size:13px; }
+/* ===== Lightbox ===== */
+.lightbox-overlay { display:none; position:fixed; z-index:9999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.9); justify-content:center; align-items:center; cursor:pointer; }
+.lightbox-overlay.show { display:flex; }
+.lightbox-overlay img { max-width:90%; max-height:90%; border-radius:8px; }
+/* ===== Responsive ===== */
+@media(max-width:768px) {
+  .hero h1 { font-size:28px; }
+  .nav-links a { font-size:12px; }
+  .overview-stops { flex-direction:column; }
+  .overview-arrow { transform:rotate(90deg); display:inline-block; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <span class="nav-title">🚗 深圳西部滨海自驾 · 一日游</span>
+    <div class="nav-links">
+      <a href="#overview">路线概览</a>
+      <a href="#timeline">时间线</a>
+      <a href="#addresses">导航地址</a>
+      <a href="#tips">实用贴士</a>
+      <a class="download-btn" onclick="downloadReport()">📥 下载报告</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <h1>🌊 深圳西部滨海漫游线</h1>
+  <p class="hero-sub">从高新园出发，沿深圳西部海岸线一路向西，邂逅海湾、古城、港湾、日落与海上世界</p>
+  <div class="hero-meta">
+    <span class="meta-badge">📍 高新园 → 海上世界</span>
+    <span class="meta-badge">🚗 全程约 68km</span>
+    <span class="meta-badge">⏱ 纯驾驶约 2h</span>
+    <span class="meta-badge">🏖 6 个景点</span>
+  </div>
+</section>
+
+<!-- Overview -->
+<section class="section" id="overview">
+  <div class="container">
+    <h2>📋 路线概览</h2>
+    
+    <div class="overview-card">
+      <div class="card-icon">🌅</div>
+      <div class="card-body">
+        <h3>一条由东向西的滨海自驾线</h3>
+        <p style="color:#5a6a7a;font-size:14px;margin-bottom:12px;">这是一条全新设计的西部滨海自驾路线，与大鹏半岛的东部山海岸线完全不同。沿深圳湾、前海湾一路向西，囊括海景公园、千年古城、湾区地标、日落湿地和国际化街区，不走回头路。</p>
+        <div class="route-stats">
+          <span>🚗 总里程 ~68km</span>
+          <span>⏱ 纯驾驶 ~2h</span>
+          <span>🏛 1个古城</span>
+          <span>🌊 3个海滨公园</span>
+          <span>🍽 1个美食街区</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="route-overview">
+      <div class="overview-header">
+        <span class="overview-icon">🛣</span>
+        <h3>路线走向</h3>
+      </div>
+      <div class="overview-stops">
+        <span class="overview-stop">🏁 高新园</span>
+        <span class="overview-arrow">→</span>
+        <span class="overview-stop">🌅 日出剧场</span>
+        <span class="overview-arrow">→</span>
+        <span class="overview-stop">🏛 南头古城</span>
+        <span class="overview-arrow">→</span>
+        <span class="overview-stop">🎡 欢乐港湾</span>
+        <span class="overview-arrow">→</span>
+        <span class="overview-stop">🌿 西湾红树林</span>
+        <span class="overview-arrow">→</span>
+        <span class="overview-stop">🛳 海上世界</span>
+        <span class="overview-arrow">→</span>
+        <span class="overview-stop">🏁 高新园</span>
+      </div>
+      <a class="route-btn" href="https://uri.amap.com/navigation?from=113.953842,22.540236,高新园&to=113.917846,22.482264,海上世界&via=113.952314,22.499063,日出剧场;113.921429,22.543019,南头古城;113.883731,22.544558,欢乐港湾;113.833999,22.593516,西湾红树林&mode=car" target="_blank">🗺 一键导航全程路线</a>
+      <p class="route-tip">💡 全程不走回头路，从高新园出发→一路向西→海上世界晚餐→返回高新园</p>
+    </div>
+  </div>
+</section>
+
+<!-- Timeline -->
+<section class="section" id="timeline" style="background:#fff;">
+  <div class="container">
+    <h2>⏰ 行程时间线</h2>
+    
+    <div class="timeline">
+
+      <!-- Node: Depart -->
+      <div class="tl-node">
+        <div class="tl-time drive">09:30</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">高新园出发</span>
+            <span class="tl-label label-drive">驾驶</span>
+          </div>
+          <p class="tl-desc">从白云民营科技园（如从其他地点出发可调整）出发，导航至日出剧场。深南大道向东→沙河西路向南→望海路，约 <strong>7.8km / 13min</strong>。</p>
+          <div class="tl-nav">
+            <a href="https://uri.amap.com/navigation?from=113.953842,22.540236,高新园&to=113.952314,22.499063,日出剧场&mode=car" target="_blank">🗺 导航</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node: 日出剧场 -->
+      <div class="tl-node">
+        <div class="tl-time scenic">~10:00</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🌅</span>
+            <span class="tl-title">深圳湾公园 · 日出剧场</span>
+            <span class="tl-label label-scenic">游览</span>
+          </div>
+          <p class="tl-desc">深圳湾公园C区，虽名为"日出"但日夜皆美。开阔的弧形草坪面向深圳湾，可远眺香港元朗及深圳湾大桥。评分 <strong>4.7</strong>⭐，<strong>免费·24h开放</strong>。沿望海路的海滨步道散步约1-2km，吹海风、看帆船。</p>
+          <p class="tl-desc"><strong>⏳ 建议停留：40-60min</strong></p>
+          <div class="tl-nav">
+            <a href="https://uri.amap.com/navigation?from=113.953842,22.540236,高新园&to=113.952314,22.499063,日出剧场&mode=car" target="_blank">🗺 导航</a>
+          </div>
+          <div class="tl-park">🅿 日出剧场停车场（望海路旁）</div>
+        </div>
+      </div>
+
+      <!-- Node: 南头古城 -->
+      <div class="tl-node">
+        <div class="tl-time culture">~11:00</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🏛</span>
+            <span class="tl-title">南头古城</span>
+            <span class="tl-label label-culture">历史人文</span>
+          </div>
+          <p class="tl-desc">深圳城市原点，1700年历史的古城。从日出剧场驾车约 <strong>9.4km / 21min</strong> 经滨海大道→南海大道→深南大道即可抵达。古城内有新安县衙、南头古城博物馆、关帝庙等历史建筑，也有文创小店和咖啡馆。评分 <strong>4.7</strong>⭐，<strong>免费·24h开放</strong>。</p>
+          <p class="tl-desc"><strong>⏳ 建议停留：60-90min</strong>（可在古城内解决午餐）</p>
+          <div class="tl-nav">
+            <a href="https://uri.amap.com/navigation?from=113.952314,22.499063,日出剧场&to=113.921429,22.543019,南头古城&mode=car" target="_blank">🗺 导航</a>
+          </div>
+          <div class="tl-park">🅿 南头古城停车场（深南大道旁）</div>
+        </div>
+      </div>
+
+      <!-- Node: 南头古城午餐 -->
+      <div class="tl-node">
+        <div class="tl-time food">~12:00</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🍜</span>
+            <span class="tl-title">午餐 · 南头古城美食</span>
+            <span class="tl-label label-food">午餐</span>
+          </div>
+          <p class="tl-desc">古城内及周边美食推荐：</p>
+          <p class="tl-desc">🥟 <strong>古城小吃街</strong> — 钵仔糕、糖水、糯米糍等广府小食<br>
+             🍲 <strong>南头老牌肠粉店</strong> — 本地人推荐的早餐/午餐<br>
+             ☕ <strong>古城咖啡馆</strong> — 逛累了歇脚，老房子里的文艺空间</p>
+          <p class="tl-desc" style="border-top:1px dashed #e0e6ed;padding-top:8px;margin-top:8px;"><strong>⏳ 约 60min</strong></p>
+        </div>
+      </div>
+
+      <!-- Node: 欢乐港湾 -->
+      <div class="tl-node">
+        <div class="tl-time scenic">~13:30</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🎡</span>
+            <span class="tl-title">欢乐港湾</span>
+            <span class="tl-label label-scenic">地标打卡</span>
+          </div>
+          <p class="tl-desc">深圳新晋地标，湾区之光摩天轮（高128m）是必打卡点。从南头古城驾车仅 <strong>5km / 13min</strong> 沿深南大道向西→新安西路即可。评分 <strong>4.8</strong>⭐，商业街区可逛可拍。东岸商业区有华为智能生活馆等，海滨步道适合散步。</p>
+          <p class="tl-desc"><strong>⏳ 建议停留：60-90min</strong></p>
+          <div class="tl-nav">
+            <a href="https://uri.amap.com/navigation?from=113.921429,22.543019,南头古城&to=113.883731,22.544558,欢乐港湾&mode=car" target="_blank">🗺 导航</a>
+          </div>
+          <div class="tl-park">🅿 欢乐港湾P3停车场 / 地面停车场</div>
+        </div>
+      </div>
+
+      <!-- Node: 西湾红树林 -->
+      <div class="tl-node">
+        <div class="tl-time sunset">~15:00</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🌿</span>
+            <span class="tl-title">西湾红树林公园 · 日落</span>
+            <span class="tl-label label-sunset">日落胜地</span>
+          </div>
+          <p class="tl-desc">深圳西部最壮观的日落观赏点。从欢乐港湾驾车约 <strong>8.7km / 22min</strong> 沿金湾大道向北即可抵达。公园沿前海湾西岸展开，有多个观海台（<strong>1-3号观海台</strong>），正对深圳机场方向，可看日落+飞机起降+跨海大桥的三重景观。评分 <strong>4.7</strong>⭐，<strong>免费</strong>。</p>
+          <p class="tl-desc"><strong>⏳ 建议停留：60-90min</strong>（赶在日落前到达，约17:00-17:30为最佳观赏时段）</p>
+          <div class="tl-nav">
+            <a href="https://uri.amap.com/navigation?from=113.883731,22.544558,欢乐港湾&to=113.833999,22.593516,西湾红树林&mode=car" target="_blank">🗺 导航</a>
+          </div>
+          <div class="tl-park">🅿 1号/2号地下停车场、金湾大道地面停车场</div>
+        </div>
+      </div>
+
+      <!-- Node: 海上世界 -->
+      <div class="tl-node">
+        <div class="tl-time food">~17:30</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🛳</span>
+            <span class="tl-title">海上世界 · 晚餐</span>
+            <span class="tl-label label-food">晚餐</span>
+          </div>
+          <p class="tl-desc">深圳最具国际化氛围的滨水街区，以明华轮（退役邮轮改造的商业综合体）为核心。从西湾红树林驾车约 <strong>22.3km / 34min</strong> 经金湾大道→妈湾跨海通道→南海大道。评分 <strong>4.8</strong>⭐。</p>
+          <p class="tl-desc"><strong>晚餐推荐：</strong><br>
+             🥩 <strong>海上世界广场各国美食</strong> — 日料、西餐、粤菜应有尽有<br>
+             🍸 <strong>滨水酒吧街</strong> — 晚餐后可散步看夜景<br>
+             ⛲ <strong>海上世界音乐喷泉</strong> — 晚上有灯光音乐秀</p>
+          <p class="tl-desc"><strong>⏳ 建议停留：90-120min</strong>（含晚餐+散步）</p>
+          <div class="tl-nav">
+            <a href="https://uri.amap.com/navigation?from=113.833999,22.593516,西湾红树林&to=113.917846,22.482264,海上世界&mode=car" target="_blank">🗺 导航</a>
+          </div>
+          <div class="tl-park">🅿 海上世界C区停车场 / 汇港购物中心地下停车场</div>
+        </div>
+      </div>
+
+      <!-- Node: Return -->
+      <div class="tl-node">
+        <div class="tl-time drive">~19:30</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">返回高新园</span>
+            <span class="tl-label label-drive">返程</span>
+          </div>
+          <p class="tl-desc">从海上世界驾车返回高新园，沿南海大道向北→深南大道向东，约 <strong>9.6km / 28min</strong>，预计 <strong>20:00 前到达</strong>。</p>
+          <div class="tl-nav">
+            <a href="https://uri.amap.com/navigation?from=113.917846,22.482264,海上世界&to=113.953842,22.540236,高新园&mode=car" target="_blank">🗺 导航</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Addresses -->
+<section class="section" id="addresses">
+  <div class="container">
+    <h2>📍 一键导航地址</h2>
+    <div class="address-list">
+      <div class="address-item">
+        <div class="address-name">🌅 日出剧场（深圳湾公园）</div>
+        <div class="address-detail">望海路深圳湾公园C2区 · 免费·24h</div>
+      </div>
+      <div class="address-item">
+        <div class="address-name">🏛 南头古城</div>
+        <div class="address-detail">深南大道南头古城 · 免费·24h</div>
+      </div>
+      <div class="address-item">
+        <div class="address-name">🎡 欢乐港湾</div>
+        <div class="address-detail">海天路15-4号 · 免费进入</div>
+      </div>
+      <div class="address-item">
+        <div class="address-name">🌿 西湾红树林公园</div>
+        <div class="address-detail">金湾大道与西海堤交汇 · 免费·06-22h</div>
+      </div>
+      <div class="address-item">
+        <div class="address-name">🛳 海上世界</div>
+        <div class="address-detail">望海路1128号 · 免费·24h</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tips -->
+<section class="section" id="tips" style="background:#fff;">
+  <div class="container">
+    <h2>💡 实用贴士</h2>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <h3>🅿 停车</h3>
+        <ul>
+          <li>日出剧场有专用停车场（望海路旁）</li>
+          <li>南头古城有停车场（深南大道旁）</li>
+          <li>欢乐港湾P3/地面停车场充足</li>
+          <li>西湾红树林有3个停车场</li>
+          <li>海上世界C区/汇港购物中心地下停车</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <h3>🎒 装备建议</h3>
+        <ul>
+          <li>防晒霜、太阳帽（海滨紫外线强）</li>
+          <li>轻便运动鞋（古城石板路+公园步道）</li>
+          <li>充电宝（拍照导航耗电快）</li>
+          <li>薄外套（傍晚海边风大）</li>
+          <li>饮用水（每个景点都有便利店）</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <h3>📌 注意事项</h3>
+        <ul>
+          <li>西湾红树林日落约17:00-17:30，请把控时间</li>
+          <li>海上世界周末晚上人流量大，建议提前订位</li>
+          <li>南头古城内可解决午餐，丰俭由人</li>
+          <li>全程约68km，加油/充电需提前准备</li>
+          <li>部分路段晚高峰可能有缓行</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <p>🚗 深圳西部滨海自驾一日游 · 路线由 Hermes Agent 规划</p>
+  <p style="margin-top:6px;">数据来源：高德地图 · 无忧出行</p>
+</footer>
+
+<!-- Lightbox -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+function downloadReport() {
+  const title = document.querySelector('.nav-title').textContent.trim();
+  const html = document.documentElement.outerHTML;
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = title.replace(/[\/\\?%*:|"<>]/g, '-') + '.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('show');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+</script>
+</body>
+</html>
