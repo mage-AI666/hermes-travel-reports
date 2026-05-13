@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深圳蛇口人文海岸线 · 一日游</title>
+<style>
+/* ===== Reset & Base ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f4f8; color: #2c3e50; line-height: 1.7; }
+
+/* ===== Navigation ===== */
+.top-nav { position: fixed; top:0; left:0; right:0; z-index:1000; background: rgba(255,255,255,0.95); backdrop-filter:blur(10px); border-bottom:1px solid #e0e6ed; }
+.nav-inner { max-width:1100px; margin:0 auto; padding:12px 24px; display:flex; justify-content:space-between; align-items:center; }
+.nav-title { font-size:18px; font-weight:700; color:#1a3a5c; }
+.nav-links { display:flex; gap:20px; }
+.nav-links a { text-decoration:none; color:#5a6a7a; font-size:14px; transition:color .2s; }
+.nav-links a:hover { color:#3498db; }
+.nav-links .download-btn { background:#27ae60; color:#fff!important; padding:6px 14px; border-radius:6px; font-size:13px; cursor:pointer; border:none; transition:background .2s; }
+.nav-links .download-btn:hover { background:#219a52; }
+
+/* ===== Hero ===== */
+.hero { padding:120px 24px 60px; background: linear-gradient(135deg, #1a3a5c 0%, #1e5f8a 100%); color:white; text-align:center; }
+.hero h1 { font-size:42px; margin-bottom:12px; }
+.hero-sub { font-size:18px; opacity:.85; margin-bottom:24px; }
+.hero-meta { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+.meta-badge { background:rgba(255,255,255,.15); padding:8px 16px; border-radius:20px; font-size:14px; }
+
+/* ===== Section ===== */
+.section { padding:60px 24px; }
+.section:nth-child(even) { background:#fff; }
+.container { max-width:1100px; margin:0 auto; }
+.section h2 { font-size:28px; margin-bottom:24px; color:#1a3a5c; border-left:4px solid #1e5f8a; padding-left:16px; }
+
+/* ===== Overview Card ===== */
+.overview-card { display:flex; gap:20px; background:#e8f0f8; border-radius:12px; padding:24px; align-items:center; }
+.card-icon { font-size:48px; }
+.card-body h3 { font-size:18px; margin-bottom:12px; color:#1a3a5c; }
+.route-stats { display:flex; gap:16px; flex-wrap:wrap; font-size:14px; color:#5a6a7a; }
+.route-stats span { background:rgba(30,95,138,.08); padding:4px 12px; border-radius:6px; }
+
+/* ===== Route Overview ===== */
+.route-overview { margin-top:32px; background:#f8f9fa; border:1px solid #e9ecef; border-radius:12px; padding:24px; }
+.overview-header { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+.overview-header h3 { font-size:16px; color:#1a3a5c; margin:0; }
+.overview-icon { font-size:24px; }
+.overview-stops { display:flex; align-items:center; flex-wrap:wrap; gap:3px; justify-content:center; margin-bottom:20px; }
+.overview-stop { background:#1e5f8a; color:#fff; padding:6px 14px; border-radius:8px; font-size:13px; font-weight:600; white-space:nowrap; }
+.overview-arrow { color:#7f8c8d; font-size:13px; font-weight:600; white-space:nowrap; }
+.route-btn { display:inline-flex; align-items:center; gap:6px; background:#1a73e8; color:#fff!important; padding:10px 24px; border-radius:8px; font-size:14px; font-weight:600; text-decoration:none; transition:background .2s; margin-bottom:12px; }
+.route-btn:hover { background:#1557b0; }
+.route-tip { font-size:13px; color:#5a6a7a; }
+
+/* ===== Timeline ===== */
+.timeline { position:relative; padding-left:40px; }
+.timeline::before { content:''; position:absolute; left:19px; top:0; bottom:0; width:2px; background:#c8d6e5; }
+.tl-node { position:relative; margin-bottom:32px; }
+.tl-time { position:absolute; left:-40px; top:0; width:40px; height:40px; line-height:40px; background:#1e5f8a; color:white; border-radius:50%; font-size:11px; font-weight:700; text-align:center; z-index:2; }
+.tl-content { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #eef2f7; }
+.tl-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+.tl-icon { font-size:24px; }
+.tl-title { font-size:16px; font-weight:600; color:#1a3a5c; }
+.tl-tag { background:#e8f5e9; color:#27ae60; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:600; white-space:nowrap; }
+.tl-tag.drive { background:#fff3e0; color:#e65100; }
+.tl-tag.ride { background:#e3f2fd; color:#1565c0; }
+.tl-tag.hike { background:#fce4ec; color:#c62828; }
+.tl-tag.eat { background:#fff8e1; color:#f57f17; }
+.tl-body p { color:#5a6a7a; margin-bottom:8px; font-size:14px; }
+.tl-body ul { padding-left:18px; font-size:14px; color:#5a6a7a; }
+.tl-body li { margin-bottom:4px; }
+.tl-body a { color:#1e5f8a; text-decoration:none; font-weight:500; }
+.tl-body a:hover { text-decoration:underline; }
+
+/* ===== Gallery ===== */
+.tl-imgs { display:flex; gap:12px; margin-top:12px; flex-wrap:wrap; }
+.tl-imgs img { width:180px; height:135px; object-fit:cover; border-radius:8px; cursor:pointer; transition:transform .2s; border:1px solid #eef2f7; }
+.tl-imgs img:hover { transform:scale(1.03); }
+
+/* ===== Lightbox ===== */
+.lightbox { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.92); z-index:9999; justify-content:center; align-items:center; cursor:pointer; }
+.lightbox img { max-width:90%; max-height:90%; border-radius:8px; box-shadow:0 8px 32px rgba(0,0,0,.5); }
+.lightbox.show { display:flex; }
+
+/* ===== Tips ===== */
+.tips-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:20px; }
+.tip-card { background:white; border-radius:12px; padding:24px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #eef2f7; transition:transform .2s; }
+.tip-card:hover { transform:translateY(-2px); }
+.tip-icon { font-size:32px; margin-bottom:8px; }
+.tip-card h3 { font-size:16px; margin-bottom:8px; color:#1a3a5c; }
+.tip-card p { font-size:14px; color:#5a6a7a; }
+
+/* ===== Footer ===== */
+.footer { text-align:center; padding:32px 24px; background:#1a3a5c; color:rgba(255,255,255,.7); font-size:13px; }
+.footer p { margin-bottom:4px; }
+
+/* ===== Responsive ===== */
+@media (max-width:768px) {
+  .hero h1 { font-size:28px; }
+  .hero-meta { flex-direction:column; align-items:center; }
+  .nav-links { display:none; }
+  .timeline { padding-left:30px; }
+  .tl-time { left:-30px; width:30px; height:30px; line-height:30px; font-size:10px; }
+  .section { padding:40px 16px; }
+  .tl-imgs img { width:140px; height:105px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <span class="nav-title">🌊 深圳蛇口人文海岸线</span>
+    <div class="nav-links">
+      <a href="#overview">概览</a>
+      <a href="#timeline">时间线</a>
+      <a href="#tips">贴士</a>
+      <button class="download-btn" onclick="downloadReport()">📥 下载</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero" id="overview">
+  <div class="hero-content">
+    <h1>🗺️ 蛇口人文海岸线 · 一日游</h1>
+    <p class="hero-sub">从高新园出发 · 探访深圳历史人文秘境 · 山海城全景体验</p>
+    <div class="hero-meta">
+      <span class="meta-badge">📍 高新园 → 蛇口 → 前海</span>
+      <span class="meta-badge">⏰ 9:30 - 17:30</span>
+      <span class="meta-badge">🚗 总车程约 40km</span>
+      <span class="meta-badge">🎫 全免费景点</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== TIMELINE ===== -->
+<section class="section" id="timeline">
+  <div class="container">
+    <h2>🗺️ 路线时间线</h2>
+
+    <!-- Overview Card -->
+    <div class="overview-card" style="margin-bottom:32px;">
+      <div class="card-icon">🚗</div>
+      <div class="card-body">
+        <h3>蛇口人文海岸线 · 自驾一日游</h3>
+        <div class="route-stats">
+          <span>🚗 总车程 40km</span>
+          <span>🥾 徒步约 3km</span>
+          <span>⏱ 9:30 - 17:30</span>
+          <span>🏛️ 4 大景点</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline">
+
+      <!-- Node 1: 出发 -->
+      <div class="tl-node">
+        <span class="tl-time">9:30</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">高新园出发 → 赤湾左炮台</span>
+            <span class="tl-tag drive">驾车 37min</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 导航到<strong>赤湾左炮台</strong>（13.2km · 37min）</p>
+            <p>途径深南大道→南海大道→兴海大道，一路向南到蛇口半岛南端</p>
+            <ul>
+              <li>📍 <a href="https://uri.amap.com/navigation?from=113.953842,22.540236,深圳高新园&to=113.891288,22.467218,深圳赤湾左炮台&mode=car&src=web" target="_blank">高德导航：高新园 → 赤湾左炮台</a></li>
+              <li>🅿️ 左炮台附近有免费停车位</li>
+              <li>💡 早出发避开南海大道高峰</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 2: 赤湾左炮台 -->
+      <div class="tl-node">
+        <span class="tl-time">10:10</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🏛️</span>
+            <span class="tl-title">赤湾左炮台 · 深圳海防遗址</span>
+            <span class="tl-tag hike">游览 40min</span>
+          </div>
+          <div class="tl-body">
+            <p>赤湾左炮台建于清康熙年间，是深圳保存最完整的古炮台之一，扼守珠江口，可远眺伶仃洋</p>
+            <ul>
+              <li>🔭 炮台上存有清代铁炮，面朝大海，视野开阔</li>
+              <li>📸 站在炮台俯瞰<strong>赤湾港</strong>和<strong>伶仃洋</strong>，文天祥"惶恐滩头说惶恐，零丁洋里叹零丁"即指此处</li>
+              <li>🌳 炮台周边树木茂密，林荫步道很舒适</li>
+              <li>💡 人少清静，几乎没有游客</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 3: 宋少帝陵 + 文天祥纪念公园 -->
+      <div class="tl-node">
+        <span class="tl-time">10:55</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">⛩️</span>
+            <span class="tl-title">宋少帝陵 + 文天祥纪念公园</span>
+            <span class="tl-tag hike">游览 1h</span>
+          </div>
+          <div class="tl-body">
+            <p>🚗 赤湾左炮台→宋少帝陵（2.7km · 10min），两个景点步行可串，是深圳少有的南宋历史遗迹群</p>
+            <ul>
+              <li>👑 <strong>宋少帝陵</strong> — 深圳市唯一帝王陵墓，南宋末代皇帝赵昺的陵墓，位于赤湾少帝路</li>
+              <li>📜 陵园内有陆秀夫负帝殉海石雕，以及"宋帝昺陵"碑刻</li>
+              <li>🏛️ <strong>文天祥纪念公园</strong> — 与宋少帝陵相邻，纪念"人生自古谁无死，留取丹心照汗青"的民族英雄</li>
+              <li>🌊 纪念公园可远眺伶仃洋，山海相接</li>
+            </ul>
+            <div class="route-tip" style="margin-top:8px;">📍 <a href="https://uri.amap.com/navigation?from=113.891288,22.467218,深圳赤湾左炮台&to=113.886740,22.480284,深圳宋少帝陵&mode=car&src=web" target="_blank">高德导航：左炮台 → 宋少帝陵</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 4: 海上世界午餐 -->
+      <div class="tl-node">
+        <span class="tl-time">12:00</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🍽️</span>
+            <span class="tl-title">海上世界 · 午餐 + 漫步</span>
+            <span class="tl-tag eat">午餐 1.5h</span>
+          </div>
+          <div class="tl-body">
+            <p>🚗 宋少帝陵→海上世界（4.4km · 15min），蛇口核心商圈，餐饮选择丰富</p>
+            <ul>
+              <li>🚢 <strong>海上世界</strong> — 明华轮（原法国豪华邮轮）停泊于此，是蛇口地标</li>
+              <li>🥘 推荐<strong>蛇口老街</strong>的粤式茶餐厅或海上世界内异国料理</li>
+              <li>🎵 中午有<strong>海上世界音乐喷泉</strong>表演，可边吃边看</li>
+              <li>🚶 饭后沿<strong>女娲滨海公园</strong>散步消食，海风拂面</li>
+              <li>🅿️ 海上世界有地下停车场，收费约10元/h</li>
+            </ul>
+            <div class="route-tip" style="margin-top:8px;">📍 <a href="https://uri.amap.com/navigation?from=113.886740,22.480284,深圳宋少帝陵&to=113.917846,22.482264,深圳海上世界&mode=car&src=web" target="_blank">高德导航：宋少帝陵 → 海上世界</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 5: 防波堤公园 -->
+      <div class="tl-node">
+        <span class="tl-time">13:45</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🌊</span>
+            <span class="tl-title">防波堤公园 · 深圳最美海岸步道</span>
+            <span class="tl-tag hike">游览 1h</span>
+          </div>
+          <div class="tl-body">
+            <p>从海上世界步行约500米即可到达，24小时免费开放，评分4.3</p>
+            <ul>
+              <li>📷 <strong>灯塔+海面</strong>构图绝佳，是深圳知名拍照打卡点</li>
+              <li>🛤️ 防波堤延伸入海，走在堤上仿佛走向大海深处</li>
+              <li>🌅 阳光下海浪拍打堤岸，视野直对深圳湾大桥</li>
+              <li>🚶 深圳湾滨海步道的一部分，可沿海边继续向东漫步</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 6: 前海石公园 -->
+      <div class="tl-node">
+        <span class="tl-time">14:45</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🏙️</span>
+            <span class="tl-title">前海石公园 · 前海湾日落</span>
+            <span class="tl-tag hike">游览 1.5h</span>
+          </div>
+          <div class="tl-body">
+            <p>🚗 海上世界→前海石公园（10km · 20min），前海自贸区核心地标</p>
+            <ul>
+              <li>🗿 <strong>前海石</strong> — 刻着"前海"二字的巨石，是前海自贸区的标志</li>
+              <li>🏙️ 公园直面<strong>桂湾</strong>天际线，对面是欢乐港湾摩天轮"湾区之光"</li>
+              <li>🌇 下午4点左右的日落超美，金色阳光洒在摩天轮和前海CBD玻璃幕墙上</li>
+              <li>🌿 公园有大片草坪，可铺野餐垫休息</li>
+              <li>🅿️ 前海石公园有免费停车场</li>
+            </ul>
+            <div class="route-tip" style="margin-top:8px;">📍 <a href="https://uri.amap.com/navigation?from=113.917846,22.482264,深圳海上世界&to=113.890178,22.526982,深圳前海石公园&mode=car&src=web" target="_blank">高德导航：海上世界 → 前海石公园</a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 7: 返程 -->
+      <div class="tl-node">
+        <span class="tl-time">16:30</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">前海石公园 → 高新园返程</span>
+            <span class="tl-tag drive">驾车 24min</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 导航回<strong>高新园</strong>（9.2km · 24min）</p>
+            <ul>
+              <li>🛣️ 途径临海大道→深南大道→科技南十路，一路畅通</li>
+              <li>📍 <a href="https://uri.amap.com/navigation?from=113.890178,22.526982,深圳前海石公园&to=113.953842,22.540236,深圳高新园&mode=car&src=web" target="_blank">高德导航：前海石公园 → 高新园</a></li>
+              <li>⏰ 约<strong>17:00</strong>到达，完美收工</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 路线概览 -->
+    <div class="route-overview">
+      <div class="overview-header">
+        <span class="overview-icon">📋</span>
+        <h3>完整路线概览</h3>
+      </div>
+      <div class="overview-stops">
+        <div class="overview-stop">🏁 高新园</div>
+        <div class="overview-arrow">→ 13km</div>
+        <div class="overview-stop">🏛️ 赤湾左炮台</div>
+        <div class="overview-arrow">→ 2.7km</div>
+        <div class="overview-stop">⛩️ 宋少帝陵</div>
+        <div class="overview-arrow">→ 4.4km</div>
+        <div class="overview-stop">🚢 海上世界</div>
+        <div class="overview-arrow">→ 步行</div>
+        <div class="overview-stop">🌊 防波堤公园</div>
+        <div class="overview-arrow">→ 10km</div>
+        <div class="overview-stop">🏙️ 前海石公园</div>
+        <div class="overview-arrow">→ 9km</div>
+        <div class="overview-stop">🏠 高新园</div>
+      </div>
+      <a href="https://uri.amap.com/navigation?from=113.953842,22.540236,深圳高新园&to=113.891288,22.467218,深圳赤湾左炮台&mode=car&src=web" target="_blank" class="route-btn">
+        🚗 一键导航 高新园 → 赤湾左炮台
+      </a>
+      <p class="route-tip">💡 从高新园出发，先到最南端的赤湾，然后沿半岛东北方向串联景点，最后一站前海石公园看日落，返程仅需24分钟</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TIPS ===== -->
+<section class="section" id="tips" style="background:#fff;">
+  <div class="container">
+    <h2>💡 实用贴士</h2>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">🅿️</div>
+        <h3>停车信息</h3>
+        <p>赤湾左炮台附近有免费停车位，海上世界地下停车场约10元/h，前海石公园有免费停车场。整条线停车方便。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🍴</div>
+        <h3>餐饮推荐</h3>
+        <p>海上世界是午餐最优选择，蛇口老街有地道粤式茶餐厅。前海石公园周边商业配套还在完善，建议自带零食。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📸</div>
+        <h3>拍照时间</h3>
+        <p>赤湾左炮台上午光线最佳，防波堤公园适合午后，前海石公园的日落（16:00-17:00）是当日高光时刻。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">💧</div>
+        <h3>必备物品</h3>
+        <p>防晒霜、帽子、饮用水，赤湾和防波堤公园海风大建议带薄外套。穿舒适的步行鞋，总徒步约3km。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p>🌊 深圳蛇口人文海岸线 · 一日游</p>
+  <p>数据来源：高德地图 API · 出发地：深圳高新园</p>
+</footer>
+
+<!-- ===== Lightbox ===== -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+// ===== Lightbox =====
+function openLightbox(img) {
+  var lightbox = document.getElementById('lightbox');
+  var lightboxImg = document.getElementById('lightbox-img');
+  lightboxImg.src = img.src;
+  lightbox.classList.add('show');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('show');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+// ===== Smooth scroll =====
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.nav-links a').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var href = this.getAttribute('href');
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        var target = document.querySelector(href);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+});
+
+// ===== Download =====
+function downloadReport() {
+  var html = document.documentElement.outerHTML;
+  var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '深圳蛇口一日游.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+</script>
+</body>
+</html>
