@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hermes CRM Web Dashboard</title>
+    <style>
+        /* ── Reset & Base ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        :root {
+            --bg: #0f0f1a;
+            --surface: #1a1a2e;
+            --surface2: #16213e;
+            --primary: #6c63ff;
+            --primary-glow: rgba(108, 99, 255, 0.3);
+            --accent: #00d4aa;
+            --text: #e8e8f0;
+            --text2: #8888aa;
+            --border: #2a2a4a;
+            --error: #ff4757;
+            --success: #2ed573;
+            --radius: 12px;
+            --shadow: 0 4px 24px rgba(0,0,0,0.3);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* ── Header ── */
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header .badge {
+            background: var(--primary);
+            color: #fff;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .header .status {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text2);
+        }
+        .status-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        /* ── Main Layout ── */
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px 32px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 24px;
+            min-height: calc(100vh - 64px);
+        }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 1px solid var(--border);
+            height: fit-content;
+        }
+        .sidebar h3 {
+            font-size: 14px;
+            color: var(--text2);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .sidebar-nav {
+            list-style: none;
+        }
+        .sidebar-nav li {
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text2);
+            transition: all 0.2s;
+            margin-bottom: 4px;
+        }
+        .sidebar-nav li:hover {
+            background: var(--surface2);
+            color: var(--text);
+        }
+        .sidebar-nav li.active {
+            background: var(--primary);
+            color: #fff;
+        }
+        .sidebar-nav li .icon {
+            margin-right: 8px;
+        }
+
+        /* ── Content ── */
+        .content {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+        .content h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+        .content p.desc {
+            color: var(--text2);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        /* ── Query Input ── */
+        .query-area {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .query-area textarea {
+            flex: 1;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 60px;
+            max-height: 150px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .query-area textarea:focus {
+            border-color: var(--primary);
+        }
+        .query-area textarea::placeholder {
+            color: var(--text2);
+            opacity: 0.6;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 28px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn:hover {
+            background: #7b73ff;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .btn-secondary {
+            background: var(--surface2);
+            color: var(--text);
+        }
+        .btn-secondary:hover {
+            background: var(--border);
+            box-shadow: none;
+        }
+
+        /* ── Quick Actions ── */
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .quick-btn {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 6px 14px;
+            color: var(--text2);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quick-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        /* ── Loading ── */
+        .loading {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 0;
+            color: var(--text2);
+            font-size: 14px;
+        }
+        .loading.show { display: flex; }
+        .spinner {
+            width: 18px; height: 18px;
+            border: 2px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── Response ── */
+        .response {
+            flex: 1;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            overflow-y: auto;
+            min-height: 200px;
+            max-height: 600px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .response.empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text2);
+            font-size: 14px;
+            opacity: 0.5;
+        }
+        .response h3, .response h4 {
+            margin: 16px 0 8px;
+            color: var(--accent);
+        }
+        .response h3:first-child { margin-top: 0; }
+        .response ul, .response ol {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+        .response li { margin: 4px 0; }
+        .response strong { color: var(--primary); }
+        .response table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+        }
+        .response table th, .response table td {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+        .response table th {
+            background: var(--surface);
+            color: var(--accent);
+            font-weight: 500;
+        }
+        .response code {
+            background: rgba(108, 99, 255, 0.15);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        /* ── Error ── */
+        .error-msg {
+            display: none;
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid var(--error);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--error);
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        .error-msg.show { display: block; }
+
+        /* ── Footer ── */
+        .footer {
+            text-align: center;
+            padding: 16px;
+            color: var(--text2);
+            font-size: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .main {
+                grid-template-columns: 1fr;
+                padding: 16px;
+            }
+            .sidebar {
+                display: none;
+            }
+            .header {
+                padding: 12px 16px;
+            }
+            .query-area {
+                flex-direction: column;
+            }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ── Header ── -->
+    <header class="header">
+        <h1>Hermes CRM Dashboard</h1>
+        <span class="badge">v1.0</span>
+        <div class="status">
+            <span class="status-dot"></span>
+            <span id="statusText">已连接</span>
+        </div>
+    </header>
+
+    <!-- ── Main ── -->
+    <div class="main">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>功能菜单</h3>
+            <ul class="sidebar-nav">
+                <li class="active" data-tab="crm-query">
+                    <span class="icon">🔍</span> CRM 查询
+                </li>
+                <li data-tab="enterprise">
+                    <span class="icon">🏢</span> 企业信息
+                </li>
+                <li data-tab="customer-insight">
+                    <span class="icon">📊</span> 客户 360°
+                </li>
+                <li data-tab="knowledge">
+                    <span class="icon">📚</span> 知识库
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Content -->
+        <main class="content" role="main">
+            <h2 id="tabTitle">CRM 查询</h2>
+            <p class="desc" id="tabDesc">输入客户名称或查询内容，Hermes 将自动调用 CRM 工具查询并分析数据。</p>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions" id="quickActions">
+                <button class="quick-btn" data-query="查询宏石激光的客户信息和最近动态">宏石激光</button>
+                <button class="quick-btn" data-query="查询最近新增的客户">最近客户</button>
+                <button class="quick-btn" data-query="查询所有客户的总数和分布情况">客户概况</button>
+                <button class="quick-btn" data-query="查询我的待办事项和跟进任务">我的待办</button>
+            </div>
+
+            <!-- Query Input -->
+            <div class="query-area">
+                <textarea id="queryInput" placeholder="输入客户名称、查询问题...&#10;例如：查询广东宏石激光技术股份有限公司的工商信息"></textarea>
+                <button class="btn" id="submitBtn">
+                    <span>▶</span> 查询
+                </button>
+            </div>
+
+            <!-- Error -->
+            <div class="error-msg" id="errorMsg"></div>
+
+            <!-- Loading -->
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <span>Hermes 正在查询中，请稍候...</span>
+            </div>
+
+            <!-- Response -->
+            <div class="response empty" id="response">
+                输入查询内容，点击「查询」按钮开始
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        Hermes Web Dashboard · Powered by Hermes Agent + Fxiaoke CRM MCP
+    </footer>
+
+    <script>
+    // ─── State ──────────────────────────────────────────────────────
+    const state = {
+        currentTab: 'crm-query',
+        isQuerying: false,
+        responseHistory: {},
+    };
+
+    // ─── DOM Refs ───────────────────────────────────────────────────
+    const $ = (id) => document.getElementById(id);
+    const queryInput = $('queryInput');
+    const submitBtn = $('submitBtn');
+    const loading = $('loading');
+    const response = $('response');
+    const errorMsg = $('errorMsg');
+    const tabTitle = $('tabTitle');
+    const tabDesc = $('tabDesc');
+    const statusText = $('statusText');
+
+    // ─── Tab Config ────────────────────────────────────────────────
+    const tabs = {
+        'crm-query': {
+            title: 'CRM 查询',
+            desc: '输入客户名称或查询内容，Hermes 将自动调用 CRM 工具查询并分析数据。',
+            systemPrompt: '你是一个CRM数据分析助手。请使用Fxiaoke CRM MCP工具查询客户信息。',
+        },
+        'enterprise': {
+            title: '企业信息查询',
+            desc: '输入企业全称，查询工商注册信息、经营范围、注册资本等。',
+            systemPrompt: '查询企业的工商基础信息，使用action_enterprise_basic_info工具。',
+        },
+        'customer-insight': {
+            title: '客户 360° 洞察',
+            desc: '输入客户名称，获取全方位的客户洞察分析。',
+            systemPrompt: '获取客户360度洞察数据，先使用QueryRecordIdByName查找客户ID，再调用accountInsightDemo1__c。',
+        },
+        'knowledge': {
+            title: '知识库检索',
+            desc: '输入关键词，从知识库中检索相关文档、资料和 FAQ。',
+            systemPrompt: '从知识库中检索相关资料，使用action_search_information或knowledge_base_qa工具。',
+        },
+    };
+
+    // ─── UI Helpers ────────────────────────────────────────────────
+    function showError(msg) {
+        errorMsg.textContent = msg;
+        errorMsg.classList.add('show');
+    }
+
+    function hideError() {
+        errorMsg.classList.remove('show');
+    }
+
+    function setLoading(isLoading) {
+        state.isQuerying = isLoading;
+        loading.classList.toggle('show', isLoading);
+        submitBtn.disabled = isLoading;
+        submitBtn.innerHTML = isLoading
+            ? '<span class="spinner" style="width:14px;height:14px;border-width:2px;"></span> 查询中...'
+            : '<span>▶</span> 查询';
+        queryInput.disabled = isLoading;
+    }
+
+    function setResponse(text) {
+        response.classList.remove('empty');
+        response.innerHTML = text || '(无返回结果)';
+    }
+
+    function setEmpty() {
+        response.classList.add('empty');
+        response.textContent = '输入查询内容，点击「查询」按钮开始';
+    }
+
+    function switchTab(tabId) {
+        state.currentTab = tabId;
+        const tab = tabs[tabId];
+
+        // 更新侧边栏
+        document.querySelectorAll('.sidebar-nav li').forEach(li => {
+            li.classList.toggle('active', li.dataset.tab === tabId);
+        });
+
+        // 更新标题和描述
+        tabTitle.textContent = tab.title;
+        tabDesc.textContent = tab.desc;
+
+        // 更新 placeholder
+        const placeholders = {
+            'crm-query': '输入客户名称或查询问题...\n例如：查询广东宏石激光技术股份有限公司的客户信息',
+            'enterprise': '输入企业全称...\n例如：广东宏石激光技术股份有限公司',
+            'customer-insight': '输入客户名称...\n例如：广东宏石激光技术股份有限公司',
+            'knowledge': '输入查询关键词...\n例如：激光切割机操作手册',
+        };
+        queryInput.placeholder = placeholders[tabId] || '输入查询内容...';
+
+        // 恢复该标签页的历史响应（如果有）
+        if (state.responseHistory[tabId]) {
+            setResponse(state.responseHistory[tabId]);
+        } else {
+            setEmpty();
+        }
+        hideError();
+    }
+
+    // ─── API Call ──────────────────────────────────────────────────
+    async function submitQuery(query) {
+        if (!query || !query.trim()) {
+            showError('请输入查询内容');
+            return;
+        }
+
+        if (state.isQuerying) return;
+
+        hideError();
+        setLoading(true);
+        setResponse('<em>正在等待 Hermes 响应...</em>');
+
+        try {
+            const resp = await fetch('/api/crm/query', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: query.trim() }),
+            });
+
+            if (!resp.ok) {
+                const errText = await resp.text();
+                throw new Error(`服务端错误 (${resp.status}): ${errText}`);
+            }
+
+            const data = await resp.json();
+            if (data.status === 'success') {
+                // 格式化 Markdown 风格文本到 HTML
+                const formatted = formatResponse(data.response);
+                setResponse(formatted);
+                state.responseHistory[state.currentTab] = formatted;
+            } else {
+                throw new Error(data.response || '查询返回异常');
+            }
+        } catch (err) {
+            showError(`查询失败: ${err.message}`);
+            setEmpty();
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    // ─── Format Response ──────────────────────────────────────────
+    function formatResponse(text) {
+        if (!text) return '(无返回结果)';
+
+        // 简单 Markdown 转 HTML
+        let html = text
+            // 标题
+            .replace(/^### (.+)$/gm, '<h4>$1</h4>')
+            .replace(/^## (.+)$/gm, '<h3>$1</h3>')
+            .replace(/^# (.+)$/gm, '<h2>$1</h2>')
+            // 粗体
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            // 行内代码
+            .replace(/`([^`]+)`/g, '<code>$1</code>')
+            // 无序列表
+            .replace(/^- (.+)$/gm, '<li>$1</li>')
+            // 有序列表
+            .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
+            // 换行
+            .replace(/\n\n/g, '</p><p>')
+            .replace(/\n/g, '<br>');
+
+        // 包裹列表
+        html = html.replace(/(<li>.*?<\/li>)/gs, (match) => {
+            if (!match.includes('<ul>') && !match.includes('<ol>')) {
+                const isOrdered = /^\d+\./.test(text.match(/^-/)?.[0] !== undefined);
+                return `<${isOrdered ? 'ol' : 'ul'}>${match}</${isOrdered ? 'ol' : 'ul'}>`;
+            }
+            return match;
+        });
+
+        return `<p>${html}</p>`;
+    }
+
+    // ─── Event Handlers ───────────────────────────────────────────
+
+    // 侧边栏导航
+    document.querySelectorAll('.sidebar-nav li').forEach(li => {
+        li.addEventListener('click', () => switchTab(li.dataset.tab));
+    });
+
+    // 提交按钮
+    submitBtn.addEventListener('click', () => submitQuery(queryInput.value));
+
+    // Enter 提交（Shift+Enter 换行）
+    queryInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            submitQuery(queryInput.value);
+        }
+    });
+
+    // 快速按钮
+    document.querySelectorAll('.quick-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            queryInput.value = btn.dataset.query;
+            submitQuery(btn.dataset.query);
+        });
+    });
+
+    // ─── Health Check ─────────────────────────────────────────────
+    async function checkHealth() {
+        try {
+            const resp = await fetch('/api/health');
+            if (resp.ok) {
+                statusText.textContent = '已连接';
+                document.querySelector('.status-dot').style.background = 'var(--success)';
+            } else {
+                throw new Error('not ok');
+            }
+        } catch {
+            statusText.textContent = '未连接';
+            document.querySelector('.status-dot').style.background = 'var(--error)';
+        }
+    }
+    checkHealth();
+    setInterval(checkHealth, 30000);
+
+    console.log('Hermes Web Dashboard loaded');
+    </script>
+</body>
+</html>
