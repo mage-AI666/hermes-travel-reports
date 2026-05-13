@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>白云民营科技园 → 从化 · 森林秘境一日游</title>
+<style>
+/* ===== Reset & Base ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f4f8; color: #2c3e50; line-height: 1.7; }
+
+/* ===== Navigation ===== */
+.top-nav { position: fixed; top:0; left:0; right:0; z-index:1000; background: rgba(255,255,255,0.95); backdrop-filter:blur(10px); border-bottom:1px solid #e0e6ed; }
+.nav-inner { max-width:1100px; margin:0 auto; padding:12px 24px; display:flex; justify-content:space-between; align-items:center; }
+.nav-title { font-size:18px; font-weight:700; color:#1a3a5c; }
+.nav-links { display:flex; gap:20px; }
+.nav-links a { text-decoration:none; color:#5a6a7a; font-size:14px; transition:color .2s; }
+.nav-links a:hover { color:#3498db; }
+.nav-links .download-btn { background:#27ae60; color:#fff!important; padding:6px 14px; border-radius:6px; font-size:13px; cursor:pointer; border:none; transition:background .2s; }
+.nav-links .download-btn:hover { background:#219a52; }
+
+/* ===== Hero ===== */
+.hero { padding:120px 24px 60px; background: linear-gradient(135deg, #0d4f3c 0%, #2d8a6e 50%, #4a9e7a 100%); color:white; text-align:center; }
+.hero h1 { font-size:42px; margin-bottom:12px; }
+.hero-sub { font-size:18px; opacity:.85; margin-bottom:24px; }
+.hero-meta { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+.meta-badge { background:rgba(255,255,255,.15); padding:8px 16px; border-radius:20px; font-size:14px; }
+
+/* ===== Section ===== */
+.section { padding:60px 24px; }
+.section:nth-child(even) { background:#fff; }
+.container { max-width:1100px; margin:0 auto; }
+.section h2 { font-size:28px; margin-bottom:24px; color:#0d4f3c; border-left:4px solid #2d8a6e; padding-left:16px; }
+.plan-desc { color:#5a6a7a; margin-bottom:32px; font-size:15px; }
+
+/* ===== Overview Card ===== */
+.overview-card { display:flex; gap:20px; background:#f0f8f4; border-radius:12px; padding:24px; align-items:center; }
+.card-icon { font-size:48px; }
+.card-body h3 { font-size:18px; margin-bottom:12px; color:#0d4f3c; }
+.route-stats { display:flex; gap:16px; flex-wrap:wrap; font-size:14px; color:#5a6a7a; }
+.route-stats span { background:rgba(45,138,110,.08); padding:4px 12px; border-radius:6px; }
+.weather-note { margin-top:12px; padding:8px 12px; background:#d4edda; border-radius:6px; font-size:14px; color:#155724; display:inline-flex; gap:8px; }
+
+/* ===== Route Overview ===== */
+.route-overview { margin-top:32px; background:#f8f9fa; border:1px solid #e9ecef; border-radius:12px; padding:24px; }
+.overview-header { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+.overview-header h3 { font-size:16px; color:#0d4f3c; margin:0; }
+.overview-icon { font-size:24px; }
+.overview-stops { display:flex; align-items:center; flex-wrap:wrap; gap:3px; justify-content:center; margin-bottom:20px; }
+.overview-stop { background:#2d8a6e; color:#fff; padding:6px 14px; border-radius:8px; font-size:13px; font-weight:600; white-space:nowrap; }
+.overview-arrow { color:#7f8c8d; font-size:13px; font-weight:600; white-space:nowrap; }
+.route-btn { display:inline-flex; align-items:center; gap:6px; background:#1a73e8; color:#fff!important; padding:10px 24px; border-radius:8px; font-size:14px; font-weight:600; text-decoration:none; transition:background .2s; margin-bottom:12px; }
+.route-btn:hover { background:#1557b0; }
+.route-tip { font-size:13px; color:#5a6a7a; }
+
+/* ===== Timeline ===== */
+.timeline { position:relative; padding-left:40px; }
+.timeline::before { content:''; position:absolute; left:19px; top:0; bottom:0; width:2px; background:#c8d6e5; }
+.tl-node { position:relative; margin-bottom:32px; }
+.tl-time { position:absolute; left:-40px; top:0; width:40px; height:40px; line-height:40px; background:#2d8a6e; color:white; border-radius:50%; font-size:11px; font-weight:700; text-align:center; z-index:2; }
+.tl-content { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #eef2f7; }
+.tl-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+.tl-icon { font-size:22px; }
+.tl-title { font-size:16px; font-weight:700; color:#0d4f3c; }
+.tag { display:inline-block; padding:2px 10px; border-radius:12px; font-size:11px; font-weight:600; }
+.tag-drive { background:#e3f2fd; color:#1565c0; }
+.tag-hike { background:#e8f5e9; color:#2e7d32; }
+.tag-eat { background:#fff3e0; color:#e65100; }
+.tag-play { background:#f3e5f5; color:#7b1fa2; }
+.tl-desc { font-size:14px; color:#5a6a7a; margin-bottom:10px; }
+.tl-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.tl-btn { display:inline-flex; align-items:center; gap:4px; padding:6px 14px; background:#f0f4f8; color:#2c3e50; border-radius:6px; text-decoration:none; font-size:13px; transition:background .2s; }
+.tl-btn:hover { background:#e0e6ed; }
+.tl-btn-primary { background:#2d8a6e; color:#fff!important; }
+.tl-btn-primary:hover { background:#236b54; }
+
+/* ===== Gallery ===== */
+.gallery-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:16px; margin-top:16px; }
+.gallery-grid img { width:100%; height:180px; object-fit:cover; border-radius:10px; cursor:pointer; transition:transform .3s; }
+.gallery-grid img:hover { transform:scale(1.03); }
+
+/* ===== Lightbox ===== */
+.lightbox { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,.9); z-index:9999; justify-content:center; align-items:center; }
+.lightbox.active { display:flex; }
+.lightbox img { max-width:90%; max-height:90%; border-radius:8px; }
+.lightbox-close { position:absolute; top:20px; right:30px; color:white; font-size:36px; cursor:pointer; }
+
+/* ===== Kit List ===== */
+.kit-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:16px; }
+.kit-cat { background:#f8fafc; border-radius:12px; padding:16px; border:1px solid #e2e8f0; }
+.kit-cat h4 { font-size:15px; color:#0d4f3c; margin-bottom:10px; }
+.kit-cat ul { list-style:none; }
+.kit-cat li { font-size:13px; color:#5a6a7a; padding:4px 0; padding-left:18px; position:relative; }
+.kit-cat li::before { content:"✓"; position:absolute; left:0; color:#2d8a6e; font-weight:700; }
+
+/* ===== Tips ===== */
+.tips-list { list-style:none; }
+.tips-list li { padding:10px 16px; margin-bottom:8px; background:#f8fafc; border-radius:8px; border-left:3px solid #2d8a6e; font-size:14px; color:#5a6a7a; }
+.tips-list li strong { color:#0d4f3c; }
+
+/* ===== Footer ===== */
+footer { text-align:center; padding:32px 24px; color:#a0aab4; font-size:13px; border-top:1px solid #e2e8f0; }
+
+/* ===== Responsive ===== */
+@media (max-width:768px) {
+  .hero h1 { font-size:28px; }
+  .hero-meta { gap:8px; }
+  .overview-card { flex-direction:column; text-align:center; }
+  .route-stats { justify-content:center; }
+  .overview-stops { font-size:12px; }
+  .timeline { padding-left:36px; }
+  .tl-time { width:36px; height:36px; line-height:36px; font-size:10px; left:-36px; }
+  .gallery-grid { grid-template-columns:repeat(2,1fr); }
+  .gallery-grid img { height:120px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <div class="nav-title">🚗 从化森林秘境</div>
+    <div class="nav-links">
+      <a href="#route">路线</a>
+      <a href="#timeline">时间线</a>
+      <a href="#gallery">图集</a>
+      <a href="#kit">装备</a>
+      <a href="#tips">贴士</a>
+      <button class="download-btn" onclick="window.print()">📥 保存</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <h1>🌲 从化森林秘境一日游</h1>
+  <p class="hero-sub">白云民营科技园 → 溪头古村 → 流溪湖光 → 温泉泡脚</p>
+  <div class="hero-meta">
+    <span class="meta-badge">🚗 总里程 ~178km</span>
+    <span class="meta-badge">⏱ 驾驶 ~3.5h</span>
+    <span class="meta-badge">📍 3大站点</span>
+    <span class="meta-badge">💰 免费/低消</span>
+  </div>
+</section>
+
+<!-- Route Overview -->
+<section class="section" id="route">
+  <div class="container">
+    <h2>📍 路线概览</h2>
+    <p class="plan-desc">广州北部从化山区，森林覆盖率超80%，溪流、古村、湖光、温泉一网打尽。</p>
+
+    <div class="route-overview">
+      <div class="overview-header">
+        <span class="overview-icon">🛣️</span>
+        <h3>全程路线</h3>
+      </div>
+      <div class="overview-stops">
+        <span class="overview-stop">🚩 白云民营科技园</span>
+        <span class="overview-arrow">→ 90km·1h15min</span>
+        <span class="overview-stop">🏘️ 溪头村</span>
+        <span class="overview-arrow">→ 12km·26min</span>
+        <span class="overview-stop">🌊 流溪河森林公园</span>
+        <span class="overview-arrow">→ 25km·32min</span>
+        <span class="overview-stop">♨️ 温泉镇</span>
+        <span class="overview-arrow">→ 51km·1h08min</span>
+        <span class="overview-stop">🏁 白云民营科技园</span>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <a class="route-btn" href="https://uri.amap.com/navigation?from=113.336893,23.300765,白云民营科技园&to=113.866386,23.714607,溪头村&mode=car" target="_blank">📍 起点→溪头村</a>
+        <a class="route-btn" href="https://uri.amap.com/navigation?from=113.632403,23.616941,温泉镇&to=113.336893,23.300765,白云民营科技园&mode=car" target="_blank">🏁 返程导航</a>
+      </div>
+      <p class="route-tip">💡 建议9:30前出发，避开广从路早高峰，大广高速直达从化出口</p>
+    </div>
+
+    <div class="overview-card" style="margin-top:24px;">
+      <div class="card-icon">🌤️</div>
+      <div class="card-body">
+        <h3>今日行程速览</h3>
+        <div class="route-stats">
+          <span>🕐 9:30出发 → 18:30返程</span>
+          <span>🚗 全程驾驶约178km</span>
+          <span>🏔️ 溪头徒步 ~3km</span>
+          <span>🌊 流溪湖游船可选</span>
+          <span>♨️ 温泉泡脚免费</span>
+        </div>
+        <div class="weather-note">🌿 从化山区比市区低2-3°C，建议带薄外套</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Timeline -->
+<section class="section" id="timeline" style="background:#f8fafc;">
+  <div class="container">
+    <h2>⏱ 时间线 · 森林一日</h2>
+    <p class="plan-desc">不急不赶，深度体验从化的山水人文</p>
+
+    <div class="timeline">
+
+      <!-- Node 1: 出发 -->
+      <div class="tl-node">
+        <div class="tl-time">09:30</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">白云民营科技园出发</span>
+            <span class="tag tag-drive">驾车 90km</span>
+          </div>
+          <div class="tl-desc">沿广从公路 → 大广高速（G45）北行，经过机场北立交转东北方向，在从化良口出口下高速。沿途经耙齿影、明珠、牛步迳等隧道群，1h15min后抵达溪头村。</div>
+          <div class="tl-actions">
+            <a class="tl-btn tl-btn-primary" href="https://uri.amap.com/navigation?from=113.336893,23.300765,白云民营科技园&to=113.866386,23.714607,溪头村&mode=car" target="_blank">🗺️ 导航前往</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 2: 溪头村 -->
+      <div class="tl-node">
+        <div class="tl-time">10:45</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🏘️</span>
+            <span class="tl-title">溪头村 · 古村漫步</span>
+            <span class="tag tag-hike">徒步 ~2h</span>
+          </div>
+          <div class="tl-desc">溪头村是"广东省最美丽乡村"之一。村内有石板古道、百年老榕、小溪穿村而过。可沿溪边步道徒步约3km，探访千泷沟瀑布入口。村中有农家菜馆和豆腐花小摊。大型停车场免费停车。</div>
+          <div class="tl-actions">
+            <a class="tl-btn" href="https://uri.amap.com/navigation?from=113.866386,23.714607,溪头村&to=113.782528,23.748220,流溪河国家森林公园&mode=car" target="_blank">🗺️ 下一站导航</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 3: 午餐 -->
+      <div class="tl-node">
+        <div class="tl-time">12:30</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🍜</span>
+            <span class="tl-title">溪头村午餐</span>
+            <span class="tag tag-eat">用餐 1h</span>
+          </div>
+          <div class="tl-desc">推荐溪头村内的农家菜馆：竹筒饭、山水豆腐花、从化泥焗鸡、山坑鱼仔。人均约40-60元，食材新鲜地道。</div>
+        </div>
+      </div>
+
+      <!-- Node 4: 流溪河森林公园 -->
+      <div class="tl-node">
+        <div class="tl-time">14:00</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🌊</span>
+            <span class="tl-title">流溪河国家森林公园</span>
+            <span class="tag tag-play">游玩 2h</span>
+          </div>
+          <div class="tl-desc">溪头村出发12km/26min抵达。华南最大的国家级森林公园，流溪湖碧波万顷。主要看点：湖心岛、环湖步道（2-3km）、中日友好广场。可自费乘游船（约40元/人）。公园门票参考价40元，停车免费。</div>
+          <div class="tl-actions">
+            <a class="tl-btn tl-btn-primary" href="https://uri.amap.com/navigation?from=113.866386,23.714607,溪头村&to=113.782528,23.748220,流溪河国家森林公园&mode=car" target="_blank">🗺️ 导航前往</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 5: 温泉镇 -->
+      <div class="tl-node">
+        <div class="tl-time">16:00</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">♨️</span>
+            <span class="tl-title">温泉镇 · 免费泡脚</span>
+            <span class="tag tag-play">休闲 1.5h</span>
+          </div>
+          <div class="tl-desc">流溪河出发25km/32min抵达从化温泉镇。镇上有著名的"温泉眼"免费泡脚池（温泉东路168号附近），水温约40-50°C，富含矿物质。沿温泉东路散步，感受百年温泉小镇的慢生活。也可选择收费温泉酒店泡汤（50-100元不等）。</div>
+          <div class="tl-actions">
+            <a class="tl-btn tl-btn-primary" href="https://uri.amap.com/navigation?from=113.782528,23.748220,流溪河国家森林公园&to=113.632403,23.616941,温泉镇&mode=car" target="_blank">🗺️ 导航前往</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 6: 返程 -->
+      <div class="tl-node">
+        <div class="tl-time">17:30</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">返程 · 白云民营科技园</span>
+            <span class="tag tag-drive">驾车 51km</span>
+          </div>
+          <div class="tl-desc">沿温泉大道 → 广从南路 → 广从公路原路返程，约1h08min。全程国道/城市道路，傍晚车流适中。18:30前可抵达起点。</div>
+          <div class="tl-actions">
+            <a class="tl-btn tl-btn-primary" href="https://uri.amap.com/navigation?from=113.632403,23.616941,温泉镇&to=113.336893,23.300765,白云民营科技园&mode=car" target="_blank">🗺️ 导航返程</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Gallery -->
+<section class="section" id="gallery">
+  <div class="container">
+    <h2>📸 沿途风景</h2>
+    <p class="plan-desc">从化森林秘境的自然与人文之美</p>
+    <div class="gallery-grid">
+      <img src="https://picsum.photos/seed/conghua1/400/300" alt="溪头古村" onclick="openLightbox(this.src)">
+      <img src="https://picsum.photos/seed/conghua2/400/300" alt="流溪湖" onclick="openLightbox(this.src)">
+      <img src="https://picsum.photos/seed/conghua3/400/300" alt="森林步道" onclick="openLightbox(this.src)">
+      <img src="https://picsum.photos/seed/conghua4/400/300" alt="温泉眼" onclick="openLightbox(this.src)">
+    </div>
+  </div>
+</section>
+
+<!-- Kit -->
+<section class="section" id="kit" style="background:#f8fafc;">
+  <div class="container">
+    <h2>🎒 装备清单</h2>
+    <div class="kit-grid">
+      <div class="kit-cat">
+        <h4>👟 穿着</h4>
+        <ul>
+          <li>徒步鞋/运动鞋</li>
+          <li>薄外套（山区温差）</li>
+          <li>帽子+防晒霜</li>
+          <li>备用袜子（玩水）</li>
+        </ul>
+      </div>
+      <div class="kit-cat">
+        <h4>💧 随身</h4>
+        <ul>
+          <li>饮用水1-2L</li>
+          <li>充电宝+数据线</li>
+          <li>零食/干粮</li>
+          <li>湿纸巾</li>
+        </ul>
+      </div>
+      <div class="kit-cat">
+        <h4>♨️ 温泉装备</h4>
+        <ul>
+          <li>毛巾/拖鞋（免费泡脚用）</li>
+          <li>泳衣（收费温泉可用）</li>
+          <li>防水袋装手机</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tips -->
+<section class="section" id="tips">
+  <div class="container">
+    <h2>💡 实用贴士</h2>
+    <ul class="tips-list">
+      <li><strong>🎫 费用预算：</strong>全程以免费景点为主。流溪河公园门票约40元/人（可选），溪头村免费，温泉泡脚免费。午餐+零食人均60-80元。总预算约100-150元/人。</li>
+      <li><strong>🅿️ 停车：</strong>溪头村有大型免费停车场；流溪河公园停车场免费；温泉镇路边可停（建议停温泉广场附近）。</li>
+      <li><strong>📡 信号：</strong>从化山区部分路段信号较弱，建议提前下载离线地图。</li>
+      <li><strong>🌧️ 雨天备选：</strong>如遇雨天，溪头徒步改温泉镇室内温泉泡汤。</li>
+      <li><strong>🍽️ 用餐推荐：</strong>午餐在溪头村农家乐解决；返程途经太和镇可顺道吃烧鸡（太和烧鸡是白云区名产）。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>🌲 从化森林秘境一日游 · 自驾攻略 · 2025年5月</p>
+  <p style="margin-top:4px;font-size:12px;">数据来源：高德地图 | 实际路况以当日为准</p>
+</footer>
+
+<script>
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+</script>
+
+</body>
+</html>
