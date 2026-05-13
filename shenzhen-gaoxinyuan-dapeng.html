@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深圳高新园 → 大鹏半岛 · 4+2 一日游 · 山海骑行线</title>
+<style>
+/* ===== Reset & Base ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f4f8; color: #2c3e50; line-height: 1.7; }
+
+/* ===== Navigation ===== */
+.top-nav { position: fixed; top:0; left:0; right:0; z-index:1000; background: rgba(255,255,255,0.95); backdrop-filter:blur(10px); border-bottom:1px solid #e0e6ed; }
+.nav-inner { max-width:1100px; margin:0 auto; padding:12px 24px; display:flex; justify-content:space-between; align-items:center; }
+.nav-title { font-size:18px; font-weight:700; color:#1a3a5c; }
+.nav-links { display:flex; gap:20px; }
+.nav-links a { text-decoration:none; color:#5a6a7a; font-size:14px; transition:color .2s; }
+.nav-links a:hover { color:#3498db; }
+.nav-links .download-btn { background:#27ae60; color:#fff!important; padding:6px 14px; border-radius:6px; font-size:13px; cursor:pointer; border:none; transition:background .2s; }
+.nav-links .download-btn:hover { background:#219a52; }
+
+/* ===== Hero ===== */
+.hero { padding:120px 24px 60px; background: linear-gradient(135deg, #0d2538 0%, #1e6f9f 50%, #27ae60 100%); color:white; text-align:center; }
+.hero h1 { font-size:42px; margin-bottom:12px; }
+.hero-sub { font-size:18px; opacity:.85; margin-bottom:24px; }
+.hero-meta { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+.meta-badge { background:rgba(255,255,255,.15); padding:8px 16px; border-radius:20px; font-size:14px; }
+
+/* ===== Section ===== */
+.section { padding:60px 24px; }
+.section:nth-child(even) { background:#fff; }
+.container { max-width:1100px; margin:0 auto; }
+.section h2 { font-size:28px; margin-bottom:24px; color:#0d2538; border-left:4px solid #1e6f9f; padding-left:16px; }
+.plan-desc { color:#5a6a7a; margin-bottom:32px; font-size:15px; }
+
+/* ===== Route Overview ===== */
+.overview-card { background:linear-gradient(135deg, #e8f4fd, #f0faf4); border-radius:16px; padding:28px; margin-bottom:32px; }
+.overview-stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:12px; margin-bottom:20px; }
+.stat-item { background:white; border-radius:10px; padding:14px; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,.05); }
+.stat-num { font-size:24px; font-weight:700; color:#1e6f9f; }
+.stat-label { font-size:12px; color:#7f8c8d; margin-top:2px; }
+.overview-stops { display:flex; align-items:center; flex-wrap:wrap; gap:3px; justify-content:center; margin-bottom:16px; }
+.overview-stop { background:#1e6f9f; color:#fff; padding:6px 14px; border-radius:8px; font-size:13px; font-weight:600; white-space:nowrap; }
+.overview-arrow { color:#7f8c8d; font-size:13px; font-weight:600; white-space:nowrap; }
+.route-btn { display:inline-flex; align-items:center; gap:6px; background:#1a73e8; color:#fff!important; padding:10px 24px; border-radius:8px; font-size:14px; font-weight:600; text-decoration:none; transition:background .2s; }
+.route-btn:hover { background:#1557b0; }
+.route-tip { font-size:13px; color:#5a6a7a; margin-top:8px; }
+
+/* ===== Timeline ===== */
+.timeline { position:relative; padding-left:40px; }
+.timeline::before { content:''; position:absolute; left:19px; top:0; bottom:0; width:2px; background:#c8d6e5; }
+.tl-node { position:relative; margin-bottom:32px; }
+.tl-time { position:absolute; left:-40px; top:0; width:40px; height:40px; line-height:40px; background:#1e6f9f; color:white; border-radius:50%; font-size:11px; font-weight:700; text-align:center; z-index:2; }
+.tl-content { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #eef2f7; }
+.tl-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+.tl-icon { font-size:24px; }
+.tl-title { font-size:16px; font-weight:600; color:#0d2538; }
+.tl-tag { background:#e3f2fd; color:#1e6f9f; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:600; white-space:nowrap; }
+.tl-tag.drive { background:#fff3e0; color:#e65100; }
+.tl-tag.ride { background:#e3f2fd; color:#1565c0; }
+.tl-tag.hike { background:#fce4ec; color:#c62828; }
+.tl-tag.eat { background:#fff8e1; color:#f57f17; }
+.tl-body p { color:#5a6a7a; margin-bottom:8px; font-size:14px; }
+.tl-body ul { padding-left:18px; font-size:14px; color:#5a6a7a; }
+.tl-body li { margin-bottom:4px; }
+.tl-body a { color:#1e6f9f; text-decoration:none; font-weight:500; }
+.tl-body a:hover { text-decoration:underline; }
+
+/* ===== Gallery ===== */
+.gallery { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:12px; margin-top:12px; }
+.gallery img { width:100%; height:160px; object-fit:cover; border-radius:8px; cursor:pointer; transition:transform .3s; }
+.gallery img:hover { transform:scale(1.03); }
+
+/* ===== Lightbox ===== */
+.lightbox { display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:9999; background:rgba(0,0,0,.9); justify-content:center; align-items:center; cursor:pointer; }
+.lightbox.show { display:flex; }
+.lightbox img { max-width:90vw; max-height:90vh; border-radius:8px; object-fit:contain; }
+
+/* ===== Tips ===== */
+.tips-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:20px; }
+.tip-card { background:white; border-radius:12px; padding:24px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #eef2f7; }
+.tip-icon { font-size:32px; margin-bottom:8px; }
+.tip-card h3 { font-size:16px; margin-bottom:8px; color:#0d2538; }
+.tip-card p { font-size:14px; color:#5a6a7a; }
+
+/* ===== Equipment ===== */
+.equip-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:24px; }
+.equip-cat { background:white; border-radius:12px; padding:24px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #eef2f7; }
+.equip-cat h3 { font-size:18px; margin-bottom:12px; color:#0d2538; }
+.equip-cat ul { list-style:none; padding:0; }
+.equip-cat li { padding:6px 0 6px 24px; position:relative; font-size:14px; color:#5a6a7a; }
+.equip-cat li::before { content:'✓'; position:absolute; left:0; color:#1e6f9f; font-weight:700; }
+
+/* ===== Footer ===== */
+.footer { text-align:center; padding:32px 24px; background:#0d2538; color:rgba(255,255,255,.7); font-size:13px; }
+.footer p { margin-bottom:4px; }
+
+/* ===== Responsive ===== */
+@media (max-width:768px) {
+  .hero h1 { font-size:28px; }
+  .hero-meta { flex-direction:column; align-items:center; }
+  .nav-links { display:none; }
+  .timeline { padding-left:30px; }
+  .tl-time { left:-30px; width:30px; height:30px; line-height:30px; font-size:10px; }
+  .section { padding:40px 16px; }
+  .gallery { grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); }
+  .gallery img { height:120px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <span class="nav-title">🚲 高新园→大鹏 4+2 一日游</span>
+    <div class="nav-links">
+      <a href="#overview">概览</a>
+      <a href="#timeline">时间线</a>
+      <a href="#equipment">装备</a>
+      <a href="#tips">贴士</a>
+      <button class="download-btn" onclick="downloadReport()">📥 下载</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero" id="overview">
+  <h1>🌊 深圳大鹏 · 山海骑行线</h1>
+  <p class="hero-sub">深圳高新园出发 · 自驾 + 折叠车骑行 · 古城 · 沿海绿道 · 最美海岸线</p>
+  <div class="hero-meta">
+    <span class="meta-badge">📍 深圳高新园 → 大鹏半岛</span>
+    <span class="meta-badge">⏰ 9:30 - 18:15</span>
+    <span class="meta-badge">🚗 高速 70km + 🚲 骑行 ~23km</span>
+    <span class="meta-badge">🎫 大鹏所城免费 · 沿海绿道免费</span>
+  </div>
+</header>
+
+<!-- ===== ROUTE OVERVIEW ===== -->
+<section class="section" style="padding-top:40px;">
+  <div class="container">
+    <div class="overview-card">
+      <div class="overview-stats">
+        <div class="stat-item"><div class="stat-num">70</div><div class="stat-label">自驾去程(km)</div></div>
+        <div class="stat-item"><div class="stat-num">~23</div><div class="stat-label">骑行里程(km)</div></div>
+        <div class="stat-item"><div class="stat-num">83</div><div class="stat-label">自驾返程(km)</div></div>
+        <div class="stat-item"><div class="stat-num">5</div><div class="stat-label">游玩站点</div></div>
+        <div class="stat-item"><div class="stat-num">~8.75h</div><div class="stat-label">总时长</div></div>
+      </div>
+      <div class="overview-stops">
+        <span class="overview-stop">🏢 深圳高新园</span>
+        <span class="overview-arrow">→ 1h33min</span>
+        <span class="overview-stop">🏘️ 大鹏所城</span>
+        <span class="overview-arrow">🚗 → 28min</span>
+        <span class="overview-stop">🏖️ 桔钓沙</span>
+        <span class="overview-arrow">🚲 → 40min</span>
+        <span class="overview-stop">🏔️ 鹿嘴山庄</span>
+        <span class="overview-arrow">🚲 → 40min</span>
+        <span class="overview-stop">🏘️ 大鹏所城</span>
+        <span class="overview-arrow">🚗 → 2h06min</span>
+        <span class="overview-stop">🏢 深圳高新园</span>
+      </div>
+      <a class="route-btn" href="https://uri.amap.com/navigation?from=113.953842,22.540236&to=114.512449,22.595213&mode=car&coordinate=gaode" target="_blank">🗺️ 去程导航 · 高新园 → 大鹏所城</a>
+      <div class="route-tip">💡 建议9:30前出发，周末大鹏半岛早10点后进岛易拥堵</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TIMELINE ===== -->
+<section class="section" id="timeline">
+  <div class="container">
+    <h2>⏱️ 行程时间线</h2>
+    <p class="plan-desc">高新园出发的大鹏半岛精华线：大鹏所城 → 桔钓沙 → 鹿嘴山庄 → 返程</p>
+
+    <div class="timeline">
+
+      <!-- 09:30 -->
+      <div class="tl-node">
+        <div class="tl-time">09:30</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">深圳高新园出发</span>
+            <span class="tl-tag drive">自驾 70km</span>
+          </div>
+          <div class="tl-body">
+            <p><strong>高速路线：</strong>高新园 → 南坪快速 → 惠深沿海高速(S30) → 坪西路 → 大鹏所城</p>
+            <p><strong>里程/时间：</strong>约70km / 约1h33min</p>
+            <p><strong>费用：</strong>高速费约28元（单程）</p>
+            <p><strong>停车建议：</strong>导航至「<a href="https://uri.amap.com/search?keyword=大鹏所城P4停车场" target="_blank">大鹏所城P4停车场</a>」- 车位较多，距离古城南门步行5min</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11:00 -->
+      <div class="tl-node">
+        <div class="tl-time">11:00</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🏘️</span>
+            <span class="tl-title">大鹏所城 · 古城漫步 + 取车准备</span>
+            <span class="tl-tag hike">漫步 45min</span>
+          </div>
+          <div class="tl-body">
+            <p>到达后先在古城徒步逛一圈，感受600年海防古城。</p>
+            <p><strong>看点：</strong>南门街→将军第→赖恩爵振威将军府→城隍庙遗址</p>
+            <p><strong>停车：</strong>大鹏所城P4停车场，免费停车</p>
+            <p><strong>📌 骑行准备：</strong>拿出折叠车组装，检查胎压，带上水壶架</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11:45 午饭 -->
+      <div class="tl-node">
+        <div class="tl-time">11:45</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🍜</span>
+            <span class="tl-title">大鹏所城午餐</span>
+            <span class="tl-tag eat">午饭 1h</span>
+          </div>
+          <div class="tl-body">
+            <p><strong>推荐餐厅：</strong></p>
+            <ul>
+              <li><a href="https://uri.amap.com/search?keyword=鹏城渔家(大鹏所城店)" target="_blank">🐟 鹏城渔家(大鹏所城店)</a> — 海鲜大排档，推荐濑尿虾和蒸鱼</li>
+              <li><a href="https://uri.amap.com/search?keyword=西门有鱼" target="_blank">🐠 西门有鱼</a> — 古城西门网红小店，海鲜粥+蚝仔煎</li>
+              <li>也可自带干粮在古城内找个阴凉处野餐</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12:45 自驾到桔钓沙 -->
+      <div class="tl-node">
+        <div class="tl-time">12:45</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">大鹏所城 → 桔钓沙（自驾转场）</span>
+            <span class="tl-tag drive">自驾 15.8km</span>
+          </div>
+          <div class="tl-body">
+            <p>从大鹏所城自驾到桔钓沙，约15.8km/28min，把车停在桔钓沙附近的沿海停车场。</p>
+            <p><strong>停车建议：</strong>导航至「<a href="https://uri.amap.com/search?keyword=桔钓沙停车场" target="_blank">桔钓沙停车场</a>」，停车后取折叠车开始骑行</p>
+            <p><strong>路线：</strong>大鹏所城 → 坪西路 → 新大路 → 桔钓沙</p>
+            <a class="route-btn" href="https://uri.amap.com/navigation?from=114.512449,22.595213&to=114.552381,22.557058&mode=car&coordinate=gaode" target="_blank" style="background:#e65100;font-size:13px;padding:6px 14px;">🚗 自驾导航</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 13:15 桔钓沙 -->
+      <div class="tl-node">
+        <div class="tl-time">13:15</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🏖️</span>
+            <span class="tl-title">桔钓沙 · 深圳最美沙滩</span>
+            <span class="tl-tag ride">游玩 1h</span>
+          </div>
+          <div class="tl-body">
+            <p>桔钓沙被称为"深圳的马尔代夫"，沙滩细腻洁白，海水清澈见底。</p>
+            <p><strong>体验：</strong>沙滩漫步、拍照、踩水（不可游泳，非正规浴场）</p>
+            <p><strong>📌 注意：</strong>在桔钓沙稍作休息后，接下来沿海骑行到鹿嘴山庄</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 14:15 骑行到鹿嘴 -->
+      <div class="tl-node">
+        <div class="tl-time">14:15</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚲</span>
+            <span class="tl-title">桔钓沙 → 鹿嘴山庄（沿海骑行精华段）</span>
+            <span class="tl-tag ride">骑行 7.6km</span>
+          </div>
+          <div class="tl-body">
+            <p><strong>骑行路线：</strong>桔钓沙 → 杨梅坑 → 鹿嘴山庄</p>
+            <p><strong>里程：</strong>约7.6km，全程沿海绿道，约40min</p>
+            <p><strong>路况：</strong>杨梅坑→鹿嘴山庄段是<strong>深圳最美骑行路段</strong>！沿海栈道骑行，无机动车干扰</p>
+            <p><strong>亮点：</strong>左手大海右手青山，电影《美人鱼》取景地</p>
+            <a class="route-btn" href="https://uri.amap.com/navigation?from=114.552381,22.557058&to=114.607627,22.539842&mode=bicycle" target="_blank" style="background:#1565c0;font-size:13px;padding:6px 14px;">🚲 骑行导航</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 15:00 鹿嘴山庄 -->
+      <div class="tl-node">
+        <div class="tl-time">15:00</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🏔️</span>
+            <span class="tl-title">鹿嘴山庄 · 美人鱼洞 · 悬崖海景</span>
+            <span class="tl-tag hike">徒步+拍照 1h</span>
+          </div>
+          <div class="tl-body">
+            <p>到达鹿嘴山庄后锁车徒步登山。</p>
+            <p><strong>徒步：</strong>到美人鱼洞观景台约15min上坡</p>
+            <p><strong>拍照：</strong>悬崖大海同框，深圳最经典的海岸线打卡点</p>
+            <p><strong>其他看点：</strong>鹿嘴灯塔、悬崖栈道</p>
+            <p><strong>⚠️ 注意：</strong>鹿嘴段上下坡较多，锁好自行车再徒步</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 16:00 返程骑行 -->
+      <div class="tl-node">
+        <div class="tl-time">16:00</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚲</span>
+            <span class="tl-title">鹿嘴山庄 → 桔钓沙（返程骑行）</span>
+            <span class="tl-tag ride">骑行 7.6km</span>
+          </div>
+          <div class="tl-body">
+            <p>原路骑回桔钓沙停车场，收好折叠车，准备自驾返程。</p>
+            <p><strong>里程：</strong>约7.6km，骑行约40min</p>
+            <p><strong>预计到达桔钓沙：</strong>16:40</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 16:40 -->
+      <div class="tl-node">
+        <div class="tl-time">16:40</div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">整理装备 + 自驾返程</span>
+            <span class="tl-tag drive">自驾 83km</span>
+          </div>
+          <div class="tl-body">
+            <p><strong>整理：</strong>折叠自行车收好放回车，换衣服补给</p>
+            <p><strong>返程路线：</strong>桔钓沙 → 新大路 → 坪西路 → 惠深沿海高速(S30) → 武深高速(G0422) → 深圳外环高速 → 南坪快速 → 高新园</p>
+            <p><strong>里程/时间：</strong>约83km / 2h06min</p>
+            <p><strong>预计到家：</strong>18:45-19:00</p>
+            <a class="route-btn" href="https://uri.amap.com/navigation?from=114.552381,22.557058&to=113.953842,22.540236&mode=car&coordinate=gaode" target="_blank">🗺️ 返程导航 · 桔钓沙 → 高新园</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALLERY ===== -->
+<section class="section" style="background:#fff;">
+  <div class="container">
+    <h2>📸 沿途风景</h2>
+    <div class="gallery">
+      <img src="https://img1.baidu.com/it/u=3258269139,2744573257&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=746" alt="大鹏所城南门" onclick="openLightbox(this.src)">
+      <img src="https://img0.baidu.com/it/u=2268164896,2290961442&fm=253&app=138&f=JPEG?w=500&h=746" alt="大鹏所城古街" onclick="openLightbox(this.src)">
+      <img src="https://img0.baidu.com/it/u=3679620280,2026633340&fm=253&app=138&f=JPEG?w=500&h=746" alt="大鹏所城城楼" onclick="openLightbox(this.src)">
+      <img src="https://img1.baidu.com/it/u=552425992,857613363&fm=253&app=138&f=JPEG?w=769&h=500" alt="大鹏所城全景" onclick="openLightbox(this.src)">
+      <img src="https://img1.baidu.com/it/u=1856246289,2933405785&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=653" alt="桔钓沙玻璃海" onclick="openLightbox(this.src)">
+      <img src="https://img1.baidu.com/it/u=662040410,3412184802&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=622" alt="桔钓沙沙滩" onclick="openLightbox(this.src)">
+      <img src="https://img1.baidu.com/it/u=3013676856,1644151057&fm=253&app=138&f=JPEG?w=500&h=613" alt="桔钓沙海岸线" onclick="openLightbox(this.src)">
+      <img src="https://img1.baidu.com/it/u=2537449638,415986014&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=710" alt="鹿嘴山庄人鱼洞" onclick="openLightbox(this.src)">
+      <img src="https://img0.baidu.com/it/u=2745353021,2031315393&fm=253&app=138&f=JPEG?w=500&h=666" alt="鹿嘴山庄悬崖海景" onclick="openLightbox(this.src)">
+      <img src="https://img1.baidu.com/it/u=3776939691,2950465227&fm=253&app=138&f=JPEG?w=662&h=500" alt="鹿嘴山庄海岸" onclick="openLightbox(this.src)">
+      <img src="https://img1.baidu.com/it/u=3711854899,3315941777&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=667" alt="杨梅坑骑行道" onclick="openLightbox(this.src)">
+      <img src="https://img1.baidu.com/it/u=3904442226,1981648803&fm=253&app=138&f=JPEG?w=667&h=500" alt="杨梅坑沿海公路" onclick="openLightbox(this.src)">
+    </div>
+  </div>
+</section>
+
+<!-- ===== EQUIPMENT ===== -->
+<section class="section" id="equipment">
+  <div class="container">
+    <h2>🎒 装备清单</h2>
+    <p class="plan-desc">一日往返，轻装出行</p>
+    <div class="equip-grid">
+      <div class="equip-cat">
+        <h3>🚲 骑行装备</h3>
+        <ul>
+          <li>折叠自行车 + 精量工具包</li>
+          <li>骑行头盔（必戴）</li>
+          <li>骑行手套 + 骑行眼镜</li>
+          <li>前后车灯</li>
+          <li>水壶架 × 2</li>
+          <li>骑行裤（单日舒适性考虑）</li>
+        </ul>
+      </div>
+      <div class="equip-cat">
+        <h3>👕 个人物品</h3>
+        <ul>
+          <li>速干运动衣裤 + 防风外套</li>
+          <li>徒步鞋/运动鞋</li>
+          <li>遮阳帽 + 防晒霜（深圳紫外线强）</li>
+          <li>充电宝 + 数据线</li>
+          <li>换洗衣物一套（放车上备用）</li>
+          <li>毛巾（骑行完擦汗）</li>
+        </ul>
+      </div>
+      <div class="equip-cat">
+        <h3>🎒 其他</h3>
+        <ul>
+          <li>水 + 运动饮料（至少2L）</li>
+          <li>能量棒/巧克力/坚果</li>
+          <li>手机防水袋</li>
+          <li>身份证</li>
+          <li>垃圾袋（无痕出行）</li>
+          <li>现金少许（部分小店信号差）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TIPS ===== -->
+<section class="section" id="tips" style="background:#fff;">
+  <div class="container">
+    <h2>💡 实用贴士</h2>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">⏰</div>
+        <h3>最佳出发时间</h3>
+        <p>建议9:30前出发。周末大鹏半岛早10点后进岛道路容易拥堵，盐坝高速大梅沙段尤其明显。早出发是<strong>成功4+2的关键</strong>。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🅿️</div>
+        <h3>停车策略</h3>
+        <p>先去大鹏所城P4停车场（导航直达），游玩古城+午饭后再自驾去桔钓沙停车开始骑行。<strong>周末和节假日记得提前在「深圳交警」公众号预约大鹏通行</strong>！</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🚲</div>
+        <h3>骑行路线提示</h3>
+        <p>桔钓沙→杨梅坑→鹿嘴山庄段为沿海专用绿道，没有机动车，风景绝美。这是全程骑行精华所在。建议在杨梅坑补给水和零食。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🌊</div>
+        <h3>返程时间控制</h3>
+        <p>16:40准时从桔钓沙出发返程，避开晚高峰。返程高速预计2h06min到达高新园。途中可在盐田服务区稍作休息。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🍜</div>
+        <h3>用餐建议</h3>
+        <p>午餐在所城解决（11:45到），晚餐建议返程途中解决或到家再吃。途中补给点不多，建议带足水和零食。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📅</div>
+        <h3>最佳季节</h3>
+        <p>10月~次年4月是最佳骑行季节。夏天（5-9月）大鹏紫外线极强，建议早出发早收队。出发前查询「大鹏新区天气」。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p>🚲 深圳大鹏 · 4+2山海骑行线 · 一日游</p>
+  <p>深圳高新园出发 · 自驾+折叠车</p>
+  <p>Generated by Hermes Agent · 高德地图MCP实时数据</p>
+</footer>
+
+<!-- ===== Lightbox ===== -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+// Lightbox
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('show');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('show');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+// Download
+function downloadReport() {
+  const html = document.documentElement.outerHTML;
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'shenzhen-gaoxinyuan-dapeng-4plus2.html';
+  a.click();
+}
+</script>
+
+</body>
+</html>
