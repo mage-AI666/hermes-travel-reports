@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚗 白云/花都一日游 · 4+2自驾骑行行程</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --card2: #334155;
+    --accent: #38bdf8;
+    --accent2: #f59e0b;
+    --green: #22c55e;
+    --rose: #fb7185;
+    --text: #f1f5f9;
+    --text2: #94a3b8;
+    --border: #334155;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 0;
+  }
+  .header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%);
+    padding: 40px 20px 30px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 50%, rgba(56,189,248,0.05) 0%, transparent 50%);
+    animation: pulse 8s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+  .header h1 { font-size: 2em; position: relative; z-index: 1; }
+  .header .subtitle {
+    color: var(--text2);
+    font-size: 0.95em;
+    margin-top: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .header .start-info {
+    margin-top: 12px;
+    font-size: 0.9em;
+    color: var(--accent2);
+    position: relative;
+    z-index: 1;
+    background: rgba(245,158,11,0.1);
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(245,158,11,0.2);
+  }
+  .header .tags {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .tag {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    border: 1px solid var(--border);
+    background: rgba(56,189,248,0.1);
+    color: var(--accent);
+  }
+  .tag.green { background: rgba(34,197,94,0.1); color: var(--green); border-color: rgba(34,197,94,0.3); }
+  .tag.orange { background: rgba(245,158,11,0.1); color: var(--accent2); border-color: rgba(245,158,11,0.3); }
+  .tag.rose { background: rgba(251,113,133,0.1); color: var(--rose); border-color: rgba(251,113,133,0.3); }
+  
+  .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+  
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .section h2 {
+    font-size: 1.3em;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section h2 .emoji { font-style: normal; font-size: 1.2em; }
+  
+  .route-card {
+    background: linear-gradient(135deg, #1e293b, #1a3a4a);
+    border: 1px solid rgba(56,189,248,0.2);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .route-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    margin: 12px 0;
+  }
+  .stat-item {
+    text-align: center;
+    padding: 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+  }
+  .stat-item .num {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .stat-item .label {
+    font-size: 0.8em;
+    color: var(--text2);
+    margin-top: 2px;
+  }
+  
+  .timeline {
+    position: relative;
+    padding-left: 30px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--green), var(--accent2));
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+    padding: 14px 16px;
+    background: var(--card2);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .timeline-item::before {
+    content: attr(data-time);
+    position: absolute;
+    left: -50px;
+    top: 14px;
+    font-size: 0.75em;
+    color: var(--accent);
+    font-weight: 600;
+    white-space: nowrap;
+    background: var(--bg);
+    padding: 2px 6px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  .timeline-item .dot {
+    position: absolute;
+    left: -26px;
+    top: 16px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: var(--bg);
+  }
+  .timeline-item .dot.green { border-color: var(--green); }
+  .timeline-item .dot.orange { border-color: var(--accent2); }
+  .timeline-item .dot.rose { border-color: var(--rose); }
+  .timeline-item h3 { font-size: 1em; margin-bottom: 6px; }
+  .timeline-item p { font-size: 0.9em; color: var(--text2); }
+  .timeline-item .duration {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: rgba(56,189,248,0.1);
+    color: var(--accent);
+    font-size: 0.8em;
+    margin-top: 4px;
+  }
+  
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: rgba(56,189,248,0.1);
+    border: 1px solid rgba(56,189,248,0.3);
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .nav-link:hover {
+    background: rgba(56,189,248,0.2);
+    transform: translateY(-1px);
+  }
+  .nav-link.green { background: rgba(34,197,94,0.1); color: var(--green); border-color: rgba(34,197,94,0.3); }
+  .nav-link.green:hover { background: rgba(34,197,94,0.2); }
+  
+  .copy-area {
+    background: #0f172a;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    font-family: 'SF Mono', 'Menlo', monospace;
+    font-size: 0.85em;
+    color: var(--accent);
+    word-break: break-all;
+    user-select: all;
+    cursor: text;
+    margin: 8px 0;
+  }
+  
+  .food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .food-card {
+    background: var(--card2);
+    border-radius: 10px;
+    padding: 14px;
+    border: 1px solid var(--border);
+  }
+  .food-card h4 { color: var(--accent2); font-size: 0.95em; margin-bottom: 4px; }
+  .food-card p { font-size: 0.85em; color: var(--text2); }
+  
+  .plan-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .plan-tab {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--card2);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9em;
+  }
+  .plan-tab.active {
+    background: rgba(56,189,248,0.2);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .plan-tab:hover { background: rgba(56,189,248,0.1); }
+  .plan-content { display: none; }
+  .plan-content.active { display: block; }
+  
+  .tip-box {
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 10px;
+    padding: 14px;
+    margin: 12px 0;
+    font-size: 0.9em;
+    color: var(--accent2);
+  }
+  .tip-box.info {
+    background: rgba(56,189,248,0.08);
+    border-color: rgba(56,189,248,0.2);
+    color: var(--accent);
+  }
+
+  /* 图片画廊样式 */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .gallery img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    transition: transform 0.3s, border-color 0.3s;
+    cursor: pointer;
+  }
+  .gallery img:hover {
+    transform: scale(1.03);
+    border-color: var(--accent);
+  }
+  .gallery .img-label {
+    text-align: center;
+    font-size: 0.8em;
+    color: var(--text2);
+    margin-top: 4px;
+  }
+  .gallery-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 图片灯箱 */
+  .lightbox {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+  }
+  
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.4em; }
+    .container { padding: 12px; }
+    .section { padding: 16px; }
+    .timeline-item::before { 
+      left: -44px;
+      font-size: 0.65em;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span style="font-style:normal;">🚗</span> 白云/花都 · 4+2 一日骑行游</h1>
+  <div class="subtitle">🌤️ 周末说走就走 · 自驾+折叠车+徒步 · 免费高性价比</div>
+  <div class="start-info">📍 白云民营科技园出发 · 🕤 9:30→18:30</div>
+  <div class="tags">
+    <span class="tag">🚗 4+2自驾</span>
+    <span class="tag green">🚲 折叠车骑行</span>
+    <span class="tag orange">🥾 徒步爬山</span>
+    <span class="tag rose">🆓 免费景点</span>
+    <span class="tag green">🅿️ 免费停车</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- 方案选择 -->
+<div class="section">
+  <h2><span class="emoji">🎯</span> 选择你的路线方案</h2>
+  <div class="plan-tabs">
+    <div class="plan-tab active" onclick="switchPlan('planA')">方案A: 芙蓉嶂+红山村</div>
+    <div class="plan-tab" onclick="switchPlan('planB')">方案B: 花都湖+王子山</div>
+  </div>
+
+  <!-- ====== 方案A ====== -->
+  <div id="planA" class="plan-content active">
+    <div class="route-card">
+      <h3>🚗 花都芙蓉嶂 + 红山村 一日路线</h3>
+      <p style="color:var(--text2);font-size:0.9em;">行程亮点：登芙蓉嶂看水库全景 → 骑行红山村油菜花田 → 徒步王子山峡谷</p>
+      <!-- 景点图片 -->
+      <div class="gallery">
+        <div class="gallery-item">
+          <img src="https://img0.baidu.com/it/u=288412819,2216176020&fm=253&fmt=auto&app=138&f=JPEG?w=1067&h=800" onclick="openLightbox(this.src)" alt="芙蓉嶂水库" loading="lazy">
+          <div class="img-label">🏔️ 芙蓉嶂水库全景</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://img0.baidu.com/it/u=1988259898,2886365232&fm=253&fmt=auto&app=138&f=JPEG?w=1010&h=800" onclick="openLightbox(this.src)" alt="红山村" loading="lazy">
+          <div class="img-label">🌸 红山村花田</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://img0.baidu.com/it/u=2832325303,2450434992&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=652" onclick="openLightbox(this.src)" alt="王子山" loading="lazy">
+          <div class="img-label">🌲 王子山徒步</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://img0.baidu.com/it/u=958599194,1337846756&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=667" onclick="openLightbox(this.src)" alt="花都湖" loading="lazy">
+          <div class="img-label">🌅 花都湖湿地</div>
+        </div>
+      </div>
+      <div class="route-stats">
+        <div class="stat-item">
+          <div class="num">46km</div>
+          <div class="label">白云民科园→芙蓉嶂</div>
+        </div>
+        <div class="stat-item">
+          <div class="num">50min</div>
+          <div class="label">驾车时间</div>
+        </div>
+        <div class="stat-item">
+          <div class="num">🆓</div>
+          <div class="label">门票全免</div>
+        </div>
+        <div class="stat-item">
+          <div class="num">🅿️</div>
+          <div class="label">免费停车</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item" data-time="09:30">
+        <div class="dot"></div>
+        <h3>🚗 白云民营科技园 → 花都芙蓉嶂</h3>
+        <p>从民科园出发，走北太路→机场高速→花都大道，约46km，50分钟车程。<br>后排放倒装折叠车，直接导航到芙蓉嶂水库停车场。</p>
+        <div class="duration">⏱ 驾车 50min / 46km</div>
+        <br>
+        <a class="nav-link" href="https://uri.amap.com/navigation?from=113.343829,23.365277,白云民营科技园&to=113.217723,23.534279,花都芙蓉嶂&mode=car" target="_blank">📍 一键导航</a>
+        <div class="copy-area" onclick="copyText(this)">https://uri.amap.com/navigation?from=113.343829,23.365277,白云民营科技园&to=113.217723,23.534279,花都芙蓉嶂&mode=car</div>
+      </div>
+
+      <div class="timeline-item" data-time="10:20">
+        <div class="dot green"></div>
+        <h3>🥾 芙蓉嶂登山（芙蓉峰）</h3>
+        <p>🆓 免费！芙蓉嶂水库大坝旁有登山步道，登顶约40min~1h，俯瞰芙蓉水库全景。<br>山上有芙蓉庙古迹，山顶视野开阔，适合拍全景照。<br>
+        🅿️ 芙蓉嶂水库停车场，免费且车位充足。</p>
+        <div class="duration">⏱ 登山 1h + 拍照20min</div>
+      </div>
+
+      <div class="timeline-item" data-time="11:40">
+        <div class="dot orange"></div>
+        <h3>🚲 骑行 芙蓉嶂 → 红山村（12km）</h3>
+        <p>取车展开折叠车，沿芙红路骑行至红山村。路线平坦，两旁田园风光，约40分钟轻松骑。</p>
+        <div class="duration">⏱ 骑行 40min / 12km</div>
+        <br>
+        <a class="nav-link green" href="https://uri.amap.com/navigation?from=113.217723,23.534279,芙蓉嶂&to=113.321541,23.593428,花都红山村&mode=bicycle" target="_blank">🚲 骑行导航</a>
+      </div>
+
+      <div class="timeline-item" data-time="12:20">
+        <div class="dot"></div>
+        <h3>🌸 红山村 · 广州最美乡村 + 午餐</h3>
+        <p>🆓 免费！红山村有油菜花田(春季)/稻田，荷塘，溪水，可骑行穿梭。<br>
+        村内有红山湖、石硖背瀑布（步行10分钟可达）。<br>
+        中午就在村里农家乐吃饭，推荐：</p>
+        <div class="food-grid">
+          <div class="food-card">
+            <h4>🥘 红山村农家菜</h4>
+            <p>花都炭步鱼、山水豆腐、走地鸡<br>💰 人均40-60元</p>
+          </div>
+          <div class="food-card">
+            <h4>🍚 梯面豆腐花</h4>
+            <p>梯面山水豆腐花（5元/碗）<br>📍 村口小摊常见</p>
+          </div>
+        </div>
+        <div class="duration">⏱ 游玩+午餐 1.5h</div>
+      </div>
+
+      <div class="timeline-item" data-time="14:00">
+        <div class="dot green"></div>
+        <h3>🥾 王子山森林公园（徒步）</h3>
+        <p>🆓 免费区域！从红山村驾车约8km到王子山脚（10min车程）。<br>
+        有原始森林徒步小径，山里溪流潺潺，负离子爆表。<br>
+        - 轻量版：半山观景台（40min往返）<br>
+        - 挑战版：登顶王子山（1.5h往返，陡峭但视野极佳）<br>
+        🅿️ 王子山脚免费停车。</p>
+        <div class="duration">⏱ 徒步 1~1.5h</div>
+        <br>
+        <a class="nav-link" href="https://uri.amap.com/navigation?from=113.321541,23.593428,花都红山村&to=113.152076,23.624567,花都王子山&mode=car" target="_blank">📍 红山村→王子山 驾车导航</a>
+      </div>
+
+      <div class="timeline-item" data-time="16:00">
+        <div class="dot orange"></div>
+        <h3>🚗 返程 · 白云民营科技园</h3>
+        <p>从王子山返程，走花都大道→机场高速→北太路，约47km，50min到家。<br>
+        路上可顺路停花都湖公园看日落（免费，环湖绿道，停车免费），时间够就绕一圈再走。</p>
+        <div class="duration">⏱ 驾车 50min / 47km</div>
+        <br>
+        <a class="nav-link" href="https://uri.amap.com/navigation?from=113.152076,23.624567,花都王子山&to=113.343829,23.365277,白云民营科技园&mode=car" target="_blank">📍 返程导航</a>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      💡 <strong>行程总览</strong>：9:30出发→50min→芙蓉嶂登山1h→骑行12km→红山村午餐1.5h→王子山徒步1.5h→返程<br>
+      总驾驶约100km，骑行约12km，徒步约3km，18:00左右回到民科园，完美9:30→18:30一日游！
+    </div>
+  </div>
+
+  <!-- ====== 方案B ====== -->
+  <div id="planB" class="plan-content">
+    <div class="route-card">
+      <h3>🚗 花都湖 + 王子山 一日路线</h3>
+      <p style="color:var(--text2);font-size:0.9em;">行程亮点：花都湖绿道骑行 → 梯面豆腐宴 → 王子山徒步 → 九龙湖日落</p>
+      <!-- 景点图片 -->
+      <div class="gallery">
+        <div class="gallery-item">
+          <img src="https://img1.baidu.com/it/u=1439782181,747266374&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=744" onclick="openLightbox(this.src)" alt="花都湖" loading="lazy">
+          <div class="img-label">🌊 花都湖全景</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://img2.baidu.com/it/u=3302887155,4093839010&fm=253&fmt=auto&app=120&f=JPEG?w=1067&h=800" onclick="openLightbox(this.src)" alt="王子山" loading="lazy">
+          <div class="img-label">🏞️ 王子山森林</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://img0.baidu.com/it/u=2634096889,2281463803&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=653" onclick="openLightbox(this.src)" alt="王子山徒步" loading="lazy">
+          <div class="img-label">🥾 登山步道</div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://img2.baidu.com/it/u=3580137767,828411711&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=652" onclick="openLightbox(this.src)" alt="花都湖骑行" loading="lazy">
+          <div class="img-label">🚲 环湖绿道</div>
+        </div>
+      </div>
+      <div class="route-stats">
+        <div class="stat-item">
+          <div class="num">24km</div>
+          <div class="label">民科园→花都湖</div>
+        </div>
+        <div class="stat-item">
+          <div class="num">35min</div>
+          <div class="label">驾车时间</div>
+        </div>
+        <div class="stat-item">
+          <div class="num">🆓</div>
+          <div class="label">全免</div>
+        </div>
+        <div class="stat-item">
+          <div class="num">🅿️</div>
+          <div class="label">免费停车</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item" data-time="09:30">
+        <div class="dot"></div>
+        <h3>🚗 白云民营科技园 → 花都湖公园</h3>
+        <p>从民科园出发，走北太路→机场高速，约24km，35分钟车程。<br>
+        🅿️ 花都湖东门/西门都有免费停车场。</p>
+        <div class="duration">⏱ 驾车 35min / 24km</div>
+        <br>
+        <a class="nav-link" href="https://uri.amap.com/navigation?from=113.343829,23.365277,白云民营科技园&to=113.214989,23.382813,花都湖公园&mode=car" target="_blank">📍 一键导航</a>
+        <div class="copy-area" onclick="copyText(this)">https://uri.amap.com/navigation?from=113.343829,23.365277,白云民营科技园&to=113.214989,23.382813,花都湖公园&mode=car</div>
+      </div>
+
+      <div class="timeline-item" data-time="10:10">
+        <div class="dot green"></div>
+        <h3>🚲 花都湖环湖骑行 + 小徒步</h3>
+        <p>🆓 免费！花都湖公园有约6km环湖绿道，路况极好，适合折叠车。<br>
+        沿途湿地景观、湖心岛、观景台。<br>
+        绕湖骑一圈后，再走登山小径上山俯瞰全湖（约30min）。</p>
+        <div class="duration">⏱ 骑行+徒步 1.5~2h</div>
+      </div>
+
+      <div class="timeline-item" data-time="12:00">
+        <div class="dot rose"></div>
+        <h3>🍜 午餐 · 花都地道美食</h3>
+        <div class="food-grid">
+          <div class="food-card">
+            <h4>🥟 花都炭步鱼包</h4>
+            <p>花都传统名小吃，鱼皮包鱼馅<br>📍 花都老城区建设路</p>
+          </div>
+          <div class="food-card">
+            <h4>🍲 梯面客家菜</h4>
+            <p>客家酿豆腐、盐焗鸡、梅菜扣肉<br>📍 梯面镇（去王子山顺路）</p>
+          </div>
+          <div class="food-card">
+            <h4>🐔 花都烧鸡</h4>
+            <p>荔枝木烧鸡，皮脆肉嫩<br>📍 花都大道沿线</p>
+          </div>
+        </div>
+        <div class="duration">⏱ 午餐 1h</div>
+      </div>
+
+      <div class="timeline-item" data-time="13:30">
+        <div class="dot orange"></div>
+        <h3>🚗 驾车 → 王子山森林公园</h3>
+        <p>从花都湖驱车约30min到王子山，沿途经过梯面镇可顺路买豆腐花。<br>
+        🅿️ 王子山脚免费停车。</p>
+        <div class="duration">⏱ 驾车 30min / 25km</div>
+      </div>
+
+      <div class="timeline-item" data-time="14:10">
+        <div class="dot green"></div>
+        <h3>🥾 王子山徒步穿越</h3>
+        <p>🆓 免费！王子山省级森林公园，成熟徒步路线：<br>
+        - 轻量版：半山观景台（40min往返，适合带车）<br>
+        - 挑战版：登顶王子山（1.5h往返，陡峭但视野极佳）<br>
+        山里溪流潺潺，满眼绿色，负离子爆表。</p>
+        <div class="duration">⏱ 徒步 1~1.5h</div>
+      </div>
+
+      <div class="timeline-item" data-time="15:30">
+        <div class="dot"></div>
+        <h3>🌅 九龙湖日落（可选）+ 返程</h3>
+        <p>从王子山下山，驾车约15min到九龙湖度假区。<br>
+        🆓 外围免费，湖边草坪可休息看日落。<br>
+        约16:30返程，走花都大道→机场高速→北太路，约50min回到民科园。<br>
+        到民科园大约17:20，早到的话可以整理装备、洗车。</p>
+        <div class="duration">⏱ 日落30min + 返程50min</div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      💡 <strong>行程总览</strong>：9:30出发→35min→花都湖骑行+徒步2h→午餐1h→王子山徒步1.5h→九龙湖日落→返程<br>
+      总驾驶约90km，骑行约10km，徒步约4km，17:00~17:30回到民科园，宽裕不赶！
+    </div>
+  </div>
+</div>
+
+<!-- 装备清单 -->
+<div class="section">
+  <h2><span class="emoji">🎒</span> 出发前检查清单</h2>
+  <div class="food-grid">
+    <div class="food-card">
+      <h4>🚲 骑行装备</h4>
+      <p>折叠车 ✓ 头盔 ✓ 骑行手套 ✓ 车灯 ✓ 修车工具 ✓ 车锁 ✓ 水壶架</p>
+    </div>
+    <div class="food-card">
+      <h4>🥾 徒步装备</h4>
+      <p>徒步鞋 ✓ 登山杖(可选) ✓ 防晒帽 ✓ 驱蚊水 ⚠️ 花都山区蚊虫多 ✓ 小背包</p>
+    </div>
+    <div class="food-card">
+      <h4>🧳 其他必备</h4>
+      <p>充电宝 ✓ 防晒霜 ✓ 雨伞/雨衣 ✓ 零食干粮 ✓ 足够的水(建议2L+) ✓ 垃圾袋</p>
+    </div>
+  </div>
+</div>
+
+<!-- 实用贴士 -->
+<div class="section">
+  <h2><span class="emoji">💡</span> 实用贴士</h2>
+  <div class="tip-box info">
+    🚗 <strong>停车要点</strong>：芙蓉嶂水库停车场(免费)、红山村村口停车场(免费)、王子山脚路边(免费)、花都湖东西门停车场(免费) — 全部免费车位充足。
+  </div>
+  <div class="tip-box">
+    🍜 <strong>美食提示</strong>：梯面镇山水豆腐花必试（5元/碗）；红山村农家乐人均40-60元；返程可顺路买花都炭步鱼包带走。
+  </div>
+  <div class="tip-box info">
+    🚲 <strong>骑行提示</strong>：折叠车放后备箱，到达目的地展开骑行。花都道路平坦，非常适合折叠车。
+  </div>
+  <div class="tip-box">
+    🌤️ <strong>时间提醒</strong>：9:30出发，18:30前到民科园。两套方案时间都很充裕，可根据当天体力和心情临时调整。
+  </div>
+</div>
+
+<!-- 一键导航汇总 -->
+<div class="section">
+  <h2><span class="emoji">📍</span> 一键导航汇总（点击复制到高德App打开）</h2>
+
+  <p style="color:var(--text2);font-size:0.9em;margin-bottom:10px;">方案A 导航点：</p>
+  <div style="margin-bottom:10px;">
+    <div style="font-size:0.85em;color:var(--text2);margin-bottom:4px;">① 白云民营科技园 → 芙蓉嶂</div>
+    <div class="copy-area" onclick="copyText(this)">https://uri.amap.com/navigation?from=113.343829,23.365277,白云民营科技园&to=113.217723,23.534279,花都芙蓉嶂&mode=car</div>
+  </div>
+  <div style="margin-bottom:10px;">
+    <div style="font-size:0.85em;color:var(--text2);margin-bottom:4px;">② 芙蓉嶂 → 红山村（骑行）</div>
+    <div class="copy-area" onclick="copyText(this)">https://uri.amap.com/navigation?from=113.217723,23.534279,芙蓉嶂&to=113.321541,23.593428,花都红山村&mode=bicycle</div>
+  </div>
+  <div style="margin-bottom:10px;">
+    <div style="font-size:0.85em;color:var(--text2);margin-bottom:4px;">③ 红山村 → 王子山</div>
+    <div class="copy-area" onclick="copyText(this)">https://uri.amap.com/navigation?from=113.321541,23.593428,花都红山村&to=113.152076,23.624567,花都王子山&mode=car</div>
+  </div>
+  <div style="margin-bottom:10px;">
+    <div style="font-size:0.85em;color:var(--text2);margin-bottom:4px;">④ 王子山 → 白云民营科技园（返程）</div>
+    <div class="copy-area" onclick="copyText(this)">https://uri.amap.com/navigation?from=113.152076,23.624567,花都王子山&to=113.343829,23.365277,白云民营科技园&mode=car</div>
+  </div>
+
+  <p style="color:var(--text2);font-size:0.9em;margin-bottom:10px;margin-top:16px;">方案B 导航点：</p>
+  <div style="margin-bottom:10px;">
+    <div style="font-size:0.85em;color:var(--text2);margin-bottom:4px;">① 白云民营科技园 → 花都湖公园</div>
+    <div class="copy-area" onclick="copyText(this)">https://uri.amap.com/navigation?from=113.343829,23.365277,白云民营科技园&to=113.214989,23.382813,花都湖公园&mode=car</div>
+  </div>
+  <div style="margin-bottom:10px;">
+    <div style="font-size:0.85em;color:var(--text2);margin-bottom:4px;">② 花都湖 → 王子山</div>
+    <div class="copy-area" onclick="copyText(this)">https://uri.amap.com/navigation?from=113.214989,23.382813,花都湖公园&to=113.152076,23.624567,花都王子山&mode=car</div>
+  </div>
+  <div style="margin-bottom:10px;">
+    <div style="font-size:0.85em;color:var(--text2);margin-bottom:4px;">③ 王子山 → 白云民营科技园（返程）</div>
+    <div class="copy-area" onclick="copyText(this)">https://uri.amap.com/navigation?from=113.152076,23.624567,花都王子山&to=113.343829,23.365277,白云民营科技园&mode=car</div>
+  </div>
+</div>
+
+</div>
+
+<!-- 图片灯箱 -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="放大查看">
+</div>
+
+<script>
+function switchPlan(id) {
+  document.querySelectorAll('.plan-content').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.plan-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+function copyText(el) {
+  navigator.clipboard.writeText(el.textContent.trim()).then(() => {
+    el.style.background = 'rgba(34,197,94,0.2)';
+    el.style.borderColor = 'var(--green)';
+    setTimeout(() => {
+      el.style.background = '#0f172a';
+      el.style.borderColor = 'var(--border)';
+    }, 1500);
+  });
+}
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.getElementById('lightbox').classList.contains('active')) {
+    closeLightbox();
+  }
+});
+</script>
+
+</body>
+</html>
