@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深圳南山 4+2 一日游 · 大沙河骑行+塘朗山徒步</title>
+<style>
+/* ===== Reset & Base ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f4f8; color: #2c3e50; line-height: 1.7; }
+
+/* ===== Navigation ===== */
+.top-nav { position: fixed; top:0; left:0; right:0; z-index:1000; background: rgba(255,255,255,0.95); backdrop-filter:blur(10px); border-bottom:1px solid #e0e6ed; }
+.nav-inner { max-width:1100px; margin:0 auto; padding:12px 24px; display:flex; justify-content:space-between; align-items:center; }
+.nav-title { font-size:18px; font-weight:700; color:#1a3a5c; }
+.nav-links { display:flex; gap:20px; }
+.nav-links a { text-decoration:none; color:#5a6a7a; font-size:14px; transition:color .2s; }
+.nav-links a:hover { color:#3498db; }
+.nav-links .download-btn { background:#27ae60; color:#fff!important; padding:6px 14px; border-radius:6px; font-size:13px; cursor:pointer; border:none; transition:background .2s; }
+.nav-links .download-btn:hover { background:#219a52; }
+
+/* ===== Hero ===== */
+.hero { padding:120px 24px 60px; background: linear-gradient(135deg, #1a3a5c 0%, #3498db 100%); color:white; text-align:center; }
+.hero h1 { font-size:42px; margin-bottom:12px; }
+.hero-sub { font-size:18px; opacity:.85; margin-bottom:24px; }
+.hero-meta { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+.meta-badge { background:rgba(255,255,255,.15); padding:8px 16px; border-radius:20px; font-size:14px; }
+
+/* ===== Section ===== */
+.section { padding:60px 24px; }
+.section:nth-child(even) { background:#fff; }
+.container { max-width:1100px; margin:0 auto; }
+.section h2 { font-size:28px; margin-bottom:24px; color:#1a3a5c; border-left:4px solid #3498db; padding-left:16px; }
+.plan-desc { color:#5a6a7a; margin-bottom:32px; font-size:15px; }
+
+/* ===== Plan Selector ===== */
+.plan-selector { display:flex; gap:12px; margin-bottom:24px; flex-wrap:wrap; }
+.plan-btn { padding:10px 24px; border:2px solid #3498db; background:white; color:#3498db; border-radius:8px; cursor:pointer; font-size:15px; font-weight:600; transition:all .2s; }
+.plan-btn.active { background:#3498db; color:white; }
+.plan-btn:hover { background:#2980b9; color:white; }
+
+/* ===== Cluster Map ===== */
+.cluster-map { background:#f8fafc; border-radius:12px; padding:24px; margin-bottom:32px; border:1px solid #e2e8f0; }
+.cluster-map h3 { font-size:18px; color:#1a3a5c; margin-bottom:16px; }
+.cluster-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:16px; }
+.cluster-card { background:white; border-radius:10px; padding:16px; box-shadow:0 1px 4px rgba(0,0,0,.06); }
+.cluster-name { font-weight:600; color:#1a3a5c; margin-bottom:8px; }
+.cluster-name span { font-size:13px; color:#7f8c8d; font-weight:400; }
+.cluster-dist { font-size:13px; color:#5a6a7a; padding-left:16px; position:relative; margin-bottom:3px; }
+.cluster-dist::before { content:'·'; position:absolute; left:4px; color:#3498db; font-weight:700; }
+.cluster-note { font-size:13px; color:#3498db; margin-top:8px; padding-top:6px; border-top:1px dashed #e2e8f0; }
+
+/* ===== Overview Card ===== */
+.overview-card { display:flex; gap:16px; align-items:flex-start; background:linear-gradient(135deg,#eef6ff,#e8f4fd); border-radius:12px; padding:20px 24px; margin-bottom:24px; }
+.card-icon { font-size:32px; line-height:1; }
+.card-body h3 { font-size:20px; color:#1a3a5c; margin-bottom:8px; }
+.route-stats { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
+.route-stats span { background:white; border-radius:6px; padding:4px 12px; font-size:13px; color:#555; border:1px solid #dce5ed; }
+.weather-note { font-size:14px; color:#5a6a7a; background:rgba(255,255,255,.7); padding:8px 14px; border-radius:6px; display:inline-block; }
+
+/* ===== Timeline ===== */
+.timeline { position:relative; margin:0 0 32px; }
+.timeline::before { content:''; position:absolute; left:90px; top:0; bottom:0; width:3px; background:linear-gradient(to bottom,#3498db,#27ae60); border-radius:2px; }
+.tl-node { display:flex; margin-bottom:40px; position:relative; }
+.tl-time { width:80px; flex-shrink:0; font-size:15px; font-weight:700; color:#1a3a5c; padding-top:4px; text-align:right; padding-right:16px; }
+.tl-content { flex:1; background:white; border-radius:12px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #e8edf3; margin-left:16px; position:relative; }
+.tl-content::before { content:''; position:absolute; left:-8px; top:16px; width:14px; height:14px; background:#3498db; border-radius:50%; border:3px solid #f0f4f8; z-index:1; }
+.tl-header { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+.tl-icon { font-size:20px; }
+.tl-title { font-weight:600; color:#1a3a5c; font-size:16px; }
+.tl-tag { font-size:12px; padding:2px 10px; border-radius:12px; font-weight:500; }
+.tl-tag.drive { background:#fff3e0; color:#e67e22; }
+.tl-tag.ride { background:#e8f5e9; color:#27ae60; }
+.tl-tag.hike { background:#fce4ec; color:#e74c3c; }
+.tl-tag.eat { background:#f3e5f5; color:#8e24aa; }
+.tl-body p { font-size:14px; color:#444; margin-bottom:6px; }
+.tl-body ul { padding-left:18px; font-size:14px; color:#555; }
+.tl-body li { margin-bottom:4px; }
+.tl-body a { color:#3498db; text-decoration:none; }
+.tl-body a:hover { text-decoration:underline; }
+
+/* ===== Timeline Images ===== */
+.tl-imgs { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+.tl-imgs img { width:calc(50% - 5px); max-height:200px; object-fit:cover; border-radius:8px; cursor:pointer; transition:transform .2s,box-shadow .2s; }
+.tl-imgs img:hover { transform:scale(1.02); box-shadow:0 4px 16px rgba(0,0,0,.15); }
+@media(max-width:600px){ .tl-imgs img { width:100%; } }
+
+/* ===== Route Overview ===== */
+.route-overview { background:white; border-radius:12px; padding:24px; margin:0 auto 32px; max-width:800px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #e8edf3; }
+.overview-header { display:flex; align-items:center; gap:8px; margin-bottom:16px; }
+.overview-header h3 { font-size:18px; color:#1a3a5c; }
+.overview-stops { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:6px 4px; margin-bottom:16px; }
+.overview-stop { background:#eef6ff; padding:6px 14px; border-radius:20px; font-size:13px; color:#1a3a5c; font-weight:500; }
+.overview-arrow { font-size:12px; color:#7f8c8d; }
+.route-btn { display:block; text-align:center; background:#3498db; color:white; padding:12px 24px; border-radius:10px; text-decoration:none; font-weight:600; font-size:15px; transition:background .2s; }
+.route-btn:hover { background:#2980b9; }
+.route-tip { font-size:13px; color:#5a6a7a; margin-top:12px; text-align:center; }
+
+/* ===== Lightbox ===== */
+.lightbox { display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:9999; background:rgba(0,0,0,.92); justify-content:center; align-items:center; cursor:pointer; }
+.lightbox.show { display:flex; }
+.lightbox img { max-width:90vw; max-height:90vh; object-fit:contain; border-radius:8px; }
+.lightbox-close { position:absolute; top:20px; right:30px; color:white; font-size:36px; cursor:pointer; }
+
+/* ===== Footer ===== */
+.footer { text-align:center; padding:32px 24px; color:#7f8c8d; font-size:13px; border-top:1px solid #e2e8f0; background:#fff; }
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <span class="nav-title">🚲 深圳南山 4+2 一日游</span>
+    <div class="nav-links">
+      <a href="#overview">概览</a>
+      <a href="#cluster">景点</a>
+      <a href="#plans">方案</a>
+      <button class="download-btn" onclick="downloadReport()">⬇ 下载报告</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero" id="overview">
+  <div class="hero-content">
+    <h1>🌊 深圳南山 4+2 一日游 · 大沙河骑行+塘朗山徒步</h1>
+    <p class="hero-sub">自驾 + 折叠车骑行 + 徒步 · 南山核心区山水休闲线 · 全程免费</p>
+    <div class="hero-meta">
+      <span class="meta-badge">🚗 自驾 25km</span>
+      <span class="meta-badge">🚲 骑行 18km</span>
+      <span class="meta-badge">🥾 徒步 5km</span>
+      <span class="meta-badge">⏱ 09:30-18:00</span>
+      <span class="meta-badge">💰 人均¥50（午餐）</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== AREA CLUSTER MAP ===== -->
+<section class="section" id="cluster">
+  <div class="container">
+    <h2>📍 南山核心区景点集群分析</h2>
+    <p class="plan-desc">三大景点均在南山区，高新园为枢纽中心，自驾+骑行完美衔接，所有景点免费开放</p>
+    <div class="cluster-map">
+      <h3>🏙️ 深圳南山·核心区集群</h3>
+      <div class="cluster-grid">
+        <div class="cluster-card">
+          <div class="cluster-name">深圳高新园 <span>（起点枢纽）</span></div>
+          <div class="cluster-dist">🚗 大沙河绿道北段 3km · 8min</div>
+          <div class="cluster-dist">🚗 塘朗山龙珠门 4km · 10min</div>
+          <div class="cluster-dist">🚗 深圳湾公园 6km · 15min</div>
+          <div class="cluster-note">🌟 核心锚点：停车方便 + 周边配套齐全</div>
+        </div>
+        <div class="cluster-card">
+          <div class="cluster-name">大沙河生态长廊 <span>（骑行主线）</span></div>
+          <div class="cluster-dist">🚲 全线 13km · 骑行1h</div>
+          <div class="cluster-dist">🚗 深圳湾公园（南端）直达</div>
+          <div class="cluster-dist">🚗 塘朗山（北段起点）4km</div>
+          <div class="cluster-note">🌟 核心锚点：深圳最美滨河骑行道</div>
+        </div>
+        <div class="cluster-card">
+          <div class="cluster-name">塘朗山郊野公园 <span>（徒步点）</span></div>
+          <div class="cluster-dist">🚗 高新园 4km · 10min</div>
+          <div class="cluster-dist">🥾 登顶 3km · 1-1.5h</div>
+          <div class="cluster-dist">🥾 极目阁 · 俯瞰深圳全景</div>
+          <div class="cluster-note">🌟 免费 · 成熟步道 · 山顶视野极佳</div>
+        </div>
+        <div class="cluster-card">
+          <div class="cluster-name">深圳湾公园 <span>（休闲收尾）</span></div>
+          <div class="cluster-dist">🚲 大沙河南端直达</div>
+          <div class="cluster-dist">🌊 海滨栈道 6km+</div>
+          <div class="cluster-dist">🦢 观鸟 + 日落</div>
+          <div class="cluster-note">🌟 免费 · 日出剧场停车方便</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PLAN SELECTOR ===== -->
+<section class="section" id="plans" style="background:#fff;padding-top:0;">
+  <div class="container">
+    <h2>🗺️ 行程方案</h2>
+    <p class="plan-desc">高新园出发，大沙河骑行+深圳湾休闲+塘朗山徒步，一日畅玩南山</p>
+  </div>
+</section>
+
+<!-- ===== PLAN A ===== -->
+<section class="section" id="plan-a" style="padding-top:0;">
+  <div class="container">    
+    <div class="overview-card">
+      <div class="card-icon">🌊</div>
+      <div class="card-body">
+        <h3>方案 · 大沙河骑行+塘朗山徒步线</h3>
+        <div class="route-stats">
+          <span>🚗 总车程 25km</span>
+          <span>🚲 骑行 18km</span>
+          <span>🥾 徒步 3-5km</span>
+          <span>⏱ 9:30 - 18:00</span>
+          <span>💰 全部免费</span>
+        </div>
+        <div class="weather-note">
+          🌤 建议出行：晴朗或多云天气 · 注意防晒
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <!-- Node 1 -->
+      <div class="tl-node">
+        <span class="tl-time">9:30</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">深圳高新园出发</span>
+            <span class="tl-tag drive">取车出发</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 从高新园出发，第一站直奔<strong>大沙河生态长廊北段</strong>（茶光地铁站附近）</p>
+            <ul>
+              <li>📍 导航到<strong>大沙河生态长廊（茶光入口）</strong>或周边停车场</li>
+              <li>🅿️ <strong>大沙河公园停车场</strong>（北环大道旁）或<strong>茶光地铁站停车场</strong></li>
+              <li>🚲 下车后取折叠车，沿大沙河往南骑行</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 2 -->
+      <div class="tl-node">
+        <span class="tl-time">10:00</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚲</span>
+            <span class="tl-title">大沙河生态长廊 · 骑行南下（北段→南段）</span>
+            <span class="tl-tag ride">骑行 1-1.5h</span>
+          </div>
+          <div class="tl-body">
+            <p>🚲 大沙河生态长廊全长约13km，从北到南纵贯南山，是深圳最美的滨河骑行道</p>
+            <ul>
+              <li>🌳 <strong>北段（茶光→留仙大道）</strong>— 河道宽阔，绿树成荫，骑行最畅快</li>
+              <li>🏙️ <strong>中段（留仙大道→深南大道）</strong>— 穿城而过，看科技园天际线</li>
+              <li>🌊 <strong>南段（深南大道→深圳湾）</strong>— 河海交汇，风景绝佳</li>
+              <li>📸 沿途多座景观桥和休息平台，随时可停下来拍照</li>
+              <li>💡 折叠车全程畅行，路面平整无压力</li>
+            </ul>
+            <div class="tl-imgs">
+              <img src="https://img2.baidu.com/it/u=4026413565,1929972286&fm=253&fmt=auto&app=138&f=JPEG?w=1067&h=800" alt="大沙河生态长廊骑行" onclick="openLightbox(this)">
+              <img src="https://img0.baidu.com/it/u=1700147855,1967433817&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=533" alt="大沙河生态长廊" onclick="openLightbox(this)">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 3 -->
+      <div class="tl-node">
+        <span class="tl-time">11:30</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🌊</span>
+            <span class="tl-title">深圳湾公园 · 海滨休闲</span>
+            <span class="tl-tag ride">在园 1.5h</span>
+          </div>
+          <div class="tl-body">
+            <p>大沙河骑行到南端出海口，即到达<strong>深圳湾公园</strong>，推车进入海滨栈道</p>
+            <ul>
+              <li>🌊 <strong>日出剧场</strong>— 大草坪+海景，适合休憩</li>
+              <li>🚲 折叠车可沿海滨栈道骑行（部分段允许）</li>
+              <li>🦢 冬季可观候鸟，平时看海看深圳湾大桥</li>
+              <li>📸 对岸香港元朗清晰可见，拍照打卡</li>
+              <li>🍱 附近欢乐海岸/深圳湾万象城有餐饮，或自带野餐</li>
+            </ul>
+            <div class="tl-imgs">
+              <img src="https://img2.baidu.com/it/u=3536329924,3468822030&fm=253&fmt=auto&app=138&f=JPEG?w=1067&h=800" alt="深圳湾公园" onclick="openLightbox(this)">
+              <img src="https://img0.baidu.com/it/u=3835641312,3787425569&fm=253&fmt=auto&app=138&f=JPEG?w=1067&h=800" alt="深圳湾日出剧场" onclick="openLightbox(this)">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 4 -->
+      <div class="tl-node">
+        <span class="tl-time">13:00</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🍱</span>
+            <span class="tl-title">午餐时间</span>
+            <span class="tl-tag eat">午餐 1h</span>
+          </div>
+          <div class="tl-body">
+            <p>深圳湾公园周边午餐选择丰富</p>
+            <ul>
+              <li>🥘 <strong>欢乐海岸</strong>— 步行可达，各种餐饮齐全（茶餐厅、粤菜、简餐）</li>
+              <li>🍝 <strong>深圳湾万象城</strong>— 高端餐饮到快餐都有</li>
+              <li>🧺 <strong>自带野餐</strong>— 日出剧场草坪，面朝大海野餐更惬意</li>
+              <li>☕ 附近咖啡馆很多，饭后可来杯咖啡休息</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 5 -->
+      <div class="tl-node">
+        <span class="tl-time">14:00</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">深圳湾 → 塘朗山郊野公园</span>
+            <span class="tl-tag drive">驾车 15min</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 驾车返回高新园方向，前往<strong>塘朗山龙珠门入口</strong></p>
+            <ul>
+              <li>📍 导航到<strong>塘朗山郊野公园（龙珠门入口）</strong>— 龙珠六路尽头</li>
+              <li>🅿️ 龙珠门入口有少量免费停车位（先到先得）</li>
+              <li>💡 如龙珠门满，可导航到<strong>塘朗山公园珠光登山口</strong>（珠光路）</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 6 -->
+      <div class="tl-node">
+        <span class="tl-time">14:30</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🥾</span>
+            <span class="tl-title">塘朗山徒步登顶</span>
+            <span class="tl-tag hike">徒步 2-2.5h</span>
+          </div>
+          <div class="tl-body">
+            <p>⛰️ 塘朗山海拔约430m，龙珠门入口登顶约3km，往返约5-6km</p>
+            <ul>
+              <li>🥾 <strong>龙珠门→极目阁</strong>— 主登山道，全程石阶步道约3km，爬升350m</li>
+              <li>⏱ 登顶约1-1.5小时（正常速度），下山约40分钟</li>
+              <li>🌆 山顶<strong>极目阁</strong>可360°俯瞰深圳全景——南山科技园、深圳湾、福田CBD、香港北</li>
+              <li>🌳 沿途树荫覆盖率高，基本不晒</li>
+              <li>💧 建议带1L水，山顶无补给</li>
+              <li>🔄 可选：体力好可走茶香径→深云径环线（约9km，多1.5h）</li>
+            </ul>
+            <div class="tl-imgs">
+              <img src="https://img0.baidu.com/it/u=910083378,3193623890&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=500" alt="塘朗山登山道" onclick="openLightbox(this)">
+              <img src="https://img2.baidu.com/it/u=2678758294,1408501123&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=533" alt="塘朗山顶俯瞰" onclick="openLightbox(this)">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 7 -->
+      <div class="tl-node">
+        <span class="tl-time">17:00</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">塘朗山 → 高新园返程</span>
+            <span class="tl-tag drive">驾车 10min</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 下山后驾车返回<strong>深圳高新园</strong>（4km · 10min）</p>
+            <ul>
+              <li>🛣️ 龙珠大道→沙河西路→高新园，全程市区道路</li>
+              <li>⏰ 约<strong>17:15</strong>到达高新园，完美收工</li>
+              <li>💡 若时间允许，可在高新园附近吃个晚餐再走（万象天地/科技园美食街）</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 路线概览 -->
+  <div class="route-overview">
+    <div class="overview-header">
+      <span class="overview-icon">📋</span>
+      <h3>路线概览</h3>
+    </div>
+    <div class="overview-stops">
+      <div class="overview-stop">🏁 高新园</div>
+      <div class="overview-arrow">→ 3km🚗</div>
+      <div class="overview-stop">🌳 大沙河</div>
+      <div class="overview-arrow">→ 13km🚲</div>
+      <div class="overview-stop">🌊 深圳湾</div>
+      <div class="overview-arrow">→ 6km🚗</div>
+      <div class="overview-stop">⛰️ 塘朗山</div>
+      <div class="overview-arrow">→ 4km🚗</div>
+      <div class="overview-stop">🏠 高新园</div>
+    </div>
+    <a href="https://uri.amap.com/navigation?from=113.953842,22.540236,深圳高新园&to=113.956672,22.568877,深圳大沙河生态长廊&mode=car&src=web" target="_blank" class="route-btn">
+      一键导航 高新园 → 大沙河
+    </a>
+    <p class="route-tip">💡 大沙河骑行到南端即深圳湾，午餐在欢乐海岸，下午开车6分钟到塘朗山徒步</p>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p>🚲 深圳南山 4+2 一日游 · 大沙河骑行+塘朗山徒步</p>
+  <p>数据来源：高德地图 API · 出发地：深圳高新园</p>
+</footer>
+
+<script>
+// ===== Plan Switcher (保留兼容) =====
+function switchPlan(planId) {
+  document.getElementById('plan-a').style.display = '';
+  document.querySelectorAll('.plan-btn').forEach(function(btn) {
+    btn.classList.remove('active');
+  });
+  var targetBtn = Array.from(document.querySelectorAll('.plan-btn')).find(function(b) {
+    return b.getAttribute('onclick') && b.getAttribute('onclick').includes(planId);
+  });
+  if (targetBtn) targetBtn.classList.add('active');
+}
+
+// ===== Lightbox =====
+function openLightbox(img) {
+  var lb = document.getElementById('lightbox');
+  if (!lb) {
+    lb = document.createElement('div');
+    lb.id = 'lightbox';
+    lb.className = 'lightbox';
+    lb.innerHTML = '<span class="lightbox-close">&times;</span><img id="lightbox-img" src="">';
+    document.body.appendChild(lb);
+    lb.onclick = function() { lb.classList.remove('show'); };
+  }
+  document.getElementById('lightbox-img').src = img.src;
+  lb.classList.add('show');
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    var lb = document.getElementById('lightbox');
+    if (lb) lb.classList.remove('show');
+  }
+});
+
+// ===== Smooth scroll =====
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.nav-links a').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var href = this.getAttribute('href');
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        var target = document.querySelector(href);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+});
+
+// ===== 下载报告 =====
+function downloadReport() {
+  var html = document.documentElement.outerHTML;
+  var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '深圳南山4+2一日游.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+</script>
+</body>
+</html>
