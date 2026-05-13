@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>深圳梧桐绿道+盐田 4+2 一日游</title>
+<style>
+/* ===== Reset & Base ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f4f8; color: #2c3e50; line-height: 1.7; }
+
+/* ===== Navigation ===== */
+.top-nav { position: fixed; top:0; left:0; right:0; z-index:1000; background: rgba(255,255,255,0.95); backdrop-filter:blur(10px); border-bottom:1px solid #e0e6ed; }
+.nav-inner { max-width:1100px; margin:0 auto; padding:12px 24px; display:flex; justify-content:space-between; align-items:center; }
+.nav-title { font-size:18px; font-weight:700; color:#1a3a5c; }
+.nav-links { display:flex; gap:20px; }
+.nav-links a { text-decoration:none; color:#5a6a7a; font-size:14px; transition:color .2s; }
+.nav-links a:hover { color:#3498db; }
+.nav-links .download-btn { background:#27ae60; color:#fff!important; padding:6px 14px; border-radius:6px; font-size:13px; cursor:pointer; border:none; transition:background .2s; }
+.nav-links .download-btn:hover { background:#219a52; }
+
+/* ===== Hero ===== */
+.hero { padding:120px 24px 60px; background: linear-gradient(135deg, #0d4f5c 0%, #1a8a7a 50%, #1565c0 100%); color:white; text-align:center; }
+.hero h1 { font-size:42px; margin-bottom:12px; }
+.hero-sub { font-size:18px; opacity:.85; margin-bottom:24px; }
+.hero-meta { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+.meta-badge { background:rgba(255,255,255,.15); padding:8px 16px; border-radius:20px; font-size:14px; }
+
+/* ===== Section ===== */
+.section { padding:60px 24px; }
+.section:nth-child(even) { background:#fff; }
+.container { max-width:1100px; margin:0 auto; }
+.section h2 { font-size:28px; margin-bottom:24px; color:#1a3a5c; border-left:4px solid #1565c0; padding-left:16px; }
+.plan-desc { color:#5a6a7a; margin-bottom:32px; font-size:15px; }
+
+/* ===== Overview Card ===== */
+.overview-card { display:flex; gap:20px; background:#e8f4f8; border-radius:12px; padding:24px; align-items:center; }
+.card-icon { font-size:48px; }
+.card-body h3 { font-size:18px; margin-bottom:12px; color:#1a3a5c; }
+.route-stats { display:flex; gap:16px; flex-wrap:wrap; font-size:14px; color:#5a6a7a; }
+.route-stats span { background:rgba(21,101,192,.08); padding:4px 12px; border-radius:6px; }
+
+/* ===== Route Overview ===== */
+.route-overview { margin-top:32px; background:#f8f9fa; border:1px solid #e9ecef; border-radius:12px; padding:24px; }
+.overview-header { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+.overview-header h3 { font-size:16px; color:#1a3a5c; margin:0; }
+.overview-icon { font-size:24px; }
+.overview-stops { display:flex; align-items:center; flex-wrap:wrap; gap:3px; justify-content:center; margin-bottom:20px; }
+.overview-stop { background:#1565c0; color:#fff; padding:6px 14px; border-radius:8px; font-size:13px; font-weight:600; white-space:nowrap; }
+.overview-arrow { color:#7f8c8d; font-size:13px; font-weight:600; white-space:nowrap; }
+.route-btn { display:inline-flex; align-items:center; gap:6px; background:#1a73e8; color:#fff!important; padding:10px 24px; border-radius:8px; font-size:14px; font-weight:600; text-decoration:none; transition:background .2s; margin-bottom:12px; }
+.route-btn:hover { background:#1557b0; }
+.route-tip { font-size:13px; color:#5a6a7a; }
+
+/* ===== Timeline ===== */
+.timeline { position:relative; padding-left:40px; }
+.timeline::before { content:''; position:absolute; left:19px; top:0; bottom:0; width:2px; background:#c8d6e5; }
+.tl-node { position:relative; margin-bottom:32px; }
+.tl-time { position:absolute; left:-40px; top:0; width:40px; height:40px; line-height:40px; background:#1565c0; color:white; border-radius:50%; font-size:11px; font-weight:700; text-align:center; z-index:2; }
+.tl-content { background:white; border-radius:12px; padding:20px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #eef2f7; }
+.tl-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
+.tl-icon { font-size:24px; }
+.tl-title { font-size:16px; font-weight:600; color:#1a3a5c; }
+.tl-tag { background:#e8f5e9; color:#27ae60; padding:3px 10px; border-radius:12px; font-size:12px; font-weight:600; white-space:nowrap; }
+.tl-tag.drive { background:#fff3e0; color:#e65100; }
+.tl-tag.ride { background:#e3f2fd; color:#1565c0; }
+.tl-tag.hike { background:#fce4ec; color:#c62828; }
+.tl-tag.eat { background:#fff8e1; color:#f57f17; }
+.tl-tag.view { background:#f3e5f5; color:#7b1fa2; }
+.tl-body p { color:#5a6a7a; margin-bottom:8px; font-size:14px; }
+.tl-body ul { padding-left:18px; font-size:14px; color:#5a6a7a; }
+.tl-body li { margin-bottom:4px; }
+.tl-body a { color:#1565c0; text-decoration:none; font-weight:500; }
+.tl-body a:hover { text-decoration:underline; }
+.tl-imgs { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+.tl-imgs img { width:calc(50% - 5px); max-height:220px; object-fit:cover; border-radius:8px; cursor:pointer; transition:transform .2s; min-width:200px; flex:1; }
+.tl-imgs img:hover { transform:scale(1.02); }
+
+/* ===== Equipment ===== */
+.equip-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:24px; }
+.equip-cat { background:white; border-radius:12px; padding:24px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #eef2f7; }
+.equip-cat h3 { font-size:18px; margin-bottom:12px; color:#1a3a5c; }
+.equip-cat ul { list-style:none; padding:0; }
+.equip-cat li { padding:6px 0 6px 24px; position:relative; font-size:14px; color:#5a6a7a; }
+.equip-cat li::before { content:'✓'; position:absolute; left:0; color:#1565c0; font-weight:700; }
+
+/* ===== Tips ===== */
+.tips-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:20px; }
+.tip-card { background:white; border-radius:12px; padding:24px; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #eef2f7; transition:transform .2s; }
+.tip-card:hover { transform:translateY(-2px); }
+.tip-icon { font-size:32px; margin-bottom:8px; }
+.tip-card h3 { font-size:16px; margin-bottom:8px; color:#1a3a5c; }
+.tip-card p { font-size:14px; color:#5a6a7a; }
+
+/* ===== Lightbox ===== */
+.lightbox { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,.9); z-index:9999; justify-content:center; align-items:center; cursor:pointer; }
+.lightbox.active { display:flex; }
+.lightbox img { max-width:90vw; max-height:90vh; object-fit:contain; border-radius:4px; }
+.lightbox-close { position:absolute; top:20px; right:30px; color:white; font-size:36px; cursor:pointer; opacity:.7; transition:opacity .2s; }
+.lightbox-close:hover { opacity:1; }
+
+/* ===== Footer ===== */
+.footer { text-align:center; padding:32px 24px; background:#0d4f5c; color:rgba(255,255,255,.7); font-size:13px; }
+.footer p { margin-bottom:4px; }
+
+/* ===== Responsive ===== */
+@media (max-width:768px) {
+  .hero h1 { font-size:28px; }
+  .hero-meta { flex-direction:column; align-items:center; }
+  .nav-links { display:none; }
+  .timeline { padding-left:30px; }
+  .tl-time { left:-30px; width:30px; height:30px; line-height:30px; font-size:10px; }
+  .section { padding:40px 16px; }
+  .tl-imgs img { width:100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="top-nav">
+  <div class="nav-inner">
+    <span class="nav-title">🚲 梧桐绿道 · 4+2 一日游</span>
+    <div class="nav-links">
+      <a href="#overview">概览</a>
+      <a href="#timeline">时间线</a>
+      <a href="#equipment">装备</a>
+      <a href="#tips">贴士</a>
+      <button class="download-btn" onclick="downloadReport()">📥 下载</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero" id="overview">
+  <div class="hero-content">
+    <h1>🌿 梧桐绿道 + 盐田海岸 · 4+2 一日游</h1>
+    <p class="hero-sub">自驾到东湖 → 折叠车骑行梧桐绿道 → 登山口 → 恩上水库 → 盐田海鲜街 → 海滨栈道</p>
+    <div class="hero-meta">
+      <span class="meta-badge">📍 白云高新园 → 深圳罗湖·盐田</span>
+      <span class="meta-badge">⏰ 9:30 - 18:30</span>
+      <span class="meta-badge">🚗 总车程约 111km</span>
+      <span class="meta-badge">🚲 骑行约 6km</span>
+      <span class="meta-badge">🎫 全部免费</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== MAIN PLAN ===== -->
+<section class="section" id="timeline">
+  <div class="container">
+    <h2>🗺️ 详细时间线</h2>
+    <p class="plan-desc">4+2（自驾+折叠车）模式 · 从白云高新园出发 · 不走回头路</p>
+
+    <div class="overview-card">
+      <div class="card-icon">🌊</div>
+      <div class="card-body">
+        <h3>深圳 · 梧桐绿道→盐田海岸线</h3>
+        <div class="route-stats">
+          <span>🚗 总车程 111km</span>
+          <span>🚲 骑行 6km</span>
+          <span>🥾 徒步/散步 3km</span>
+          <span>⏱ 9:30 - 18:30</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline">
+
+      <!-- Node 1: 出发 -->
+      <div class="tl-node">
+        <span class="tl-time">9:30</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">白云高新园出发 → 深圳东湖公园</span>
+            <span class="tl-tag drive">驾车 34min</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 导航到<strong>深圳东湖公园</strong>（27km · 34min）</p>
+            <p>经南坪快速→丹平快速，东湖公园门口有停车场</p>
+            <ul>
+              <li>📍 <a href="https://uri.amap.com/navigation?from=113.953842,22.540236,深圳高新园&to=114.152312,22.562453,深圳东湖公园&mode=car&src=web" target="_blank">高德导航：高新园 → 东湖公园</a></li>
+              <li>🅿️ 东湖公园停车场收费约¥5/小时</li>
+              <li>🚲 到达后取折叠车，准备骑行</li>
+            </ul>
+            <div class="tl-imgs">
+              <img src="" alt="东湖公园" onerror="this.style.display='none'" loading="lazy">
+              <span style="font-size:40px;">🌳</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 2: 梧桐绿道骑行 -->
+      <div class="tl-node">
+        <span class="tl-time">10:15</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚲</span>
+            <span class="tl-title">梧桐绿道骑行 · 东湖公园 → 梧桐山南入口</span>
+            <span class="tl-tag ride">骑行 6km · 约1h</span>
+          </div>
+          <div class="tl-body">
+            <p>梧桐绿道是深圳最美骑行绿道之一，沿深圳水库蜿蜒而行</p>
+            <ul>
+              <li>🌲 绿道全长约14km，本次骑行精华段<strong>东湖公园→梧桐山南入口（6km）</strong></li>
+              <li>🏞️ 沿途经过<strong>揽胜亭、鸣翠亭</strong>等观景台，可俯瞰深圳水库</li>
+              <li>🌿 全程平坦绿道，零难度骑行，适合折叠车/公路车</li>
+              <li>📸 深圳水库湖面宽阔，山水交融，非常适合拍照</li>
+              <li>💡 骑行节奏随意，遇到喜欢的地方就停下拍照</li>
+            </ul>
+            <div class="tl-imgs">
+              <img src="" alt="梧桐绿道" onerror="this.style.display='none'" loading="lazy">
+              <span style="font-size:40px;">🌿🚲</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 3: 梧桐山南入口休整 -->
+      <div class="tl-node">
+        <span class="tl-time">11:30</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚲</span>
+            <span class="tl-title">梧桐山南入口休整 · 装车转场</span>
+            <span class="tl-tag view">休整 30min</span>
+          </div>
+          <div class="tl-body">
+            <p>到达梧桐山南入口附近，折叠车装车，准备驾车前往下一站</p>
+            <ul>
+              <li>🏔️ 梧桐山南入口是梧桐山风景区的主要登山口之一</li>
+              <li>💧 附近有便利店可补充饮水</li>
+              <li>🚗 折叠后装车，驾车前往恩上水库方向</li>
+              <li>📌 如果不累，可顺路参观<strong>仙湖植物园</strong>（需门票¥15，可选）</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 4: 驾车转场 -->
+      <div class="tl-node">
+        <span class="tl-time">12:00</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">驾车转场 · 梧桐山南 → 恩上水库</span>
+            <span class="tl-tag drive">驾车 21min</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 导航到<strong>恩上水库</strong>（14km · 21min）</p>
+            <p>经罗沙路→沙盐路→恩上公路，恩上水库位于梧桐山半山腰</p>
+            <ul>
+              <li>📍 <a href="https://uri.amap.com/navigation?from=114.183207,22.557850,深圳梧桐山南&to=114.234292,22.569634,深圳恩上水库&mode=car&src=web" target="_blank">高德导航：梧桐山南 → 恩上水库</a></li>
+              <li>🅿️ 恩上公路有路边停车位，免费</li>
+              <li>⛰️ 恩上水库是梧桐山小众秘境，人少景美</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 5: 恩上水库 -->
+      <div class="tl-node">
+        <span class="tl-time">12:30</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🏞️</span>
+            <span class="tl-title">恩上水库漫步 + 野餐午餐</span>
+            <span class="tl-tag view">在园 1.5h</span>
+          </div>
+          <div class="tl-body">
+            <p>恩上水库是梧桐山上的隐藏宝地，水面如镜，群山环绕</p>
+            <ul>
+              <li>🌊 <strong>恩上水库</strong> — 梧桐山半山腰的高山水库，视野开阔</li>
+              <li>🧺 带上野餐垫和自备午餐，在水库边草坪野餐（无餐饮商铺，需自带）</li>
+              <li>📸 水库大坝是绝佳拍照点，可远眺盐田港和深圳湾</li>
+              <li>🥾 水库周边有步行道，绕湖一周约1.5km，轻松散步</li>
+              <li>💡 建议提前准备三明治、水果、饮用水</li>
+            </ul>
+            <div class="tl-imgs">
+              <img src="" alt="恩上水库" onerror="this.style.display='none'" loading="lazy">
+              <span style="font-size:40px;">🏞️</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 6: 盐田海鲜街 -->
+      <div class="tl-node">
+        <span class="tl-time">14:00</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">恩上水库 → 盐田海鲜街</span>
+            <span class="tl-tag drive">驾车 22min</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 导航到<strong>盐田海鲜街</strong>（10km · 22min）</p>
+            <ul>
+              <li>📍 <a href="https://uri.amap.com/navigation?from=114.234292,22.569634,深圳恩上水库&to=114.278297,22.584863,深圳盐田海鲜街&mode=car&src=web" target="_blank">高德导航：恩上水库 → 盐田海鲜街</a></li>
+              <li>🦐 <strong>盐田海鲜街</strong>是深圳吃海鲜的经典去处，沿海一排餐厅</li>
+              <li>🅿️ 海鲜街附近有停车场，¥10-15/小时</li>
+              <li>🍽️ 推荐：盐焗花蟹、白灼基围虾、椒盐濑尿虾</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 7: 海鲜午餐 -->
+      <div class="tl-node">
+        <span class="tl-time">14:30</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🦐</span>
+            <span class="tl-title">盐田海鲜街午餐</span>
+            <span class="tl-tag eat">用餐 1.5h</span>
+          </div>
+          <div class="tl-body">
+            <p>在盐田海鲜街享受一顿地道的海鲜大餐</p>
+            <ul>
+              <li>🦀 推荐老字号：<strong>师公会海鲜酒家</strong>、<strong>海世界</strong></li>
+              <li>💰 人均约¥80-120，丰俭由人</li>
+              <li>🌊 餐厅靠海，可边吃海鲜边看海景</li>
+              <li>🍺 如果下午不骑车了，可以小酌一杯</li>
+            </ul>
+            <div class="tl-imgs">
+              <img src="" alt="盐田海鲜街" onerror="this.style.display='none'" loading="lazy">
+              <span style="font-size:40px;">🦐🌊</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 8: 海滨栈道 -->
+      <div class="tl-node">
+        <span class="tl-time">16:00</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🌊</span>
+            <span class="tl-title">盐田海滨栈道散步</span>
+            <span class="tl-tag view">散步 1.5h</span>
+          </div>
+          <div class="tl-body">
+            <p>盐田海滨栈道是深圳最受欢迎的海滨步道之一，饭后散步消食最佳</p>
+            <ul>
+              <li>🚶 从海鲜街出发，沿栈道往<strong>大梅沙方向</strong>步行约2km</li>
+              <li>🌅 傍晚时分海风习习，远处可见盐田港的集装箱码头</li>
+              <li>📸 栈道沿线多个观景台，可拍海景日落</li>
+              <li>🚲 如果想骑行，可沿栈道骑折叠车（部分路段可骑行）</li>
+              <li>💡 栈道上没有遮阳，注意防晒</li>
+            </ul>
+            <div class="tl-imgs">
+              <img src="" alt="盐田海滨栈道" onerror="this.style.display='none'" loading="lazy">
+              <span style="font-size:40px;">🌊🚶</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Node 9: 返程 -->
+      <div class="tl-node">
+        <span class="tl-time">17:30</span>
+        <div class="tl-content">
+          <div class="tl-header">
+            <span class="tl-icon">🚗</span>
+            <span class="tl-title">盐田 → 高速返程 · 白云高新园</span>
+            <span class="tl-tag drive">驾车 43min</span>
+          </div>
+          <div class="tl-body">
+            <p>🏁 导航回<strong>白云高新园</strong>（39km · 43min）</p>
+            <ul>
+              <li>🛣️ 惠深沿海高速→盐坝高速→南坪快速</li>
+              <li>📍 <a href="https://uri.amap.com/navigation?from=114.278297,22.584863,深圳盐田海鲜街&to=113.953842,22.540236,深圳高新园&mode=car&src=web" target="_blank">高德导航：盐田 → 高新园</a></li>
+              <li>⏰ 约<strong>18:15</strong>到达，完美收工</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 路线概览 -->
+    <div class="route-overview">
+      <div class="overview-header">
+        <span class="overview-icon">📋</span>
+        <h3>全程路线概览</h3>
+      </div>
+      <div class="overview-stops">
+        <div class="overview-stop">🏁 高新园</div>
+        <div class="overview-arrow">→ 27km</div>
+        <div class="overview-stop">🌳 东湖公园</div>
+        <div class="overview-arrow">→ 6km🚲</div>
+        <div class="overview-stop">🏔️ 梧桐山南</div>
+        <div class="overview-arrow">→ 14km</div>
+        <div class="overview-stop">🏞️ 恩上水库</div>
+        <div class="overview-arrow">→ 10km</div>
+        <div class="overview-stop">🦐 盐田海鲜街</div>
+        <div class="overview-arrow">→ 2km🚶</div>
+        <div class="overview-stop">🌊 海滨栈道</div>
+        <div class="overview-arrow">→ 39km</div>
+        <div class="overview-stop">🏠 高新园</div>
+      </div>
+      <a href="https://uri.amap.com/navigation?from=113.953842,22.540236,深圳高新园&to=114.152312,22.562453,深圳东湖公园&mode=car&src=web" target="_blank" class="route-btn">
+        一键导航 高新园 → 东湖公园
+      </a>
+      <p class="route-tip">💡 4+2模式：自驾到东湖公园→折叠车骑行梧桐绿道→装车→自驾恩上水库→盐田海鲜街→海滨栈道→返程</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EQUIPMENT ===== -->
+<section class="section" id="equipment">
+  <div class="container">
+    <h2>🎒 装备清单</h2>
+    <div class="equip-grid">
+      <div class="equip-cat">
+        <h3>🚲 骑行装备</h3>
+        <ul>
+          <li>折叠车（大行/鸟车等）</li>
+          <li>骑行头盔</li>
+          <li>骑行手套（可选）</li>
+          <li>车头灯/尾灯（安全）</li>
+          <li>水壶架+水壶</li>
+        </ul>
+      </div>
+      <div class="equip-cat">
+        <h3>🧺 野餐/徒步装备</h3>
+        <ul>
+          <li>野餐垫</li>
+          <li>自备午餐（三明治/水果/零食）</li>
+          <li>1.5L饮用水/人</li>
+          <li>防晒霜+帽子</li>
+          <li>折叠桌椅（可选，恩上水库野餐用）</li>
+        </ul>
+      </div>
+      <div class="equip-cat">
+        <h3>📱 其他必备</h3>
+        <ul>
+          <li>手机+充电宝</li>
+          <li>相机/运动相机</li>
+          <li>替换衣服（出汗或海边换）</li>
+          <li>垃圾袋（无痕户外）</li>
+          <li>折叠车收纳袋/固定带</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TIPS ===== -->
+<section class="section" id="tips">
+  <div class="container">
+    <h2>💡 实用贴士</h2>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">🅿️</div>
+        <h3>停车信息</h3>
+        <p>东湖公园停车场约¥5/小时；恩上水库免费路边停车；盐田海鲜街停车场¥10-15/小时。建议9:30前出发，避开深圳早高峰。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🚲</div>
+        <h3>骑行注意</h3>
+        <p>梧桐绿道全程平坦无坡度，但注意行人较多时需要减速。折叠车建议放倒座管收纳装车，节约后备箱空间。</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🌤️</div>
+        <h3>天气建议</h3>
+        <p>选择晴朗或少云天气出行最佳。梧桐绿道有部分无遮阴路段，注意防晒。恩上水库海拔较高，午后可能有山风，带件薄外套。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LIGHTBOX ===== -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="放大查看">
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p>🚲 梧桐绿道 + 盐田海岸 · 4+2 一日游</p>
+  <p>数据来源：高德地图 API · 出发地：白云高新园</p>
+</footer>
+
+<script>
+// ===== Lightbox =====
+function openLightbox(img) {
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lightbox-img');
+  lbImg.src = img.src || img.getAttribute('src');
+  lb.classList.add('active');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+// ===== Smooth scroll for nav links =====
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.nav-links a').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var href = this.getAttribute('href');
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        var target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  });
+});
+
+// ===== Download Report =====
+function downloadReport() {
+  var html = document.documentElement.outerHTML;
+  var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '深圳梧桐绿道+盐田4+2一日游.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+</script>
+
+</body>
+</html>
